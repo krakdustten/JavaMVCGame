@@ -2,6 +2,7 @@ package me.dylan.mvcGame.state;
 
 import me.dylan.mvcGame.main.MainGameThread;
 import me.dylan.mvcGame.main.MainViewer;
+import me.dylan.mvcGame.menu.mainMenu.MainMenuController;
 
 public class StateHandler{
 
@@ -23,7 +24,7 @@ public class StateHandler{
         this.mainViewer = mainViewer;
         this.mainGameThread = mainGameThread;
 
-        states[STATE_MENU_MAIN] = new StateMenuMain(mainViewer, this);
+        states[STATE_MENU_MAIN] = new MainMenuController(mainViewer, this);
         states[STATE_MENU_OPTIONS] = new StateMenuOptions(mainViewer, this);
         states[STATE_MENU_LEVELS] = new StateMenuLevels(mainViewer, this);
         states[STATE_GAME] = new StateGame(mainViewer, this);

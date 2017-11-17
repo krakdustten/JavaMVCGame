@@ -3,12 +3,8 @@ package me.dylan.mvcGame.main;
 import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.system.MemoryStack;
-
-import java.nio.IntBuffer;
 
 import static org.lwjgl.system.MemoryUtil.NULL;
 
@@ -29,12 +25,12 @@ public class MainViewer {
         GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE); // the window will be resizable
 
         // Create the window
-        window = GLFW.glfwCreateWindow(300, 300, "Hello World!", NULL, NULL);
+        window = GLFW.glfwCreateWindow(600, 400, "Java MVC game", NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
         // Get the thread stack and push a new frame
-        try ( MemoryStack stack = MemoryStack.stackPush()) {
+        /*try ( MemoryStack stack = MemoryStack.stackPush()) {
             IntBuffer pWidth = stack.mallocInt(1); // int*
             IntBuffer pHeight = stack.mallocInt(1); // int*
 
@@ -50,20 +46,27 @@ public class MainViewer {
                     (vidmode.width() - pWidth.get(0)) / 2,
                     (vidmode.height() - pHeight.get(0)) / 2
             );
-        } // the stack frame is popped automatically
+        } */// the stack frame is popped automatically
+        
 
         // Make the OpenGL context current
         GLFW.glfwMakeContextCurrent(window);
         // Enable v-sync
-        GLFW.glfwSwapInterval(1);
+        //GLFW.glfwSwapInterval(1);
 
         // Make the window visible
         GLFW.glfwShowWindow(window);
 
         GL.createCapabilities();
 
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+
+        //Make transparency work
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
         // Set the clear color
-        GL11.glClearColor(0.0f, 0.0f, 1.0f, 0.0f);
+        GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     }
 
 

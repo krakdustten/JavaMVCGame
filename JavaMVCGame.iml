@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="lwjgl-opengl" level="project" />
+    <orderEntry type="library" name="PNGDecoder" level="project" />
   </component>
 </module>
