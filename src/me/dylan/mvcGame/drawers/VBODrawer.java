@@ -1,8 +1,10 @@
 package me.dylan.mvcGame.drawers;
 
+import org.joml.Matrix4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.GL20;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
@@ -143,6 +145,31 @@ public class VBODrawer {
         GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
         if(texture) GL11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
         if(color) GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);
+    }
+
+    public static void drawVBOWithShader(int vbo, int shader, Matrix4f projection, int pic, int type, int amount){
+        boolean texture = type == COORDS_TEXTURE_TYPE || type == COORDS_COLOR_TEXTURE_TYPE ;
+        boolean color = type == COORDS_COLOR_TYPE || type == COORDS_COLOR_TEXTURE_TYPE ;
+        int stride = (color ? 4 : 0) + (texture ? 2 : 0) + 3;
+
+        Texture.bindTextureWithSampler(pic, 0);
+        Shader.bind(shader);
+        Shader.setUniform(shader, "sampler", 0);
+        Shader.setUniform(shader, "projection", projection);
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
+
+        GL20.glEnableVertexAttribArray(0);//coords
+        if(color)GL20.glEnableVertexAttribArray(1);//color
+        if(texture)GL20.glEnableVertexAttribArray(2);//textures
+
+        GL20.glVertexAttribPointer(0, 3, GL11.GL_FLOAT, false, stride * 4, 0);
+        if(color)GL20.glVertexAttribPointer(1, 4, GL11.GL_FLOAT, false, stride * 4, 3 * 4);
+        if(texture)GL20.glVertexAttribPointer(2, 2, GL11.GL_FLOAT, false, stride * 4, (color ? 7 : 3) * 4);
+        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, amount);
+
+        GL20.glDisableVertexAttribArray(0);//coords
+        if(color)GL20.glDisableVertexAttribArray(1);//color
+        if(texture)GL20.glDisableVertexAttribArray(2);//textures
     }
 
 }
