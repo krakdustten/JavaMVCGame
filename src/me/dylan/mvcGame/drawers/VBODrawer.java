@@ -131,12 +131,16 @@ public class VBODrawer {
         drawVBOWithShaderAll(null, vbo, shader, pic, 0, type, amount);
     }
 
+    public static void drawVBOWithSampler(MainViewer mainViewer, int vbo, int sampler, int type, int amount){
+        drawVBOWithShaderAll(null, vbo, mainViewer.getMainShader(), -1, sampler, type, amount);
+    }
+
     public static void drawVBOWithShaderAll(Matrix4f projection, int vbo, int shader, int pic, int sampler, int type, int amount){
         boolean texture = type == COORDS_TEXTURE_TYPE || type == COORDS_COLOR_TEXTURE_TYPE ;
         boolean color = type == COORDS_COLOR_TYPE || type == COORDS_COLOR_TEXTURE_TYPE ;
         int stride = (color ? 4 : 0) + (texture ? 2 : 0) + 3;
 
-        Texture.bindTextureWithSampler(pic, sampler);
+        if(pic != -1)Texture.bindTextureWithSampler(pic, sampler);
         Shader.bind(shader);
         Shader.setUniform(shader, "sampler", sampler);
         if(projection != null)Shader.setUniform(shader, "projection", projection);
