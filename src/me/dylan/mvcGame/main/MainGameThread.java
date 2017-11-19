@@ -35,13 +35,14 @@ public class MainGameThread implements Runnable{
     private StateHandler stateHandler;
 
     private void init(){
-        mainViewer = new MainViewer();
+        mainViewer = new MainViewer("shader");
         stateHandler = new StateHandler(mainViewer, this);
         mainController = new MainController(mainViewer.getWindow(), stateHandler);
     }
 
     private void update(){
         mainController.update();
+        mainViewer.update();
         stateHandler.update();
         if(GLFW.glfwWindowShouldClose(mainViewer.getWindow()))
             stop();

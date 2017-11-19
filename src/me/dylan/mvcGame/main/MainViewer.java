@@ -1,20 +1,23 @@
 package me.dylan.mvcGame.main;
 
+import me.dylan.mvcGame.drawers.Shader;
+import org.joml.Matrix4f;
 import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class MainViewer {
-
     private long window;
+    private int mainShader;
+    private Display display;
 
-    public MainViewer(){
+    public MainViewer(String mainShaderName){
         //init LWJGL
-
         GLFWErrorCallback.createPrint(System.err).set();
 
         if ( !GLFW.glfwInit() )
@@ -29,31 +32,8 @@ public class MainViewer {
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
-        // Get the thread stack and push a new frame
-        /*try ( MemoryStack stack = MemoryStack.stackPush()) {
-            IntBuffer pWidth = stack.mallocInt(1); // int*
-            IntBuffer pHeight = stack.mallocInt(1); // int*
-
-            // Get the window size passed to glfwCreateWindow
-            GLFW.glfwGetWindowSize(window, pWidth, pHeight);
-
-            // Get the resolution of the primary monitor
-            GLFWVidMode vidmode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
-
-            // Center the window
-            GLFW.glfwSetWindowPos(
-                    window,
-                    (vidmode.width() - pWidth.get(0)) / 2,
-                    (vidmode.height() - pHeight.get(0)) / 2
-            );
-        } */// the stack frame is popped automatically
-        
-
         // Make the OpenGL context current
         GLFW.glfwMakeContextCurrent(window);
-        // Enable v-sync
-        //GLFW.glfwSwapInterval(1);
-
         // Make the window visible
         GLFW.glfwShowWindow(window);
 
@@ -67,17 +47,31 @@ public class MainViewer {
 
         // Set the clear color
         GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+
+        mainShader = Shader.compileShader(mainShaderName);
+        display = new Display(mainShader, 600, 400);
+
+        GLFW.glfwSetWindowSizeCallback(window, new GLFWWindowSizeCallback(){
+            @Override
+            public void invoke(long window, int width, int height){
+                display.setSceenSize(width, height);
+                GL11.glViewport(0, 0, width, height);
+            }
+        });
     }
 
 
     public void startRender() {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-
-
     }
 
     public void endRender() {
         GLFW.glfwSwapBuffers(window); // swap the color buffers
+    }
+
+    public void update() {
+        display.update();
     }
 
     public void deInit() {
@@ -89,4 +83,7 @@ public class MainViewer {
     }
 
     public long getWindow() { return window; }
+    public int getMainShader(){return mainShader;}
+    public Matrix4f getProjection(){return display.getProjection();}
+
 }
