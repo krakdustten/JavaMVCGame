@@ -1,12 +1,18 @@
 package me.dylan.mvcGame.drawers;
 
+import me.dylan.mvcGame.main.MainViewer;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class TextDrawer {
     private int texture = -1;
+    private int vbo = -1;
+    private ArrayList<Float> bufferData = new ArrayList<>();
+    private int nextDrawAmount = 0;
 
     private static float xtextsize = 1;
     private static float ytextsize = 1;
@@ -16,36 +22,41 @@ public class TextDrawer {
         try {
             image = ImageIO.read(new File(imageName));
 
-            xtextsize = image.getWidth() / 8.0f;
-            ytextsize = image.getHeight() / 8.0f;
+            xtextsize = 8.0f / image.getWidth();
+            ytextsize = 8.0f / image.getHeight();
 
             texture = Texture.createImageIdWithImage(image);
         } catch (IOException e) {
             System.err.println("Image " + imageName + " not found.");
         }
+        vbo = VBODrawer.createBufferId();
     }
 
-    public int calcArraySizeForChars(String text){
-        calcArraySizeForChars(text.length());
+    public void restartTextDrawer(){
+        bufferData.clear();
     }
 
-    public int calcArraySizeForChars(int amountOfChars){
-        return VBODrawer.calcArraySizeForSquares(VBODrawer.COORDS_COLOR_TEXTURE_TYPE, amountOfChars);
-    }
-
-    public int drawText(float[] array, int offset, String text, float x, float y, float r, float g, float b, float a,float size){
+    public void drawText(String text, float x, float y, float r, float g, float b, float a,float size){
         char[] chars = text.toCharArray();
+        size = size / 8.0f;
 
         for(int i = 0; i < chars.length; i++)
         {
             int character = chars[i] - 32;
-
             int charx = character % 16;
             int chary = character / 16;
 
-            offset = VBODrawer.draw2DSquare(array, offset, VBODrawer.COORDS_COLOR_TEXTURE_TYPE, x + i * size, y, );
+            VBODrawer.draw2DSquare(bufferData, VBODrawer.COORDS_COLOR_TEXTURE_TYPE, x + i * size * 6, y, 8 * size, 8 * size, r, g, b, a, xtextsize * charx, ytextsize * chary, xtextsize, ytextsize);
         }
+    }
 
-        return offset;
+    public void writeBufToMem(){
+        VBODrawer.writeBufToMem(vbo, bufferData);
+        nextDrawAmount = bufferData.size() / 9;
+        restartTextDrawer();
+    }
+
+    public void draw(MainViewer mainViewer){
+        VBODrawer.drawVBO(mainViewer, vbo, texture, VBODrawer.COORDS_COLOR_TEXTURE_TYPE, nextDrawAmount);
     }
 }

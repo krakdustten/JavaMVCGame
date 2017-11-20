@@ -14,7 +14,7 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 public class MainViewer {
     private long window;
     private int mainShader;
-    private Display display;
+    private Camera camera;
 
     public MainViewer(String mainShaderName){
         //init LWJGL
@@ -50,12 +50,12 @@ public class MainViewer {
 
 
         mainShader = Shader.compileShader(mainShaderName);
-        display = new Display(mainShader, 600, 400);
+        camera = new Camera(mainShader, 600, 400);
 
         GLFW.glfwSetWindowSizeCallback(window, new GLFWWindowSizeCallback(){
             @Override
             public void invoke(long window, int width, int height){
-                display.setSceenSize(width, height);
+                camera.setSceenSize(width, height);
                 GL11.glViewport(0, 0, width, height);
             }
         });
@@ -71,7 +71,7 @@ public class MainViewer {
     }
 
     public void update() {
-        display.update();
+        camera.update();
     }
 
     public void deInit() {
@@ -84,6 +84,6 @@ public class MainViewer {
 
     public long getWindow() { return window; }
     public int getMainShader(){return mainShader;}
-    public Matrix4f getProjection(){return display.getProjection();}
+    public Matrix4f getProjection(){return camera.getProjection();}
 
 }

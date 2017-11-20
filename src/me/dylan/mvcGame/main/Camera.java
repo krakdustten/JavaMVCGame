@@ -4,7 +4,7 @@ import me.dylan.mvcGame.drawers.Shader;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
-public class Display {
+public class Camera {
     private int shader;
 
     private int height;
@@ -20,11 +20,11 @@ public class Display {
 
     private Matrix4f projection, position, all;
 
-    public Display(int shader, int height, int width){
-        this(shader, height, width, 0, 0, 128);
+    public Camera(int shader, int height, int width){
+        this(shader, height, width, 0, 0, 1);
     }
 
-    public Display(int shader, int width, int height, float xPos, float yPos, float zoom){
+    public Camera(int shader, int width, int height, float xPos, float yPos, float zoom){
         this.shader = shader;
 
         this.height = height;

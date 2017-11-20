@@ -43,7 +43,7 @@ public class VBODrawer {
         for(int i = 0; i < f.length; i++) array.add(f[i]);
     }
 
-    public static int draw2DSquare(float[] array, int offset, int type, float x, float y, float dx, float dy, float r, float g, float b, float a, float ty, float tx, float dty, float dtx){
+    public static int draw2DSquare(float[] array, int offset, int type, float x, float y, float dx, float dy, float r, float g, float b, float a, float tx, float ty, float dtx, float dty){
         switch (type){
             case COORDS_TYPE:
                 addAll(array, offset,
@@ -98,11 +98,15 @@ public class VBODrawer {
         int i = 0;
         for(float f2 : data){
             f[i++] = f2;
+
         }
         writeBufToMem(vbo, f);
     }
 
     public static void writeBufToMem(int vbo, float[] data){
+        System.out.println();
+        System.out.println();
+
         FloatBuffer buf = BufferUtils.createFloatBuffer(data.length);
         buf.put(data);
         buf.flip();
