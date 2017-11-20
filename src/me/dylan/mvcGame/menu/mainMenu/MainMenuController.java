@@ -3,6 +3,8 @@ package me.dylan.mvcGame.menu.mainMenu;
 import me.dylan.mvcGame.drawers.Texture;
 import me.dylan.mvcGame.drawers.VBODrawer;
 import me.dylan.mvcGame.main.MainModel;
+import me.dylan.mvcGame.menu.components.MenuController;
+import me.dylan.mvcGame.menu.components.MenuModel;
 import me.dylan.mvcGame.state.State;
 import me.dylan.mvcGame.state.StateHandler;
 
@@ -10,6 +12,8 @@ public class MainMenuController extends State {
 
     private int vbo_id;
     private int image_id;
+
+    private MenuController menuController;
 
     public MainMenuController(MainModel mainModel, StateHandler stateHandler) {
         super(mainModel, stateHandler);
@@ -25,41 +29,36 @@ public class MainMenuController extends State {
         mainModel.getTextDrawer().writeBufToMem();
 
         image_id = Texture.createImageId("./img/test.jpg");
+
+        menuController = new MenuController(mainModel);
+
+        menuController.addGuiElement(new MenuModel.GuiButton(-50, -50, 100, 20, 1, "Wauw"));
     }
 
     @Override
     public void update() {
-
+        menuController.update();
     }
 
     @Override
     public void render() {
         VBODrawer.drawVBO(mainModel, vbo_id, image_id, VBODrawer.COORDS_COLOR_TEXTURE_TYPE, VBODrawer.calcDrawAmountForSquares(1));
         mainModel.getTextDrawer().draw(mainModel);
+        menuController.render();
     }
 
     @Override
-    public void deInit() {
-
-    }
+    public void deInit() { }
 
     @Override
-    public void keyboardEvent(long window, int key, int scancode, int action, int mods) {
-
-    }
+    public void keyboardEvent(long window, int key, int scancode, int action, int mods) { }
 
     @Override
-    public void mousePosEvent(long window, double xPos, double yPos) {
-
-    }
+    public void mousePosEvent(long window, double xPos, double yPos) { }
 
     @Override
-    public void mouseButtonEvent(long window, int button, int action, int mods) {
-
-    }
+    public void mouseButtonEvent(long window, int button, int action, int mods) { }
 
     @Override
-    public void scrollEvent(long window, double xOffset, double yOffset) {
-
-    }
+    public void scrollEvent(long window, double xOffset, double yOffset) { }
 }

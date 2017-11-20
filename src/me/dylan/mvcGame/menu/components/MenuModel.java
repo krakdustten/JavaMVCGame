@@ -1,8 +1,12 @@
 package me.dylan.mvcGame.menu.components;
 
+import me.dylan.mvcGame.main.MainModel;
+
 import java.util.HashMap;
 
 public class MenuModel {
+    private MainModel mainModel;
+
     private HashMap<Integer, GuiElement> guiElements = new HashMap<>();
     private int xAlign = -1; //- left, 0 mid, + right
     private int yAlign = -1; //- top, 0 mid, + bottom
@@ -12,11 +16,12 @@ public class MenuModel {
     private int yMargin = 0;
     private boolean changed = false;
 
-    public MenuModel(){
-        this(0, 0, 0, 0);
+    public MenuModel(MainModel mainModel){
+        this(mainModel, 0, 0, 0, 0);
     }
 
-    public MenuModel(int xAlign, int yAlign, int xMargin, int yMargin){
+    public MenuModel(MainModel mainModel, int xAlign, int yAlign, int xMargin, int yMargin){
+        this.mainModel = mainModel;
         this.xAlign = xAlign;
         this.yAlign = yAlign;
         this.totalWidth = 0;
@@ -54,6 +59,8 @@ public class MenuModel {
         return temp;
     }
 
+    public MainModel getMainModel() { return mainModel; }
+
     public int getxAlign() { return xAlign; }
     public int getyAlign() { return yAlign; }
     public int getTotalWidth() { return totalWidth; }
@@ -67,7 +74,7 @@ public class MenuModel {
     public void setyMargin(int yMargin) { this.yMargin = yMargin; }
 
 
-    public class GuiElement{
+    public static class GuiElement{
         public int x, y, width, height, id;
         public GuiElement(int x, int y, int width, int height, int id){
             this.x = x;
@@ -78,7 +85,7 @@ public class MenuModel {
         }
     }
 
-    public class GuiLabel extends GuiElement{
+    public static class GuiLabel extends GuiElement{
         public String text;
         public GuiLabel(int x, int y, int width, int height, int id, String text){
             super(x, y, width, height, id);
@@ -86,7 +93,7 @@ public class MenuModel {
         }
     }
 
-    public class GuiButton extends GuiLabel{
+    public static class GuiButton extends GuiLabel{
         public GuiButton(int x, int y, int width, int height, int id, String text){
             super(x, y, width, height, id, text);
         }
