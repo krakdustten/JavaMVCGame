@@ -1,19 +1,19 @@
 package me.dylan.mvcGame.state;
 
-import me.dylan.mvcGame.main.MainViewer;
+import me.dylan.mvcGame.main.MainModel;
 
 public abstract class State {
-    protected MainViewer mainViewer;
+    protected MainModel mainModel;
     protected StateHandler stateHandler;
 
-    public State(MainViewer mainViewer, StateHandler stateHandler){
-        this.mainViewer = mainViewer;
+    public State(MainModel mainModel, StateHandler stateHandler){
+        this.mainModel = mainModel;
         this.stateHandler = stateHandler;
     }
 
     public abstract void init(int previousState);
     public abstract void update();
-    public abstract void render(MainViewer mainViewer);
+    public abstract void render();
     public abstract void deInit();
 
     public abstract void keyboardEvent(long window, int key, int scancode, int action, int mods);

@@ -1,11 +1,11 @@
 package me.dylan.mvcGame.state;
 
-import me.dylan.mvcGame.main.MainViewer;
+import me.dylan.mvcGame.main.MainModel;
 
 public class StateGame extends State{
 
-    public StateGame(MainViewer mainViewer, StateHandler stateHandler) {
-        super(mainViewer, stateHandler);
+    public StateGame(MainModel mainModel, StateHandler stateHandler) {
+        super(mainModel, stateHandler);
     }
 
     @Override
@@ -19,7 +19,7 @@ public class StateGame extends State{
     }
 
     @Override
-    public void render(MainViewer mainViewer) {
+    public void render() {
 
     }
 

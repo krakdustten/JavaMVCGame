@@ -1,7 +1,7 @@
 package me.dylan.mvcGame.main;
 
 import me.dylan.mvcGame.drawers.Shader;
-import org.joml.Matrix4f;
+import me.dylan.mvcGame.drawers.TextDrawer;
 import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
@@ -12,11 +12,11 @@ import org.lwjgl.opengl.GL11;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class MainViewer {
-    private long window;
-    private int mainShader;
-    private Camera camera;
+    private MainModel mainModel;
 
-    public MainViewer(String mainShaderName){
+    public MainViewer(MainModel mainModel, String mainShaderName){
+        this.mainModel = mainModel;
+
         //init LWJGL
         GLFWErrorCallback.createPrint(System.err).set();
 
@@ -28,14 +28,14 @@ public class MainViewer {
         GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE); // the window will be resizable
 
         // Create the window
-        window = GLFW.glfwCreateWindow(600, 400, "Java MVC game", NULL, NULL);
-        if ( window == NULL )
+        mainModel.setWindow(GLFW.glfwCreateWindow(600, 400, "Java MVC game", NULL, NULL));
+        if ( mainModel.getWindow() == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
         // Make the OpenGL context current
-        GLFW.glfwMakeContextCurrent(window);
+        GLFW.glfwMakeContextCurrent(mainModel.getWindow());
         // Make the window visible
-        GLFW.glfwShowWindow(window);
+        GLFW.glfwShowWindow(mainModel.getWindow());
 
         GL.createCapabilities();
 
@@ -48,14 +48,14 @@ public class MainViewer {
         // Set the clear color
         GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
+        mainModel.setMainShader(Shader.compileShader(mainShaderName));
+        mainModel.setCamera(new Camera(mainModel.getMainShader(), 600, 400));
+        mainModel.setTextDrawer(new TextDrawer("./img/ASCII-normal.png"));
 
-        mainShader = Shader.compileShader(mainShaderName);
-        camera = new Camera(mainShader, 600, 400);
-
-        GLFW.glfwSetWindowSizeCallback(window, new GLFWWindowSizeCallback(){
+        GLFW.glfwSetWindowSizeCallback(mainModel.getWindow(), new GLFWWindowSizeCallback(){
             @Override
             public void invoke(long window, int width, int height){
-                camera.setSceenSize(width, height);
+                mainModel.getCamera().setSceenSize(width, height);
                 GL11.glViewport(0, 0, width, height);
             }
         });
@@ -67,23 +67,18 @@ public class MainViewer {
     }
 
     public void endRender() {
-        GLFW.glfwSwapBuffers(window); // swap the color buffers
+        GLFW.glfwSwapBuffers(mainModel.getWindow()); // swap the color buffers
     }
 
     public void update() {
-        camera.update();
+        mainModel.getCamera().update();
     }
 
     public void deInit() {
-        Callbacks.glfwFreeCallbacks(window);
-        GLFW.glfwDestroyWindow(window);
+        Callbacks.glfwFreeCallbacks(mainModel.getWindow());
+        GLFW.glfwDestroyWindow(mainModel.getWindow());
 
         GLFW.glfwTerminate();
         GLFW.glfwSetErrorCallback(null).free();
     }
-
-    public long getWindow() { return window; }
-    public int getMainShader(){return mainShader;}
-    public Matrix4f getProjection(){return camera.getProjection();}
-
 }

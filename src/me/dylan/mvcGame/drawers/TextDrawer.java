@@ -1,6 +1,6 @@
 package me.dylan.mvcGame.drawers;
 
-import me.dylan.mvcGame.main.MainViewer;
+import me.dylan.mvcGame.main.MainModel;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -56,7 +56,7 @@ public class TextDrawer {
         restartTextDrawer();
     }
 
-    public void draw(MainViewer mainViewer){
-        VBODrawer.drawVBO(mainViewer, vbo, texture, VBODrawer.COORDS_COLOR_TEXTURE_TYPE, nextDrawAmount);
+    public void draw(MainModel mainModel){
+        VBODrawer.drawVBO(mainModel, vbo, texture, VBODrawer.COORDS_COLOR_TEXTURE_TYPE, nextDrawAmount);
     }
 }

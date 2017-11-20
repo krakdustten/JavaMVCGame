@@ -85,4 +85,8 @@ public class Shader {
         }
         return string.toString();
     }
+
+    public static void deleteShader(int id){
+        //TODO delete shader
+    }
 }

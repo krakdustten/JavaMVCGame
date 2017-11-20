@@ -1,6 +1,6 @@
 package me.dylan.mvcGame.drawers;
 
-import me.dylan.mvcGame.main.MainViewer;
+import me.dylan.mvcGame.main.MainModel;
 import org.joml.Matrix4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -122,21 +122,21 @@ public class VBODrawer {
         }
     }
 
-    public static void drawVBO(MainViewer mainViewer, int vbo, int type, int amount){
+    public static void drawVBO(MainModel mainModel, int vbo, int type, int amount){
         if( type == COORDS_TEXTURE_TYPE || type == COORDS_COLOR_TEXTURE_TYPE ) throw new NullPointerException("no texture given!");
-        drawVBO(mainViewer, vbo, -1, type, amount);
+        drawVBO(mainModel, vbo, -1, type, amount);
     }
 
-    public static void drawVBO(MainViewer mainViewer, int vbo, int pic, int type, int amount){
-        drawVBOWithShaderAll(null, vbo, mainViewer.getMainShader(), pic, 0, type, amount);
+    public static void drawVBO(MainModel mainModel, int vbo, int pic, int type, int amount){
+        drawVBOWithShaderAll(null, vbo, mainModel.getMainShader(), pic, 0, type, amount);
     }
 
-    public static void drawVBOWithShader(MainViewer mainViewer, int vbo, int shader, int pic, int type, int amount){
+    public static void drawVBOWithShader(int vbo, int shader, int pic, int type, int amount){
         drawVBOWithShaderAll(null, vbo, shader, pic, 0, type, amount);
     }
 
-    public static void drawVBOWithSampler(MainViewer mainViewer, int vbo, int sampler, int type, int amount){
-        drawVBOWithShaderAll(null, vbo, mainViewer.getMainShader(), -1, sampler, type, amount);
+    public static void drawVBOWithSampler(MainModel mainModel, int vbo, int sampler, int type, int amount){
+        drawVBOWithShaderAll(null, vbo, mainModel.getMainShader(), -1, sampler, type, amount);
     }
 
     public static void drawVBOWithShaderAll(Matrix4f projection, int vbo, int shader, int pic, int sampler, int type, int amount){

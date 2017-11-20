@@ -1,7 +1,7 @@
 package me.dylan.mvcGame.state;
 
 import me.dylan.mvcGame.main.MainGameThread;
-import me.dylan.mvcGame.main.MainViewer;
+import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.menu.mainMenu.MainMenuController;
 
 public class StateHandler{
@@ -9,8 +9,8 @@ public class StateHandler{
     private int currentState = -1;
     private int lastState = -1;
 
-    MainViewer mainViewer;
-    MainGameThread mainGameThread;
+    private MainModel mainModel;
+    private MainGameThread mainGameThread;
 
     public static final int STATE_MENU_MAIN = 0;
     public static final int STATE_MENU_OPTIONS= 1;
@@ -20,14 +20,14 @@ public class StateHandler{
 
     public static final State[] states = new State[STATE_MAX + 1];
 
-    public StateHandler(MainViewer mainViewer, MainGameThread mainGameThread) {
-        this.mainViewer = mainViewer;
+    public StateHandler(MainModel mainModel, MainGameThread mainGameThread) {
+        this.mainModel = mainModel;
         this.mainGameThread = mainGameThread;
 
-        states[STATE_MENU_MAIN] = new MainMenuController(mainViewer, this);
-        states[STATE_MENU_OPTIONS] = new StateMenuOptions(mainViewer, this);
-        states[STATE_MENU_LEVELS] = new StateMenuLevels(mainViewer, this);
-        states[STATE_GAME] = new StateGame(mainViewer, this);
+        states[STATE_MENU_MAIN] = new MainMenuController(mainModel, this);
+        states[STATE_MENU_OPTIONS] = new StateMenuOptions(mainModel, this);
+        states[STATE_MENU_LEVELS] = new StateMenuLevels(mainModel, this);
+        states[STATE_GAME] = new StateGame(mainModel, this);
 
         changeState(STATE_MENU_MAIN);
     }
@@ -70,8 +70,8 @@ public class StateHandler{
         if(currentState >= 0)states[currentState].update();
     }
 
-    public void render(MainViewer mainViewer) {
-        if(currentState >= 0)states[currentState].render(mainViewer);
+    public void render() {
+        if(currentState >= 0)states[currentState].render();
     }
 
     public void deInit() {

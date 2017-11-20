@@ -30,27 +30,29 @@ public class MainGameThread implements Runnable{
         deInit();
     }
 
+    private MainModel mainModel;
     private MainController mainController;
     private MainViewer mainViewer;
     private StateHandler stateHandler;
 
     private void init(){
-        mainViewer = new MainViewer("shader");
-        stateHandler = new StateHandler(mainViewer, this);
-        mainController = new MainController(mainViewer.getWindow(), stateHandler);
+        mainModel = new MainModel();
+        mainViewer = new MainViewer(mainModel, "shader");
+        stateHandler = new StateHandler(mainModel, this);
+        mainController = new MainController(mainModel.getWindow(), stateHandler);
     }
 
     private void update(){
         mainController.update();
         mainViewer.update();
         stateHandler.update();
-        if(GLFW.glfwWindowShouldClose(mainViewer.getWindow()))
+        if(GLFW.glfwWindowShouldClose(mainModel.getWindow()))
             stop();
     }
 
     private void render(){
         mainViewer.startRender();
-        stateHandler.render(mainViewer);
+        stateHandler.render();
         mainViewer.endRender();
     }
 
