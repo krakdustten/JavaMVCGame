@@ -20,11 +20,11 @@ public class MainMenuController extends State {
         System.out.println("MainMenuController: " + previousState);
 
         float[] vertexes = new float[VBODrawer.calcArraySizeForSquares(VBODrawer.COORDS_COLOR_TEXTURE_TYPE, 1)];
-        VBODrawer.draw2DSquare(vertexes, 0, VBODrawer.COORDS_COLOR_TEXTURE_TYPE, -0.5f, -0.5f, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1);
+        VBODrawer.draw2DSquare(vertexes, 0, VBODrawer.COORDS_COLOR_TEXTURE_TYPE, -0.5f, -0.5f, 1, 1, 1, 0.5f, 1, 1, 0, 0, 1, 1);
         vbo_id = VBODrawer.createBufferId();
         VBODrawer.writeBufToMem(vbo_id, vertexes);
 
-        image_id = Texture.createImageId("./img/test.jpg");
+        image_id = Texture.createImageId("./img/ASCII-normal.png");
     }
 
     @Override

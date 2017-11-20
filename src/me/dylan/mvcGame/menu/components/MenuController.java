@@ -6,6 +6,6 @@ public class MenuController {
 
     public MenuController(){
         model = new MenuModel();
-        view = new MenuView(model);
+        view = new MenuView(model, "");
     }
 }
