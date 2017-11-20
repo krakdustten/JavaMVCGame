@@ -160,4 +160,7 @@ public class VBODrawer {
         if(texture)GL20.glDisableVertexAttribArray(2);//textures
     }
 
+    public static void deleteVBO(int vbo){
+        //TODO delete VBO
+    }
 }
