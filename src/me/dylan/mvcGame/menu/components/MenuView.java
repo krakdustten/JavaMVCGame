@@ -25,28 +25,43 @@ public class MenuView {
         float width = model.getTotalWidth();
         float height = model.getTotalHeight();
 
-        float xStart = 0;
-        float yStart = 0;
-        if(model.getxAlign() < 0) xStart = (-camera.getWidth() / 2 - camera.getxPos()) / camera.getZoom() + model.getxMargin();
+        float xStartBackground = (-camera.getWidth() / 2 - camera.getxPos()) / camera.getZoom();
+        float yStartBackground = (-camera.getHeight() / 2 - camera.getyPos()) / camera.getZoom();
+        float widthBackground = camera.getWidth() / camera.getZoom();
+        float heightBackground = camera.getHeight() / camera.getZoom();
+
+        float backgroundRepeatSize = 64 / camera.getZoom();
+
+        int drawAmountX = (int)Math.ceil(widthBackground / backgroundRepeatSize);
+        int drawAmountY = (int) Math.ceil(heightBackground / backgroundRepeatSize);
+
+        float xStart, yStart;
+        if(model.getxAlign() < 0) xStart = xStartBackground + model.getxMargin();
         else if(model.getxAlign() > 0)xStart = (camera.getWidth() / 2 - camera.getxPos()) / camera.getZoom() - width - model.getxMargin();
         else xStart = -camera.getxPos() / camera.getZoom() - width / 2;
-        if(model.getyAlign() < 0) yStart = (-camera.getHeight() / 2 - camera.getyPos()) / camera.getZoom() + model.getyMargin();
+        if(model.getyAlign() < 0) yStart = yStartBackground + model.getyMargin();
         else if(model.getyAlign() > 0) yStart = (camera.getHeight() / 2 - camera.getyPos()) / camera.getZoom() - height - model.getyMargin();
         else yStart = -camera.getyPos() / camera.getZoom() - height / 2;
-
-
 
         model.setDrawXstart(xStart);
         model.setDrawYstart(yStart);
 
         //calc the total float buffer and draw amount
-        drawAmount = 0;
+        drawAmount = drawAmountX * drawAmountY * 6;
         for(MenuModel.GuiElement element : model.getAllGuiElements()){
             if(element instanceof MenuModel.GuiButton)
                 drawAmount += 6 * 3;
         }
         float[] buffer = new float[drawAmount * 9];
         int offset = 0;
+        for(int i = 0; i < drawAmountX; i++){
+            for(int j = 0; j < drawAmountY; j++){
+                offset = VBODrawer.draw2DSquare(buffer, offset, VBODrawer.COORDS_COLOR_TEXTURE_TYPE,
+                        xStartBackground + i * backgroundRepeatSize, yStartBackground + j * backgroundRepeatSize, backgroundRepeatSize, backgroundRepeatSize,
+                        model.getBackR(), model.getBackG(), model.getBackB(), model.getBackA(), 0.75f, 0, 0.25f, 0.25f);
+            }
+        }
+
         for(MenuModel.GuiElement element : model.getAllGuiElements()){
             if(element instanceof MenuModel.GuiButton){
                 MenuModel.GuiButton but = (MenuModel.GuiButton) element;

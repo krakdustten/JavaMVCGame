@@ -7,9 +7,9 @@ public class MenuController {
     private MenuModel model;
     private MenuView view;
 
-    public MenuController(MainModel mainModel){
+    public MenuController(MainModel mainModel, String menuImg){
         model = new MenuModel(mainModel);
-        view = new MenuView(model, "./img/menu.png");
+        view = new MenuView(model, menuImg);
 
         model.getMainModel().getCamera().setZoom(1);
         model.getMainModel().getCamera().setScreenPosition(0, 0);
@@ -71,6 +71,17 @@ public class MenuController {
     public void setyAlign(int yAlign) { model.setyAlign(yAlign); }
     public void setxMargin(int xMargin) { model.setxMargin(xMargin); }
     public void setyMargin(int yMargin) { model.setyMargin(yMargin); }
+
+    public void setBackgroundColor(float backR, float backG, float backB, float backA){
+        setBackR(backR);
+        setBackG(backG);
+        setBackB(backB);
+        setBackA(backA);
+    }
+    public void setBackR(float backR) { model.setBackR(backR); }
+    public void setBackG(float backG) { model.setBackG(backG); }
+    public void setBackB(float backB) { model.setBackB(backB); }
+    public void setBackA(float backA) { model.setBackA(backA); }
 
     public void delete(){
         view.delete();

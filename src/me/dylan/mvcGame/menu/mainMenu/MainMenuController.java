@@ -17,10 +17,11 @@ public class MainMenuController extends State {
     @Override
     public void init(int previousState) {
 
-        menuController = new MenuController(mainModel);
+        menuController = new MenuController(mainModel, "./img/menu.png");
         menuController.addGuiElement(new MenuModel.GuiButton(0, 0, 100, 32, 1, "Wauw", 1, 1, 1, 1, 0, 1, 0, 1));
         menuController.addGuiElement(new MenuModel.GuiButton(0, 50, 150, 32, 2, "Niets", 1, 1, 1, 1, 0, 1, 0, 1));
         menuController.setAlignMargin(-1, -1, 10, 10);
+        menuController.setBackgroundColor(0.8f, 0.5f,0.2f, 1);
     }
 
     @Override

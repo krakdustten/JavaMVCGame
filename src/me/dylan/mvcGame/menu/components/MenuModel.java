@@ -16,12 +16,13 @@ public class MenuModel {
     private int yMargin = 0;
     private boolean changed = false;
     private float drawXstart, drawYstart;
+    private float backR, backG, backB, backA;
 
     public MenuModel(MainModel mainModel){
-        this(mainModel, 0, 0, 0, 0);
+        this(mainModel, 0, 0, 0, 0, 1, 1, 1, 1);
     }
 
-    public MenuModel(MainModel mainModel, int xAlign, int yAlign, int xMargin, int yMargin){
+    public MenuModel(MainModel mainModel, int xAlign, int yAlign, int xMargin, int yMargin, float backR, float backG, float backB, float backA){
         this.mainModel = mainModel;
         this.xAlign = xAlign;
         this.yAlign = yAlign;
@@ -29,6 +30,10 @@ public class MenuModel {
         this.totalHeight = 0;
         this.xMargin = xMargin;
         this.yMargin = yMargin;
+        this.backR = backR;
+        this.backG = backG;
+        this.backB = backB;
+        this.backA = backA;
     }
 
     public boolean addGuiElement(GuiElement element){
@@ -70,6 +75,10 @@ public class MenuModel {
     public int getyMargin() { return yMargin; }
     public float getDrawXstart() { return drawXstart; }
     public float getDrawYstart() { return drawYstart; }
+    public float getBackR() { return backR; }
+    public float getBackG() { return backG; }
+    public float getBackB() { return backB; }
+    public float getBackA() { return backA; }
 
     public void setxAlign(int xAlign) { this.xAlign = xAlign; }
     public void setyAlign(int yAlign) { this.yAlign = yAlign; }
@@ -77,6 +86,10 @@ public class MenuModel {
     public void setyMargin(int yMargin) { this.yMargin = yMargin; }
     public void setDrawXstart(float drawXstart) { this.drawXstart = drawXstart; }
     public void setDrawYstart(float drawYstart) { this.drawYstart = drawYstart; }
+    public void setBackR(float backR) { this.backR = backR; }
+    public void setBackG(float backG) { this.backG = backG; }
+    public void setBackB(float backB) { this.backB = backB; }
+    public void setBackA(float backA) { this.backA = backA; }
 
     public static class GuiElement{
         public int x, y, width, height, id;
