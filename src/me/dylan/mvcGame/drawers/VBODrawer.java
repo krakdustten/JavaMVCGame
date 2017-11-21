@@ -162,6 +162,6 @@ public class VBODrawer {
     }
 
     public static void deleteVBO(int vbo){
-        //TODO delete VBO
+        GL15.glDeleteBuffers(vbo);
     }
 }

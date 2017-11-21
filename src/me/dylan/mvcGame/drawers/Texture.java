@@ -8,7 +8,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
 
 public class Texture {
@@ -66,6 +65,6 @@ public class Texture {
     }
 
     public static void deleteImage(int id){
-        //TODO delete image
+        GL11.glDeleteTextures(id);
     }
 }

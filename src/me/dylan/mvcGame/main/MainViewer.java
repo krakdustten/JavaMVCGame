@@ -77,6 +77,7 @@ public class MainViewer {
     }
 
     public void deInit() {
+        Shader.deleteShader(mainModel.getMainShader());
         Callbacks.glfwFreeCallbacks(mainModel.getWindow());
         GLFW.glfwDestroyWindow(mainModel.getWindow());
 

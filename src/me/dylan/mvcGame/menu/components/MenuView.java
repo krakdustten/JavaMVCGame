@@ -81,4 +81,9 @@ public class MenuView {
 
         model.getMainModel().getTextDrawer().draw(model.getMainModel());
     }
+
+    public void delete() {
+        Texture.deleteImage(texture_id);
+        VBODrawer.deleteVBO(vbo_id);
+    }
 }

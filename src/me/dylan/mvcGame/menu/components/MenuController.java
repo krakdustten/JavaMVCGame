@@ -15,8 +15,8 @@ public class MenuController {
         model.getMainModel().getCamera().setScreenPosition(0, 0);
     }
 
-    public void addGuiElement(MenuModel.GuiElement element){
-        model.addGuiElement(element);
+    public boolean addGuiElement(MenuModel.GuiElement element){
+        return model.addGuiElement(element);
     }
 
     public void update() {
@@ -72,5 +72,10 @@ public class MenuController {
     public void setxMargin(int xMargin) { model.setxMargin(xMargin); }
     public void setyMargin(int yMargin) { model.setyMargin(yMargin); }
 
-    //TODO add model functions
+    public void delete(){
+        view.delete();
+        model = null;
+        view = null;
+    }
+
 }

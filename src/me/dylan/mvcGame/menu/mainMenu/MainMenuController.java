@@ -34,7 +34,10 @@ public class MainMenuController extends State {
     }
 
     @Override
-    public void deInit() { }
+    public void deInit() {
+        menuController.delete();
+        menuController = null;
+    }
 
     @Override
     public void keyboardEvent(long window, int key, int scancode, int action, int mods) { }

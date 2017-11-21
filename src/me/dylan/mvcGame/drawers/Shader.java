@@ -87,6 +87,6 @@ public class Shader {
     }
 
     public static void deleteShader(int id){
-        //TODO delete shader
+        GL20.glDeleteProgram(id);
     }
 }
