@@ -11,11 +11,15 @@ public class StateMenuLevels extends State{
     @Override
     public void init(int previousState) {
         System.out.println("StateMenuLevels: " + previousState);
+        temp = 0;
     }
 
+
+    private int temp = 0;
     @Override
     public void update() {
-        stateHandler.changeState(StateHandler.STATE_GAME);
+        temp++;
+        if(temp == 100)stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
     }
 
     @Override

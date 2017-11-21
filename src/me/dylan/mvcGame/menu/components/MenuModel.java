@@ -15,6 +15,7 @@ public class MenuModel {
     private int xMargin = 0;
     private int yMargin = 0;
     private boolean changed = false;
+    private float drawXstart, drawYstart;
 
     public MenuModel(MainModel mainModel){
         this(mainModel, 0, 0, 0, 0);
@@ -67,11 +68,15 @@ public class MenuModel {
     public int getTotalHeight() { return totalHeight; }
     public int getxMargin() { return xMargin; }
     public int getyMargin() { return yMargin; }
+    public float getDrawXstart() { return drawXstart; }
+    public float getDrawYstart() { return drawYstart; }
 
     public void setxAlign(int xAlign) { this.xAlign = xAlign; }
     public void setyAlign(int yAlign) { this.yAlign = yAlign; }
     public void setxMargin(int xMargin) { this.xMargin = xMargin; }
     public void setyMargin(int yMargin) { this.yMargin = yMargin; }
+    public void setDrawXstart(float drawXstart) { this.drawXstart = drawXstart; }
+    public void setDrawYstart(float drawYstart) { this.drawYstart = drawYstart; }
 
 
     public static class GuiElement{
@@ -104,6 +109,7 @@ public class MenuModel {
 
     public static class GuiButton extends GuiLabel{
         public float butR, butG, butB, butA;
+        public boolean hover = false;
         public GuiButton(int x, int y, int width, int height, int id, String text){
             this(x, y, width, height, id, text, 1, 1, 1, 1, 1, 1, 1,1);
         }

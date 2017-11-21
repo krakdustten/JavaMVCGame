@@ -21,18 +21,9 @@ public class MainMenuController extends State {
 
     @Override
     public void init(int previousState) {
-        float[] vertexes = new float[VBODrawer.calcArraySizeForSquares(VBODrawer.COORDS_COLOR_TEXTURE_TYPE, 1)];
-        VBODrawer.draw2DSquare(vertexes, 0, VBODrawer.COORDS_COLOR_TEXTURE_TYPE, -50f, -50f, 100, 100, 1, 1, 1, 0.7f, 0, 0, 1, 1);
-        mainModel.getTextDrawer().drawText("Hello world!!!", 0, 0, 1, 1, 1 ,1, 20f);
-        vbo_id = VBODrawer.createBufferId();
-        VBODrawer.writeBufToMem(vbo_id, vertexes);
-        mainModel.getTextDrawer().writeBufToMem();
-
-        image_id = Texture.createImageId("./img/test.jpg");
 
         menuController = new MenuController(mainModel);
-
-        menuController.addGuiElement(new MenuModel.GuiButton(-50, -50, 100, 28, 1, "Wauw", 1, 1, 1, 1, 0, 1, 0, 1));
+        menuController.addGuiElement(new MenuModel.GuiButton(0, 0, 100, 32, 1, "Wauw", 1, 1, 1, 1, 0, 1, 0, 1));
     }
 
     @Override
@@ -42,8 +33,6 @@ public class MainMenuController extends State {
 
     @Override
     public void render() {
-        //VBODrawer.drawVBO(mainModel, vbo_id, image_id, VBODrawer.COORDS_COLOR_TEXTURE_TYPE, VBODrawer.calcDrawAmountForSquares(1));
-        mainModel.getTextDrawer().draw(mainModel);
         menuController.render();
     }
 
@@ -54,10 +43,18 @@ public class MainMenuController extends State {
     public void keyboardEvent(long window, int key, int scancode, int action, int mods) { }
 
     @Override
-    public void mousePosEvent(long window) { }
+    public void mousePosEvent(long window) {
+        menuController.mousePosEvent(window);
+    }
 
     @Override
-    public void mouseButtonEvent(long window, int button, int action, int mods) { }
+    public void mouseButtonEvent(long window, int button, int action, int mods) {
+        int id = menuController.onClick(window, button, action, mods);
+        if(id >= 0){
+            System.out.println(id);
+            stateHandler.changeState(StateHandler.STATE_MENU_LEVELS);
+        }
+    }
 
     @Override
     public void scrollEvent(long window, double xOffset, double yOffset) { }

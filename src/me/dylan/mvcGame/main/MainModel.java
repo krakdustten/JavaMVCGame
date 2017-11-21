@@ -9,20 +9,30 @@ public class MainModel {
     private TextDrawer textDrawer;
 
     private double mouseX, mouseY;
+    private float mouseXWorld, mouseYWorld;
 
     void setWindow(long window) { this.window = window; }
     void setMainShader(int mainShader) { this.mainShader = mainShader; }
     void setCamera(Camera camera) { this.camera = camera; }
     void setTextDrawer(TextDrawer textDrawer) { this.textDrawer = textDrawer; }
 
-    void setMouseX(double mouseX){this.mouseX = mouseX;}
-    void setMouseY(double mouseY){this.mouseY = mouseY;}
+    void setMouseX(double mouseX){
+        this.mouseX = mouseX;
+        this.mouseXWorld = (float) ((mouseX - camera.getWidth() / 2 - camera.getxPos()) / camera.getZoom());
+ }
+    void setMouseY(double mouseY){
+        this.mouseY = mouseY;
+        this.mouseYWorld = (float) ((-mouseY + camera.getHeight() / 2 - camera.getyPos()) / camera.getZoom());
+    }
+
+    public double getMouseX(){return mouseX; }
+    public double getMouseY(){return mouseY; }
 
     public long getWindow() { return window; }
     public int getMainShader() { return mainShader; }
     public Camera getCamera() { return camera; }
     public TextDrawer getTextDrawer() { return textDrawer; }
 
-    public double getMouseX(){return mouseX; }
-    public double getMouseY(){return mouseY; }
+    public float getMouseXWorld() { return mouseXWorld; }
+    public float getMouseYWorld() { return mouseYWorld; }
 }

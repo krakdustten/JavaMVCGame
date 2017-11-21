@@ -104,9 +104,6 @@ public class VBODrawer {
     }
 
     public static void writeBufToMem(int vbo, float[] data){
-        System.out.println();
-        System.out.println();
-
         FloatBuffer buf = BufferUtils.createFloatBuffer(data.length);
         buf.put(data);
         buf.flip();
