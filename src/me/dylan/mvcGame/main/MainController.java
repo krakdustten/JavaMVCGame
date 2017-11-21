@@ -5,12 +5,15 @@ import org.lwjgl.glfw.GLFW;
 
 public class MainController{
     private StateHandler stateHandler;
+    private MainModel mainModel;
 
-    public MainController(long window2, StateHandler stateHandler){
-        GLFW.glfwSetKeyCallback(window2, this::keyboardEvent);
-        GLFW.glfwSetCursorPosCallback(window2, this::mousePosEvent);
-        GLFW.glfwSetMouseButtonCallback(window2, this::mouseButtonEvent);
-        GLFW.glfwSetScrollCallback(window2, this::scrollEvent);
+    public MainController(MainModel mainModel, StateHandler stateHandler){
+        this.mainModel = mainModel;
+
+        GLFW.glfwSetKeyCallback(mainModel.getWindow(), this::keyboardEvent);
+        GLFW.glfwSetCursorPosCallback(mainModel.getWindow(), this::mousePosEvent);
+        GLFW.glfwSetMouseButtonCallback(mainModel.getWindow(), this::mouseButtonEvent);
+        GLFW.glfwSetScrollCallback(mainModel.getWindow(), this::scrollEvent);
 
         this.stateHandler = stateHandler;
     }
@@ -29,7 +32,9 @@ public class MainController{
     }
 
     private void mousePosEvent(long window, double xPos, double yPos) {
-        stateHandler.mousePosEvent(window, xPos, yPos);
+        mainModel.setMouseX(xPos);
+        mainModel.setMouseY(yPos);
+        stateHandler.mousePosEvent(window);
     }
 
     private void mouseButtonEvent(long window, int button, int action, int mods) {

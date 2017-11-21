@@ -39,7 +39,7 @@ public class MainGameThread implements Runnable{
         mainModel = new MainModel();
         mainViewer = new MainViewer(mainModel, "shader");
         stateHandler = new StateHandler(mainModel, this);
-        mainController = new MainController(mainModel.getWindow(), stateHandler);
+        mainController = new MainController(mainModel, stateHandler);
     }
 
     private void update(){

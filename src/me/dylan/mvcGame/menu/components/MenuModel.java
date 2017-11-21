@@ -87,15 +87,33 @@ public class MenuModel {
 
     public static class GuiLabel extends GuiElement{
         public String text;
+        public float textR, textG, textB, textA;
         public GuiLabel(int x, int y, int width, int height, int id, String text){
+            this(x, y, width, height, id, text, 1, 1, 1, 1);
+        }
+
+        public GuiLabel(int x, int y, int width, int height, int id, String text, float textR, float textG, float textB, float textA){
             super(x, y, width, height, id);
             this.text = text;
+            this.textR = textR;
+            this.textG = textG;
+            this.textB = textB;
+            this.textA = textA;
         }
     }
 
     public static class GuiButton extends GuiLabel{
+        public float butR, butG, butB, butA;
         public GuiButton(int x, int y, int width, int height, int id, String text){
-            super(x, y, width, height, id, text);
+            this(x, y, width, height, id, text, 1, 1, 1, 1, 1, 1, 1,1);
+        }
+
+        public GuiButton(int x, int y, int width, int height, int id, String text, float textR, float textG, float textB, float textA, float butR, float butG, float butB, float butA){
+            super(x, y, width, height, id, text, textR, textG, textB, textA);
+            this.butR = butR;
+            this.butG = butG;
+            this.butB = butB;
+            this.butA = butA;
         }
     }
 

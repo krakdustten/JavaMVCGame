@@ -34,7 +34,7 @@ public class StateMenuOptions extends State {
     }
 
     @Override
-    public void mousePosEvent(long window, double xPos, double yPos) {
+    public void mousePosEvent(long window) {
 
     }
 

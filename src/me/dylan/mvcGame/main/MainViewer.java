@@ -46,7 +46,7 @@ public class MainViewer {
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
         // Set the clear color
-        GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        GL11.glClearColor(0.0f, 0.3f, 0.8f, 0.0f);
 
         mainModel.setMainShader(Shader.compileShader(mainShaderName));
         mainModel.setCamera(new Camera(mainModel.getMainShader(), 600, 400));

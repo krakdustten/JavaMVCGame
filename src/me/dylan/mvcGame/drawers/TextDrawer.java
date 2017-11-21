@@ -32,6 +32,14 @@ public class TextDrawer {
         vbo = VBODrawer.createBufferId();
     }
 
+    public float getSizeForText(String text, float size){
+        return getSizeForText(text.length(), size);
+    }
+
+    public float getSizeForText(int charAmount, float size){
+        return charAmount * size / 8 * 6;
+    }
+
     public void restartTextDrawer(){
         bufferData.clear();
     }

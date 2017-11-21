@@ -8,7 +8,7 @@ public class MenuController {
 
     public MenuController(MainModel mainModel){
         model = new MenuModel(mainModel);
-        view = new MenuView(model, "./img/test.jpg");
+        view = new MenuView(model, "./img/menu.png");
     }
 
     public void addGuiElement(MenuModel.GuiElement element){
@@ -23,6 +23,11 @@ public class MenuController {
         view.draw();
     }
 
-    //TODO methods to add extra menu elements
+    public int onClick(long window, int button, int action, int mods){
+        
+
+
+        return -1;
+    }
     //TODO click detection for buttons
 }

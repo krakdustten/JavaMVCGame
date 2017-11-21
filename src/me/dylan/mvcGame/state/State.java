@@ -17,7 +17,7 @@ public abstract class State {
     public abstract void deInit();
 
     public abstract void keyboardEvent(long window, int key, int scancode, int action, int mods);
-    public abstract void mousePosEvent(long window, double xPos, double yPos);
+    public abstract void mousePosEvent(long window);
     public abstract void mouseButtonEvent(long window, int button, int action, int mods);
     public abstract void scrollEvent(long window, double xOffset, double yOffset);
 }

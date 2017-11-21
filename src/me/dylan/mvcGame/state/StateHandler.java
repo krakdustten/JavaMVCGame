@@ -54,8 +54,8 @@ public class StateHandler{
         if(currentState >= 0)states[currentState].keyboardEvent(window, key, scancode, action, mods);
     }
 
-    public void mousePosEvent(long window, double xPos, double yPos) {
-        if(currentState >= 0)states[currentState].mousePosEvent(window, xPos, yPos);
+    public void mousePosEvent(long window) {
+        if(currentState >= 0)states[currentState].mousePosEvent(window);
     }
 
     public void mouseButtonEvent(long window, int button, int action, int mods) {
