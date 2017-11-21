@@ -11,10 +11,8 @@ public class MenuController {
         model = new MenuModel(mainModel);
         view = new MenuView(model, "./img/menu.png");
 
-        model.setxAlign(0);
-
-        model.getMainModel().getCamera().setZoom(2);
-        model.getMainModel().getCamera().setScreenPosition(-50, -50);
+        model.getMainModel().getCamera().setZoom(1);
+        model.getMainModel().getCamera().setScreenPosition(0, 0);
     }
 
     public void addGuiElement(MenuModel.GuiElement element){
@@ -59,6 +57,20 @@ public class MenuController {
         }
     }
 
+    public void screenResizeEvent(){
+        model.updateView();
+    }
+
+    public void setAlignMargin(int xAlign, int yAlign, int xMargin, int yMargin){
+        setxAlign(xAlign);
+        setyAlign(yAlign);
+        setxMargin(xMargin);
+        setyMargin(yMargin);
+    }
+    public void setxAlign(int xAlign) { model.setxAlign(xAlign); }
+    public void setyAlign(int yAlign) { model.setyAlign(yAlign); }
+    public void setxMargin(int xMargin) { model.setxMargin(xMargin); }
+    public void setyMargin(int yMargin) { model.setyMargin(yMargin); }
+
     //TODO add model functions
-    //TODO window resize event
 }

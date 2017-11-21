@@ -66,6 +66,10 @@ public class StateHandler{
         if(currentState >= 0)states[currentState].scrollEvent(window, xOffset, yOffset);
     }
 
+    public void screenResizeEvent() {
+        if(currentState >= 0)states[currentState].screenResizeEvent();
+    }
+
     public void update() {
         if(currentState >= 0)states[currentState].update();
     }
@@ -77,4 +81,6 @@ public class StateHandler{
     public void deInit() {
         if(currentState >= 0)states[currentState].deInit();
     }
+
+
 }

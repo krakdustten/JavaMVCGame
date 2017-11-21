@@ -37,7 +37,7 @@ public class MainGameThread implements Runnable{
 
     private void init(){
         mainModel = new MainModel();
-        mainViewer = new MainViewer(mainModel, "shader");
+        mainViewer = new MainViewer(mainModel, this,"shader");
         stateHandler = new StateHandler(mainModel, this);
         mainController = new MainController(mainModel, stateHandler);
     }
@@ -67,5 +67,9 @@ public class MainGameThread implements Runnable{
 
     public void stop(){
         running = false;
+    }
+
+    public void screenResizeEvent() {
+        stateHandler.screenResizeEvent();
     }
 }

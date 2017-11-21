@@ -51,4 +51,9 @@ public class StateMenuLevels extends State{
     public void scrollEvent(long window, double xOffset, double yOffset) {
 
     }
+
+    @Override
+    public void screenResizeEvent() {
+
+    }
 }

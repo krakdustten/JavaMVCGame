@@ -78,7 +78,6 @@ public class MenuModel {
     public void setDrawXstart(float drawXstart) { this.drawXstart = drawXstart; }
     public void setDrawYstart(float drawYstart) { this.drawYstart = drawYstart; }
 
-
     public static class GuiElement{
         public int x, y, width, height, id;
         public GuiElement(int x, int y, int width, int height, int id){

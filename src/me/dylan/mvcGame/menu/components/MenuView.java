@@ -27,11 +27,14 @@ public class MenuView {
 
         float xStart = 0;
         float yStart = 0;
-        if(model.getxAlign() < 0) xStart = (-camera.getWidth() / 2 - camera.getxPos()) / camera.getZoom();
-        else if(model.getxAlign() > 0)xStart = ((camera.getWidth() / 2 - camera.getxPos()) - width * 2) / camera.getZoom();
-        else xStart = ((-camera.getWidth() / 2 - camera.getxPos()) / camera.getZoom()) - (((-camera.getWidth() / 2 - camera.getxPos()) / camera.getZoom()) - ((camera.getWidth() / 2 - camera.getxPos()) - width * 2) / camera.getZoom()) / 2;
+        if(model.getxAlign() < 0) xStart = (-camera.getWidth() / 2 - camera.getxPos()) / camera.getZoom() + model.getxMargin();
+        else if(model.getxAlign() > 0)xStart = (camera.getWidth() / 2 - camera.getxPos()) / camera.getZoom() - width - model.getxMargin();
+        else xStart = -camera.getxPos() / camera.getZoom() - width / 2;
+        if(model.getyAlign() < 0) yStart = (-camera.getHeight() / 2 - camera.getyPos()) / camera.getZoom() + model.getyMargin();
+        else if(model.getyAlign() > 0) yStart = (camera.getHeight() / 2 - camera.getyPos()) / camera.getZoom() - height - model.getyMargin();
+        else yStart = -camera.getyPos() / camera.getZoom() - height / 2;
 
-        //TODO add margin
+
 
         model.setDrawXstart(xStart);
         model.setDrawYstart(yStart);

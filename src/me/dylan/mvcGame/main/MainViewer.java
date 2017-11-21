@@ -13,9 +13,11 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class MainViewer {
     private MainModel mainModel;
+    private MainGameThread mainGameThread;
 
-    public MainViewer(MainModel mainModel, String mainShaderName){
+    public MainViewer(MainModel mainModel, MainGameThread mainGameThread, String mainShaderName){
         this.mainModel = mainModel;
+        this.mainGameThread = mainGameThread;
 
         //init LWJGL
         GLFWErrorCallback.createPrint(System.err).set();
@@ -57,10 +59,10 @@ public class MainViewer {
             public void invoke(long window, int width, int height){
                 mainModel.getCamera().setSceenSize(width, height);
                 GL11.glViewport(0, 0, width, height);
+                mainGameThread.screenResizeEvent();
             }
         });
     }
-
 
     public void startRender() {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); // clear the framebuffer

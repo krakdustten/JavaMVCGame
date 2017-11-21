@@ -1,7 +1,5 @@
 package me.dylan.mvcGame.menu.mainMenu;
 
-import me.dylan.mvcGame.drawers.Texture;
-import me.dylan.mvcGame.drawers.VBODrawer;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.menu.components.MenuController;
 import me.dylan.mvcGame.menu.components.MenuModel;
@@ -9,9 +7,6 @@ import me.dylan.mvcGame.state.State;
 import me.dylan.mvcGame.state.StateHandler;
 
 public class MainMenuController extends State {
-
-    private int vbo_id;
-    private int image_id;
 
     private MenuController menuController;
 
@@ -24,6 +19,8 @@ public class MainMenuController extends State {
 
         menuController = new MenuController(mainModel);
         menuController.addGuiElement(new MenuModel.GuiButton(0, 0, 100, 32, 1, "Wauw", 1, 1, 1, 1, 0, 1, 0, 1));
+        menuController.addGuiElement(new MenuModel.GuiButton(0, 50, 150, 32, 2, "Niets", 1, 1, 1, 1, 0, 1, 0, 1));
+        menuController.setAlignMargin(-1, -1, 10, 10);
     }
 
     @Override
@@ -58,4 +55,9 @@ public class MainMenuController extends State {
 
     @Override
     public void scrollEvent(long window, double xOffset, double yOffset) { }
+
+    @Override
+    public void screenResizeEvent() {
+        menuController.screenResizeEvent();
+    }
 }

@@ -20,4 +20,6 @@ public abstract class State {
     public abstract void mousePosEvent(long window);
     public abstract void mouseButtonEvent(long window, int button, int action, int mods);
     public abstract void scrollEvent(long window, double xOffset, double yOffset);
+
+    public abstract void screenResizeEvent();
 }
