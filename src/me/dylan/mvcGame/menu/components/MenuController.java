@@ -10,9 +10,6 @@ public class MenuController {
     public MenuController(MainModel mainModel, String menuImg){
         model = new MenuModel(mainModel);
         view = new MenuView(model, menuImg);
-
-        model.getMainModel().getCamera().setZoom(1);
-        model.getMainModel().getCamera().setScreenPosition(0, 0);
     }
 
     public boolean addGuiElement(MenuModel.GuiElement element){

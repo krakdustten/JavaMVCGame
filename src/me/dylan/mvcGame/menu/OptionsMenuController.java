@@ -1,16 +1,18 @@
-package me.dylan.mvcGame.state;
+package me.dylan.mvcGame.menu;
 
 import me.dylan.mvcGame.main.MainModel;
+import me.dylan.mvcGame.state.State;
+import me.dylan.mvcGame.state.StateHandler;
 
-public class StateMenuOptions extends State {
+public class OptionsMenuController extends State {
 
-    public StateMenuOptions(MainModel mainModel, StateHandler stateHandler) {
+    public OptionsMenuController(MainModel mainModel, StateHandler stateHandler) {
         super(mainModel, stateHandler);
     }
 
     @Override
     public void init(int previousState) {
-        System.out.println("StateMenuOptions: " + previousState);
+        System.out.println("OptionsMenuController: " + previousState);
     }
 
     @Override

@@ -2,9 +2,11 @@ package me.dylan.mvcGame.state;
 
 import me.dylan.mvcGame.main.MainGameThread;
 import me.dylan.mvcGame.main.MainModel;
-import me.dylan.mvcGame.menu.mainMenu.MainMenuController;
+import me.dylan.mvcGame.menu.MainMenuController;
+import me.dylan.mvcGame.menu.OptionsMenuController;
 
 public class StateHandler{
+
 
     private int currentState = -1;
     private int lastState = -1;
@@ -12,6 +14,7 @@ public class StateHandler{
     private MainModel mainModel;
     private MainGameThread mainGameThread;
 
+    public static final int STATE_QUIT = -1;
     public static final int STATE_MENU_MAIN = 0;
     public static final int STATE_MENU_OPTIONS= 1;
     public static final int STATE_MENU_LEVELS = 2;
@@ -25,7 +28,7 @@ public class StateHandler{
         this.mainGameThread = mainGameThread;
 
         states[STATE_MENU_MAIN] = new MainMenuController(mainModel, this);
-        states[STATE_MENU_OPTIONS] = new StateMenuOptions(mainModel, this);
+        states[STATE_MENU_OPTIONS] = new OptionsMenuController(mainModel, this);
         states[STATE_MENU_LEVELS] = new StateMenuLevels(mainModel, this);
         states[STATE_GAME] = new StateGame(mainModel, this);
 
@@ -42,10 +45,11 @@ public class StateHandler{
             states[currentState].init(lastState);
             return lastState;
         }
-        if(newState == -1 && currentState != -1){
+        if(newState == STATE_QUIT && currentState != STATE_QUIT){
             states[currentState].deInit();
+            currentState = STATE_QUIT;
             mainGameThread.stop();
-            return -1;
+            return STATE_QUIT;
         }
         return -2;
     }

@@ -32,8 +32,8 @@ public class MenuView {
 
         float backgroundRepeatSize = 64 / camera.getZoom();
 
-        int drawAmountX = (int)Math.ceil(widthBackground / backgroundRepeatSize);
-        int drawAmountY = (int) Math.ceil(heightBackground / backgroundRepeatSize);
+        int drawAmountX = model.getBackA() <= 0 ? 0: (int)Math.ceil(widthBackground / backgroundRepeatSize);
+        int drawAmountY = model.getBackA() <= 0 ? 0: (int) Math.ceil(heightBackground / backgroundRepeatSize);
 
         float xStart, yStart;
         if(model.getxAlign() < 0) xStart = xStartBackground + model.getxMargin();
