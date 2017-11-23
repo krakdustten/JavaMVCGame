@@ -85,7 +85,7 @@ public class MenuView {
                 if(sub instanceof MenuModel.GuiButton)
                     textDrawer.drawText(sub.text, element.x + (element.width - textDrawer.getSizeForText(sub.text, element.height * 2/3)) / 2 + xStart , element.y + element.height / 6 + yStart, sub.textR, sub.textG, sub.textB, sub.textA, element.height * 2/3);
                 else
-                    textDrawer.drawText(sub.text, element.x + xStart, element.y + yStart, sub.textR, sub.textG, sub.textB, sub.textA, element.height);
+                    textDrawer.drawText(sub.text, element.x + (element.width - textDrawer.getSizeForText(sub.text, element.height)) / 2 + xStart, element.y + yStart, sub.textR, sub.textG, sub.textB, sub.textA, element.height);
             }
         }
         textDrawer.writeBufToMem();

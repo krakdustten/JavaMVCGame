@@ -1,5 +1,6 @@
 package me.dylan.mvcGame.state;
 
+import me.dylan.mvcGame.game.StateGame;
 import me.dylan.mvcGame.main.MainGameThread;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.menu.MainMenuController;

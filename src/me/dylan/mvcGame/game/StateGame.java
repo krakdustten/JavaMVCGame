@@ -1,8 +1,13 @@
-package me.dylan.mvcGame.state;
+package me.dylan.mvcGame.game;
 
 import me.dylan.mvcGame.main.MainModel;
+import me.dylan.mvcGame.state.State;
+import me.dylan.mvcGame.state.StateHandler;
 
-public class StateGame extends State{
+public class StateGame extends State {
+
+    //TODO world editor
+    //TODO maybe go to 3D
 
     public StateGame(MainModel mainModel, StateHandler stateHandler) {
         super(mainModel, stateHandler);
@@ -10,12 +15,12 @@ public class StateGame extends State{
 
     @Override
     public void init(int previousState) {
-        System.out.println("StateGame: " + previousState);
+
     }
 
     @Override
     public void update() {
-        stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
+
     }
 
     @Override

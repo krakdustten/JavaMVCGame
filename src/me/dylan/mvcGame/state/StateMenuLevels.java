@@ -4,22 +4,17 @@ import me.dylan.mvcGame.main.MainModel;
 
 public class StateMenuLevels extends State{
 
+
     public StateMenuLevels(MainModel mainModel, StateHandler stateHandler) {
         super(mainModel, stateHandler);
     }
 
     @Override
     public void init(int previousState) {
-        System.out.println("StateMenuLevels: " + previousState);
-        temp = 0;
     }
-
-
-    private int temp = 0;
     @Override
     public void update() {
-        temp++;
-        if(temp == 100)stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
+        stateHandler.changeState(StateHandler.STATE_GAME);
     }
 
     @Override
