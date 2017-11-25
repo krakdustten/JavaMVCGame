@@ -1,5 +1,7 @@
 package me.dylan.mvcGame.game;
 
+import me.dylan.mvcGame.game.tiles.specialTiles.SpecialTile;
+
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,10 +12,33 @@ public class GameMapLoader {
     public static GameModel loadMap(String filePath){
         try {
             DataInputStream is = new DataInputStream(new FileInputStream(new File(filePath)));
-            GameModel model = new GameModel();
+
+            int version = is.readInt();
+            if(version != LOADER_VERSION)return null;
+
+            int worldXSize = is.readInt();
+            int worldYSize = is.readInt();
+            int[] butCol = new int[worldXSize * worldYSize];
+            int[] tiles = new int[worldXSize * worldYSize];
+
+            for(int i = 0; i < worldXSize; i++) {
+                for (int j = 0; j < worldYSize; j++) {
+                    butCol[i + j * worldXSize] = is.readInt();
+                    tiles[i + j * worldXSize] = is.readInt();
+                }
+            }
+
+            int totalSpecial = is.readInt();
+            HashMap<Integer, SpecialTile> specialTiles = new HashMap<>();
+            for(int i = 0; i < totalSpecial; i++){
+                int pos = is.readInt();
+                SpecialTile specialTile = SpecialTile.loadStaticFromFile(is);
+                specialTiles.put(pos, specialTile);
+            }
+
 
             is.close();
-            return model;
+            return new GameModel(worldXSize, worldYSize, butCol, tiles, specialTiles);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -24,24 +49,22 @@ public class GameMapLoader {
         try {
             DataOutputStream os = new DataOutputStream(new FileOutputStream(new File(filePath)));
 
-            os.write(LOADER_VERSION);
-            os.write(model.getWorldXSize());
-            os.write(model.getWorldYSize());
+            os.writeInt(LOADER_VERSION);
+            os.writeInt(model.getWorldXSize());
+            os.writeInt(model.getWorldYSize());
 
-            int[] butColor = model.getUnderGroundColor();
-            int[] tile = model.getTileID();
             HashMap<Integer, SpecialTile> specialTiles = model.getSpecialTiles();
 
             for(int i = 0; i < model.getWorldXSize(); i++){
                 for(int j = 0; j < model.getWorldYSize(); j++){
-                    int t = i + j * model.getWorldXSize();
-                    os.write(butColor[t]);
-                    os.write(tile[t]);
+                    os.writeInt(model.getUnderGroundColor(i, j));
+                    os.writeInt(model.getTileID(i, j));
                 }
             }
 
+            os.writeInt(specialTiles.size());
             for(Map.Entry<Integer, SpecialTile> entry : specialTiles.entrySet()){
-                os.write(entry.getKey());
+                os.writeInt(entry.getKey());
                 entry.getValue().saveToFile(os);
             }
 

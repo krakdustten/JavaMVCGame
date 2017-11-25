@@ -1,10 +1,9 @@
 package me.dylan.mvcGame.game;
 
+import me.dylan.mvcGame.game.tiles.specialTiles.SpecialTile;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.state.State;
 import me.dylan.mvcGame.state.StateHandler;
-
-import java.io.File;
 
 public class StateGame extends State {
 
@@ -17,19 +16,20 @@ public class StateGame extends State {
 
     @Override
     public void init(int previousState) {
-        GameModel model = new GameModel();
-        model.setWorldXSize(10);
-        model.setWorldYSize(8);
-        int[] tile = new int[10 * 8];
-        int[] color = new int[10 * 8];
+        SpecialTile.registerAllSpecialTiles();
+
+        GameModel model = new GameModel(10, 8);
         for(int i = 0; i < (10 * 8); i++){
-            tile[i] = (int)(Math.random() * 24);
-            color[i] = (int)(Math.random() * 255);
+            model.setTileID((int)(Math.random() * 24), i % 10, i / 10);
+            model.setUnderGroundColor((int)(Math.random() * 255), i % 10, i / 10);
         }
-        model.setTileID(tile);
-        model.setUnderGroundColor(color);
 
         GameMapLoader.saveMap(model, "game1.sg");
+
+        GameModel retmodel = GameMapLoader.loadMap("game1.sg");
+
+        System.out.println(retmodel.getWorldXSize());
+
     }
 
     @Override
