@@ -1,8 +1,10 @@
-package me.dylan.mvcGame.state;
+package me.dylan.mvcGame.menu;
 
 import me.dylan.mvcGame.main.MainModel;
+import me.dylan.mvcGame.state.State;
+import me.dylan.mvcGame.state.StateHandler;
 
-public class StateMenuLevels extends State{
+public class StateMenuLevels extends State {
 
 
     public StateMenuLevels(MainModel mainModel, StateHandler stateHandler) {
