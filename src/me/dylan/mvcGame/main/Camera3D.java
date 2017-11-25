@@ -4,7 +4,7 @@ import me.dylan.mvcGame.drawers.Shader;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
-public class Camera {
+public class Camera3D {
     private int shader;
 
     private int height;
@@ -18,13 +18,17 @@ public class Camera {
     private float zoom;
     private boolean zoomChanged = true;
 
+    private static final float FOV = (float) Math.toRadians(60.0f);
+    private static final float Z_NEAR = 0.01f;
+    private static final float Z_FAR = 1000.f;
+
     private Matrix4f projection, position, all;
 
-    public Camera(int shader, int height, int width){
+    public Camera3D(int shader, int height, int width){
         this(shader, height, width, 0, 0, 1);
     }
 
-    public Camera(int shader, int width, int height, float xPos, float yPos, float zoom){
+    public Camera3D(int shader, int width, int height, float xPos, float yPos, float zoom){
         this.shader = shader;
 
         this.height = height;
@@ -38,7 +42,7 @@ public class Camera {
     public void update(){
         boolean runtrue = screenSizeChanged;
         if(runtrue){
-            projection = new Matrix4f().ortho2D(-width/2, width/2, -height/2, height/2);
+            projection = new Matrix4f().perspective(FOV, (float)(width)/ height, Z_NEAR, Z_FAR);
             screenSizeChanged = false;
         }
         runtrue = runtrue || positionChanged;
@@ -50,6 +54,7 @@ public class Camera {
         }
         runtrue = runtrue || zoomChanged;
         if(runtrue){
+            //all = all.rotateXYZ(0.2f,0.5f,0.0f);
             all.scale(zoom);
             zoomChanged = false;
             Shader.bind(shader);

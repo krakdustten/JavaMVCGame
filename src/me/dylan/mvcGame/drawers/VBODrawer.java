@@ -47,45 +47,45 @@ public class VBODrawer {
         switch (type){
             case COORDS_TYPE:
                 addAll(array, offset,
-                        x, y, 0.0f,
-                        x + dx, y     , 0.0f,
-                        x     , y + dy, 0.0f,
-                        x + dx, y + dy, 0.0f,
-                        x     , y + dy, 0.0f,
-                        x + dx, y     , 0.0f
+                        x, y, -100.0f,
+                        x + dx, y     , -100.0f,
+                        x     , y + dy, -100.0f,
+                        x + dx, y + dy, -100.0f,
+                        x     , y + dy, -100.0f,
+                        x + dx, y     , -100.0f
                         );
                 offset += 3 * 6;
                 break;
             case COORDS_TEXTURE_TYPE:
                 addAll(array, offset,
-                        x, y, 0.0f, tx      , ty + dty,
-                        x + dx, y     , 0.0f, tx + dtx, ty + dty,
-                        x     , y + dy, 0.0f, tx      , ty      ,
-                        x + dx, y + dy, 0.0f, tx + dtx, ty      ,
-                        x     , y + dy, 0.0f, tx      , ty      ,
-                        x + dx, y     , 0.0f, tx + dtx, ty + dty
+                        x, y, -100.0f, tx      , ty + dty,
+                        x + dx, y     , -100.0f, tx + dtx, ty + dty,
+                        x     , y + dy, -100.0f, tx      , ty      ,
+                        x + dx, y + dy, -100.0f, tx + dtx, ty      ,
+                        x     , y + dy, -100.0f, tx      , ty      ,
+                        x + dx, y     , -100.0f, tx + dtx, ty + dty
                 );
                 offset += 5 * 6;
                 break;
             case COORDS_COLOR_TYPE:
                 addAll(array, offset,
-                        x, y, 0.0f, r, g, b, a,
-                        x + dx, y     , 0.0f, r, g, b, a,
-                        x     , y + dy, 0.0f, r, g, b, a,
-                        x + dx, y + dy, 0.0f, r, g, b, a,
-                        x     , y + dy, 0.0f, r, g, b, a,
-                        x + dx, y     , 0.0f, r, g, b, a
+                        x, y, -100.0f, r, g, b, a,
+                        x + dx, y     , -100.0f, r, g, b, a,
+                        x     , y + dy, -100.0f, r, g, b, a,
+                        x + dx, y + dy, -100.0f, r, g, b, a,
+                        x     , y + dy, -100.0f, r, g, b, a,
+                        x + dx, y     , -100.0f, r, g, b, a
                 );
                 offset += 7 * 6;
                 break;
             case COORDS_COLOR_TEXTURE_TYPE:
                 addAll(array, offset,
-                        x, y, 0.0f, r, g, b, a, tx      , ty + dty,
-                        x + dx, y     , 0.0f, r, g, b, a, tx + dtx, ty + dty,
-                        x     , y + dy, 0.0f, r, g, b, a, tx      , ty      ,
-                        x + dx, y + dy, 0.0f, r, g, b, a, tx + dtx, ty      ,
-                        x     , y + dy, 0.0f, r, g, b, a, tx      , ty      ,
-                        x + dx, y     , 0.0f, r, g, b, a, tx + dtx, ty + dty
+                        x, y, -1000.0f, r, g, b, a, tx      , ty + dty,
+                        x + dx, y     , -1000.0f, r, g, b, a, tx + dtx, ty + dty,
+                        x     , y + dy, -1000.0f, r, g, b, a, tx      , ty      ,
+                        x + dx, y + dy, -1000.0f, r, g, b, a, tx + dtx, ty      ,
+                        x     , y + dy, -1000.0f, r, g, b, a, tx      , ty      ,
+                        x + dx, y     , -1000.0f, r, g, b, a, tx + dtx, ty + dty
                 );
                 offset += 9 * 6;
                 break;

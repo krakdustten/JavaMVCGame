@@ -5,7 +5,7 @@ import me.dylan.mvcGame.drawers.TextDrawer;
 public class MainModel {
     private long window;
     private int mainShader;
-    private Camera camera;
+    private Camera3D camera;
     private TextDrawer textDrawer;
 
     private double mouseX, mouseY;
@@ -13,7 +13,7 @@ public class MainModel {
 
     void setWindow(long window) { this.window = window; }
     void setMainShader(int mainShader) { this.mainShader = mainShader; }
-    void setCamera(Camera camera) { this.camera = camera; }
+    void setCamera(Camera3D camera) { this.camera = camera; }
     void setTextDrawer(TextDrawer textDrawer) { this.textDrawer = textDrawer; }
 
     void setMouseX(double mouseX){
@@ -30,7 +30,7 @@ public class MainModel {
 
     public long getWindow() { return window; }
     public int getMainShader() { return mainShader; }
-    public Camera getCamera() { return camera; }
+    public Camera3D getCamera() { return camera; }
     public TextDrawer getTextDrawer() { return textDrawer; }
 
     public float getMouseXWorld() { return mouseXWorld; }

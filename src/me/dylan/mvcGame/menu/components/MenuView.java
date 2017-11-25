@@ -3,7 +3,7 @@ package me.dylan.mvcGame.menu.components;
 import me.dylan.mvcGame.drawers.TextDrawer;
 import me.dylan.mvcGame.drawers.Texture;
 import me.dylan.mvcGame.drawers.VBODrawer;
-import me.dylan.mvcGame.main.Camera;
+import me.dylan.mvcGame.main.Camera3D;
 
 public class MenuView {
     private MenuModel model;
@@ -21,7 +21,7 @@ public class MenuView {
     public void update(){
         if(!model.needUpdating())return;
 
-        Camera camera = model.getMainModel().getCamera();
+        Camera3D camera = model.getMainModel().getCamera();
         float width = model.getTotalWidth();
         float height = model.getTotalHeight();
 

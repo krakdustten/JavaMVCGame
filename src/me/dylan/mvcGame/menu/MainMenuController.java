@@ -16,6 +16,8 @@ public class MainMenuController extends State {
 
     @Override
     public void init(int previousState) {
+        mainModel.getCamera().setScreenPosition( 100, 0);
+
         mainModel.getCamera().setZoom(1);
 
         menu = new MenuController(mainModel, "./img/menu.png");

@@ -51,7 +51,7 @@ public class MainViewer {
         GL11.glClearColor(0.0f, 0.3f, 0.8f, 0.0f);
 
         mainModel.setMainShader(Shader.compileShader(mainShaderName));
-        mainModel.setCamera(new Camera(mainModel.getMainShader(), 600, 400));
+        mainModel.setCamera(new Camera3D(mainModel.getMainShader(), 600, 400));
         mainModel.setTextDrawer(new TextDrawer("./img/ASCII-normal.png"));
 
         GLFW.glfwSetWindowSizeCallback(mainModel.getWindow(), new GLFWWindowSizeCallback(){
