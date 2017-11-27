@@ -37,7 +37,7 @@ public class MainGameThread implements Runnable{
 
     private void init(){
         mainModel = new MainModel();
-        mainViewer = new MainViewer(mainModel, this,"shader");
+        mainViewer = new MainViewer(mainModel, this,"shader", "shader");
         stateHandler = new StateHandler(mainModel, this);
         mainController = new MainController(mainModel, stateHandler);
     }

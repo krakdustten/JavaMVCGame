@@ -15,7 +15,7 @@ public class MainViewer {
     private MainModel mainModel;
     private MainGameThread mainGameThread;
 
-    public MainViewer(MainModel mainModel, MainGameThread mainGameThread, String mainShaderName){
+    public MainViewer(MainModel mainModel, MainGameThread mainGameThread, String mainShaderName2D, String mainShaderName3D){
         this.mainModel = mainModel;
         this.mainGameThread = mainGameThread;
 
@@ -50,14 +50,17 @@ public class MainViewer {
         // Set the clear color
         GL11.glClearColor(0.0f, 0.3f, 0.8f, 0.0f);
 
-        mainModel.setMainShader(Shader.compileShader(mainShaderName));
-        mainModel.setCamera(new Camera(mainModel.getMainShader(), 600, 400));
+        mainModel.setMainShader2D(Shader.compileShader(mainShaderName2D));
+        mainModel.setMainShader3D(Shader.compileShader(mainShaderName3D));
+        mainModel.setCamera2D(new Camera2D(mainModel.getMainShader2D(), 600, 400));
+        mainModel.setCamera3D(new Camera3D(mainModel.getMainShader3D(), 600, 400));
         mainModel.setTextDrawer(new TextDrawer("./img/ASCII-normal.png"));
 
         GLFW.glfwSetWindowSizeCallback(mainModel.getWindow(), new GLFWWindowSizeCallback(){
             @Override
             public void invoke(long window, int width, int height){
-                mainModel.getCamera().setSceenSize(width, height);
+                mainModel.getCamera2D().setSceenSize(width, height);
+                mainModel.getCamera3D().setSceenSize(width, height);
                 GL11.glViewport(0, 0, width, height);
                 mainGameThread.screenResizeEvent();
             }
@@ -73,11 +76,13 @@ public class MainViewer {
     }
 
     public void update() {
-        mainModel.getCamera().update();
+        mainModel.getCamera2D().update();
+        mainModel.getCamera3D().update();
     }
 
     public void deInit() {
-        Shader.deleteShader(mainModel.getMainShader());
+        Shader.deleteShader(mainModel.getMainShader2D());
+        Shader.deleteShader(mainModel.getMainShader3D());
         Callbacks.glfwFreeCallbacks(mainModel.getWindow());
         GLFW.glfwDestroyWindow(mainModel.getWindow());
 

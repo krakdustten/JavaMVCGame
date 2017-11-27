@@ -29,7 +29,7 @@ public class TextDrawer {
         } catch (IOException e) {
             System.err.println("Image " + imageName + " not found.");
         }
-        vbo = VBODrawer.createBufferId();
+        vbo = VBODrawer2D.createBufferId();
     }
 
     public float getSizeForText(String text, float size){
@@ -54,17 +54,17 @@ public class TextDrawer {
             int charx = character % 16;
             int chary = character / 16;
 
-            VBODrawer.draw2DSquare(bufferData, VBODrawer.COORDS_COLOR_TEXTURE_TYPE, x + i * size * 6, y, 8 * size, 8 * size, r, g, b, a, xtextsize * charx, ytextsize * chary, xtextsize, ytextsize);
+            VBODrawer2D.draw2DSquare(bufferData, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, x + i * size * 6, y, 8 * size, 8 * size, r, g, b, a, xtextsize * charx, ytextsize * chary, xtextsize, ytextsize);
         }
     }
 
     public void writeBufToMem(){
-        VBODrawer.writeBufToMem(vbo, bufferData);
+        VBODrawer2D.writeBufToMem(vbo, bufferData);
         nextDrawAmount = bufferData.size() / 9;
         restartTextDrawer();
     }
 
     public void draw(MainModel mainModel){
-        VBODrawer.drawVBO(mainModel, vbo, texture, VBODrawer.COORDS_COLOR_TEXTURE_TYPE, nextDrawAmount);
+        VBODrawer2D.drawVBO(mainModel, vbo, texture, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, nextDrawAmount);
     }
 }

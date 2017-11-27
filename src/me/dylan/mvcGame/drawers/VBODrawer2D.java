@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL20;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
-public class VBODrawer {
+public class VBODrawer2D {
     public static final int COORDS_TYPE = 0;
     public static final int COORDS_TEXTURE_TYPE = 1;
     public static final int COORDS_COLOR_TYPE = 2;
@@ -125,26 +125,26 @@ public class VBODrawer {
     }
 
     public static void drawVBO(MainModel mainModel, int vbo, int pic, int type, int amount){
-        drawVBOWithShaderAll(null, vbo, mainModel.getMainShader(), pic, 0, type, amount);
+        drawVBOWithShaderAll(null, vbo, mainModel.getMainShader2D(), pic, 0, type, amount);
     }
 
-    public static void drawVBOWithShader(int vbo, int shader, int pic, int type, int amount){
-        drawVBOWithShaderAll(null, vbo, shader, pic, 0, type, amount);
+    public static void drawVBOWithShader(int vbo, int shader2D, int pic, int type, int amount){
+        drawVBOWithShaderAll(null, vbo, shader2D, pic, 0, type, amount);
     }
 
     public static void drawVBOWithSampler(MainModel mainModel, int vbo, int sampler, int type, int amount){
-        drawVBOWithShaderAll(null, vbo, mainModel.getMainShader(), -1, sampler, type, amount);
+        drawVBOWithShaderAll(null, vbo, mainModel.getMainShader2D(), -1, sampler, type, amount);
     }
 
-    public static void drawVBOWithShaderAll(Matrix4f projection, int vbo, int shader, int pic, int sampler, int type, int amount){
+    public static void drawVBOWithShaderAll(Matrix4f projection, int vbo, int shader2D, int pic, int sampler, int type, int amount){
         boolean texture = type == COORDS_TEXTURE_TYPE || type == COORDS_COLOR_TEXTURE_TYPE ;
         boolean color = type == COORDS_COLOR_TYPE || type == COORDS_COLOR_TEXTURE_TYPE ;
         int stride = (color ? 4 : 0) + (texture ? 2 : 0) + 3;
 
         if(pic != -1)Texture.bindTextureWithSampler(pic, sampler);
-        Shader.bind(shader);
-        Shader.setUniform(shader, "sampler", sampler);
-        if(projection != null)Shader.setUniform(shader, "projection", projection);
+        Shader.bind(shader2D);
+        Shader.setUniform(shader2D, "sampler", sampler);
+        if(projection != null)Shader.setUniform(shader2D, "projection", projection);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
 
         GL20.glEnableVertexAttribArray(0);//coords

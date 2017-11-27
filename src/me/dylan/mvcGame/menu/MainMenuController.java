@@ -16,7 +16,7 @@ public class MainMenuController extends State {
 
     @Override
     public void init(int previousState) {
-        mainModel.getCamera().setZoom(1);
+        mainModel.getCamera2D().setZoom(1);
 
         menu = new MenuController(mainModel, "./img/menu.png");
         menu.addGuiElement(new MenuModel.GuiButton(0, 200, 250, 64, 1, "PLAY", 1, 1, 1, 1, 0, 1, 0, 1));
