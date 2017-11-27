@@ -1,4 +1,4 @@
-package me.dylan.mvcGame.game;
+package me.dylan.mvcGame.game.gameObjects;
 
 public class RobotPlayer {
     private float x, y, rotate;

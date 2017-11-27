@@ -1,4 +1,4 @@
-package me.dylan.mvcGame.game.tiles.specialTiles;
+package me.dylan.mvcGame.game.gameObjects.specialTiles;
 
 import org.reflections.Reflections;
 
@@ -35,9 +35,7 @@ public class SpecialTile {
         os.writeInt(ID);
     }
 
-    public void loadFromFile(DataInputStream is) throws IOException{
-
-    }
+    public void loadFromFile(DataInputStream is) throws IOException{ }
 
     public static SpecialTile loadStaticFromFile(DataInputStream is) throws IOException {
         int id = is.readInt();
@@ -51,4 +49,9 @@ public class SpecialTile {
         }
         return null;
     }
+
+    public void render(){}
+    public void update(){}
+
+    //TODO add events when something happens
 }

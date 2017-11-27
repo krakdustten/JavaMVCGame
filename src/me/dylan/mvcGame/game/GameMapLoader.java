@@ -1,6 +1,7 @@
 package me.dylan.mvcGame.game;
 
-import me.dylan.mvcGame.game.tiles.specialTiles.SpecialTile;
+import me.dylan.mvcGame.game.gameObjects.specialTiles.SpecialTile;
+import me.dylan.mvcGame.main.MainModel;
 
 import java.io.*;
 import java.util.HashMap;
@@ -9,7 +10,7 @@ import java.util.Map;
 public class GameMapLoader {
     public static final int LOADER_VERSION = 001;
 
-    public static GameModel loadMap(String filePath){
+    public static GameModel loadMap(MainModel mainModel, String filePath){
         try {
             DataInputStream is = new DataInputStream(new FileInputStream(new File(filePath)));
 
@@ -38,7 +39,7 @@ public class GameMapLoader {
 
 
             is.close();
-            return new GameModel(worldXSize, worldYSize, butCol, tiles, specialTiles);
+            return new GameModel(mainModel, worldXSize, worldYSize, butCol, tiles, specialTiles);
         } catch (IOException e) {
             e.printStackTrace();
         }
