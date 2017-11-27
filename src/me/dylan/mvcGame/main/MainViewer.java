@@ -53,14 +53,12 @@ public class MainViewer {
         mainModel.setMainShader2D(Shader.compileShader(mainShaderName2D));
         mainModel.setMainShader3D(Shader.compileShader(mainShaderName3D));
         mainModel.setCamera2D(new Camera2D(mainModel.getMainShader2D(), 600, 400));
-        mainModel.setCamera3D(new Camera3D(mainModel.getMainShader3D(), 600, 400));
         mainModel.setTextDrawer(new TextDrawer("./img/ASCII-normal.png"));
 
         GLFW.glfwSetWindowSizeCallback(mainModel.getWindow(), new GLFWWindowSizeCallback(){
             @Override
             public void invoke(long window, int width, int height){
                 mainModel.getCamera2D().setSceenSize(width, height);
-                mainModel.getCamera3D().setSceenSize(width, height);
                 GL11.glViewport(0, 0, width, height);
                 mainGameThread.screenResizeEvent();
             }
@@ -77,7 +75,6 @@ public class MainViewer {
 
     public void update() {
         mainModel.getCamera2D().update();
-        mainModel.getCamera3D().update();
     }
 
     public void deInit() {

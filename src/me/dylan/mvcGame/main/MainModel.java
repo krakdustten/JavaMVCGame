@@ -7,7 +7,6 @@ public class MainModel {
     private int mainShader2D;
     private int mainShader3D;
     private Camera2D camera2D;
-    private Camera3D camera3D;
 
     private TextDrawer textDrawer;
 
@@ -18,7 +17,6 @@ public class MainModel {
     void setMainShader2D(int mainShader2D) { this.mainShader2D = mainShader2D; }
     void setMainShader3D(int mainShader3D) { this.mainShader3D = mainShader3D; }
     void setCamera2D(Camera2D camera2D) { this.camera2D = camera2D; }
-    void setCamera3D(Camera3D camera3D) { this.camera3D = camera3D; }
     void setTextDrawer(TextDrawer textDrawer) { this.textDrawer = textDrawer; }
 
     void setMouseX(double mouseX){
@@ -37,7 +35,6 @@ public class MainModel {
     public int getMainShader2D() { return mainShader2D; }
     public int getMainShader3D() { return mainShader3D; }
     public Camera2D getCamera2D() { return camera2D; }
-    public Camera3D getCamera3D() { return camera3D; }
 
     public TextDrawer getTextDrawer() { return textDrawer; }
 
