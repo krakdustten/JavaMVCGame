@@ -5,6 +5,7 @@ import me.dylan.mvcGame.game.gameObjects.specialTiles.SpecialTile;
 import me.dylan.mvcGame.main.MainModel;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class GameModel {
     private MainModel mainModel;
@@ -56,13 +57,13 @@ public class GameModel {
     /****SETTERS*****/
 
     public void setWorldXSize(int worldXSize) {
+        changeActualMapSize(this.worldXSize, this.worldYSize, worldXSize, worldYSize);
         this.worldXSize = worldXSize;
-        //TODO change size of array
         mapChanged = true;
     }
     public void setWorldYSize(int worldYSize) {
+        changeActualMapSize(this.worldXSize, this.worldYSize, worldXSize, worldYSize);
         this.worldYSize = worldYSize;
-        //TODO change size of array
         mapChanged = true;
     }
     public void setUnderGroundColor(int underGroundColor, int x, int y) { this.underGroundColor[x + y * worldXSize] = underGroundColor; mapChanged = true; }
@@ -89,5 +90,32 @@ public class GameModel {
     public void moveView(float dx, float dy){
         setViewX(getViewX() - dx);
         setViewY(getViewY() - dy);
+    }
+
+    private void changeActualMapSize(int oldXSize, int oldYSize, int newXSize, int newYSize){
+        int[] underGroundColor = new int[newXSize * newYSize];
+        int[] tileID = new int[newXSize * newYSize];
+        HashMap<Integer, SpecialTile> specialTiles = new HashMap<>();
+
+        int xSize = oldXSize < newXSize ? oldXSize : newXSize;
+        int ySize = oldYSize < newYSize ? oldYSize : newYSize;
+
+        for(int i = 0; i < xSize; i++){
+            for(int j = 0; j < ySize; j++){
+                underGroundColor[i + j * xSize] = this.underGroundColor[i + j * xSize];
+                tileID[i + j * xSize] = this.tileID[i + j * xSize];
+            }
+        }
+        for(Map.Entry<Integer, SpecialTile> sTile : this.specialTiles.entrySet()){
+            int loc = sTile.getKey();
+            int x = loc % oldXSize;
+            int y = loc / oldXSize;
+            if(x < newXSize && y < newYSize)
+                specialTiles.put(loc, sTile.getValue());
+        }
+        this.underGroundColor = underGroundColor;
+        this.tileID = tileID;
+        this.specialTiles = specialTiles;
+        //TODO test this method
     }
 }

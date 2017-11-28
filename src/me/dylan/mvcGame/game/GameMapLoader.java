@@ -76,6 +76,4 @@ public class GameMapLoader {
         }
         return false;
     }
-
-    //TODO load world from file (Controller)
 }

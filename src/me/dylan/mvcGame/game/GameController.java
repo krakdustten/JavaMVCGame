@@ -12,7 +12,7 @@ public class GameController extends State {
 
     private boolean keyPressed[] = new boolean[6];//UP, DOWN, LEFT, RIGHT, ZOOM IN, ZOOM OUT
 
-    //TODO world editor
+
 
     public GameController(MainModel mainModel, StateHandler stateHandler) {
         super(mainModel, stateHandler);
@@ -34,6 +34,10 @@ public class GameController extends State {
         view = new GameView(model);
 
         model.setViewZoom(0.1f);
+
+        //TODO make code editor(maybe checker)
+        //TODO make code runner --> method handling from code runner
+        //TODO world editor
     }
 
     @Override
