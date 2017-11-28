@@ -43,6 +43,7 @@ public class NormalTilesView {
                                 (float)(((color >> 16) % 256.0f) / 256.0f), (float)(((color >> 8) % 256.0f) / 256.0f), (float)((color % 256.0f) / 256.0f), 1,
                                 0.25f, 0, 0.25f, 0.25f);
                         break;
+                        //TODO other tiles
                 }
             }
         }

@@ -103,7 +103,7 @@ public class GameController extends State {
 
     @Override
     public void scrollEvent(long window, double xOffset, double yOffset) {
-
+        model.setViewZoom(model.getViewZoom() + (float)(yOffset * 0.1f));
     }
 
     @Override
