@@ -19,7 +19,6 @@ public class GameModel {
 
     private RobotPlayer player;
 
-
     public GameModel(MainModel mainModel, int worldXSize, int worldYSize){
         this(mainModel,worldXSize, worldYSize, null, null, new HashMap<Integer, SpecialTile>());
     }
@@ -40,6 +39,8 @@ public class GameModel {
         this.specialTiles = specialTiles;
     }
 
+    /*****GETTERS*****/
+
     public MainModel getMainModel() { return mainModel; }
     public int getWorldXSize() { return worldXSize; }
     public int getWorldYSize() { return worldYSize; }
@@ -47,6 +48,12 @@ public class GameModel {
     public int getTileID(int x, int y) { return tileID[x + y * worldXSize]; }
     public HashMap<Integer, SpecialTile> getSpecialTiles() { return specialTiles; }
     public boolean isMapChanged(){if(mapChanged){mapChanged = false; return true;} return false;}
+
+    public float getViewX() { return -mainModel.getCamera2D().getxPos(); }
+    public float getViewY() { return -mainModel.getCamera2D().getyPos(); }
+    public float getViewZoom() { return mainModel.getCamera2D().getZoom(); }
+
+    /****SETTERS*****/
 
     public void setWorldXSize(int worldXSize) {
         this.worldXSize = worldXSize;
@@ -61,9 +68,26 @@ public class GameModel {
     public void setUnderGroundColor(int underGroundColor, int x, int y) { this.underGroundColor[x + y * worldXSize] = underGroundColor; mapChanged = true; }
     public void setTileID(int tileID, int x, int y) { this.tileID[x + y * worldYSize] = tileID; mapChanged = true;}
 
+    public void setViewX(float viewX) {
+        if(viewX > (worldXSize * 64)) viewX = worldXSize * 64;
+        if(viewX < 0) viewX = 0;
+        mainModel.getCamera2D().setxPos(-viewX);
+    }
+    public void setViewY(float viewY) {
+        if(viewY > (worldYSize * 64)) viewY = worldYSize * 64;
+        if(viewY < 0) viewY = 0;
+        mainModel.getCamera2D().setyPos(-viewY);
+    }
+    public void setViewZoom(float viewZoom) {
+        if(viewZoom < 1) viewZoom = 1;
+        if(viewZoom > 16) viewZoom = 16;
+        mainModel.getCamera2D().setZoom(viewZoom);
+    }
 
+    /*****OTHER SMALL LOGIC*****/
 
-    //TODO make world drawer --> push data once or push in chunks or calc parts that are visible and push that
-
-
+    public void moveView(float dx, float dy){
+        setViewX(getViewX() - dx);
+        setViewY(getViewY() - dy);
+    }
 }

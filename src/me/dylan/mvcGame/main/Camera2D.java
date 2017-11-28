@@ -36,26 +36,34 @@ public class Camera2D {
     }
 
     public void update(){
-        boolean runtrue = screenSizeChanged;
+        //TODO cleanup this mess
+        boolean runtrue = screenSizeChanged || zoomChanged || positionChanged;
         if(runtrue){
             projection = new Matrix4f().ortho2D(-width/2, width/2, -height/2, height/2);
             screenSizeChanged = false;
-        }
-        runtrue = runtrue || positionChanged;
-        if(runtrue){
             position = new Matrix4f().setTranslation(new Vector3f(xPos, yPos, 0));
             positionChanged = false;
             all = new Matrix4f();
+            projection.scale(zoom);
             all = projection.mul(position, all);
-        }
-        runtrue = runtrue || zoomChanged;
-        if(runtrue){
-            all.scale(zoom);
             zoomChanged = false;
             Shader.bind(shader);
             Shader.setUniform(shader, "projection", all);
         }
     }
+
+
+
+    public int getWidth(){return width;}
+    public int getHeight() { return height; }
+    public float getxPos() { return xPos; }
+    public float getyPos() { return yPos; }
+    public float getZoom() { return zoom; }
+
+    public Matrix4f getProjection() {
+        return all;
+    }
+
 
     public void setSceenSize(int width, int height){
         this.width = width;
@@ -73,14 +81,13 @@ public class Camera2D {
         this.zoom = zoom;
         zoomChanged = true;
     }
+    public void setxPos(float xPos) {
+        this.xPos = xPos;
+        positionChanged = true;
+    }
 
-    public int getWidth(){return width;}
-    public int getHeight() { return height; }
-    public float getxPos() { return xPos; }
-    public float getyPos() { return yPos; }
-    public float getZoom() { return zoom; }
-
-    public Matrix4f getProjection() {
-        return all;
+    public void setyPos(float yPos) {
+        this.yPos = yPos;
+        positionChanged = true;
     }
 }

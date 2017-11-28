@@ -4,10 +4,13 @@ import me.dylan.mvcGame.game.gameObjects.specialTiles.SpecialTile;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.state.State;
 import me.dylan.mvcGame.state.StateHandler;
+import org.lwjgl.glfw.GLFW;
 
 public class GameController extends State {
     private GameModel model;
     private GameView view;
+
+    private boolean keyPressed[] = new boolean[6];//UP, DOWN, LEFT, RIGHT, ZOOM IN, ZOOM OUT
 
     //TODO world editor
 
@@ -21,18 +24,27 @@ public class GameController extends State {
 
         GameModel model = new GameModel(mainModel, 10, 8);
         for(int i = 0; i < (10 * 8); i++){
-            model.setTileID((int)(Math.random() * 24), i % 10, i / 10);
-            model.setUnderGroundColor((int)(Math.random() * 255 * 255 * 255), i % 10, i / 10);
+            model.setTileID((int)(Math.random() * 3), i % 10, i / 10);
+            model.setUnderGroundColor(/*(int)(Math.random() * 255 * 255 * 255)*/ 255 * 255 * 255, i % 10, i / 10);
         }
 
         GameMapLoader.saveMap(model, "game1.sg");
 
-        model = GameMapLoader.loadMap(mainModel, "game1.sg");
+        this.model = GameMapLoader.loadMap(mainModel, "game1.sg");
         view = new GameView(model);
+
+        model.setViewZoom(0.1f);
     }
 
     @Override
     public void update() {
+        if(keyPressed[0])model.moveView(0, -10f);
+        if(keyPressed[1])model.moveView(0, 10f);
+        if(keyPressed[2])model.moveView(10f, 0);
+        if(keyPressed[3])model.moveView(-10f, 0);
+        if(keyPressed[4])model.setViewZoom(model.getViewZoom() + 0.1f);
+        if(keyPressed[5])model.setViewZoom(model.getViewZoom() - 0.1f);
+
         view.update();
     }
 
@@ -48,7 +60,31 @@ public class GameController extends State {
 
     @Override
     public void keyboardEvent(long window, int key, int scancode, int action, int mods) {
+        switch (key){
+            case GLFW.GLFW_KEY_W:
+                handleKey(0, action);
+                break;
+            case GLFW.GLFW_KEY_S:
+                handleKey(1, action);
+                break;
+            case GLFW.GLFW_KEY_A:
+                handleKey(2, action);
+                break;
+            case GLFW.GLFW_KEY_D:
+                handleKey(3, action);
+                break;
+            case GLFW.GLFW_KEY_Q:
+                handleKey(4, action);
+                break;
+            case GLFW.GLFW_KEY_E:
+                handleKey(5, action);
+                break;
+        }
+    }
 
+    private void handleKey(int arrayKey, int action){
+        if(action == GLFW.GLFW_PRESS) keyPressed[arrayKey] = true;
+        if(action == GLFW.GLFW_RELEASE) keyPressed[arrayKey]= false;
     }
 
     @Override

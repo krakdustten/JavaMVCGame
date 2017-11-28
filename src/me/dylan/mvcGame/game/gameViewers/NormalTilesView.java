@@ -4,6 +4,7 @@ import me.dylan.mvcGame.drawers.Texture;
 import me.dylan.mvcGame.drawers.VBODrawer2D;
 import me.dylan.mvcGame.game.GameMapLoader;
 import me.dylan.mvcGame.game.GameModel;
+import me.dylan.mvcGame.game.gameObjects.Tiles;
 
 public class NormalTilesView {
     private int textureMapId;
@@ -29,7 +30,20 @@ public class NormalTilesView {
         for(int i = 0; i < worldX; i++){
             for(int j = 0; j < worldY; j++){
                 int color = model.getUnderGroundColor(i, j);
-                offset = VBODrawer2D.draw2DSquare(vertexes, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, i * 30, j * 30, 30, 30, (float)(((color >> 16) % 256) / 256.0f), (float)(((color >> 8) % 256) / 256.0f), (float)((color % 256) / 256.0f), 1, 0, 0, 0.25f, 0.25f);
+                switch (model.getTileID(i, j)){
+                    case Tiles.FLOOR_ID:
+                        offset = VBODrawer2D.draw2DSquare(vertexes, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
+                                i * 64, j * 64, 64, 64,
+                                (float)(((color >> 16) % 256) / 256.0f), (float)(((color >> 8) % 256) / 256.0f), (float)((color % 256) / 256.0f), 1,
+                                0, 0, 0.25f, 0.25f);
+                        break;
+                    case Tiles.WALL_ID:
+                        offset = VBODrawer2D.draw2DSquare(vertexes, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
+                                i * 64, j * 64, 64, 64,
+                                (float)(((color >> 16) % 256.0f) / 256.0f), (float)(((color >> 8) % 256.0f) / 256.0f), (float)((color % 256.0f) / 256.0f), 1,
+                                0.25f, 0, 0.25f, 0.25f);
+                        break;
+                }
             }
         }
         VBODrawer2D.writeBufToMem(vbo_id, vertexes);
