@@ -49,8 +49,12 @@ public class MenuView {
         //calc the total float buffer and draw amount
         drawAmount = drawAmountX * drawAmountY * 6;
         for(MenuModel.GuiElement element : model.getAllGuiElements()){
-            if(element instanceof MenuModel.GuiButton)
-                drawAmount += 6 * 3;
+            if(element instanceof MenuModel.GuiButton){
+                int temp = (int) (6 * Math.ceil((float)(element.width) / element.height));
+                drawAmount += temp;
+            }
+                //drawAmount += 6 * 3;
+
         }
         float[] buffer = new float[drawAmount * 9];
         int offset = 0;
@@ -67,12 +71,25 @@ public class MenuView {
                 MenuModel.GuiButton but = (MenuModel.GuiButton) element;
                 float bSize = element.height;
                 //pre
-                offset = VBODrawer2D.draw2DSquare(buffer, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, (float)element.x + xStart, (float)element.y + yStart, bSize, bSize, but.butR, but.butG, but.butB, but.butA, 0, but.hover ? 0.25f : 0, 0.25f, 0.25f);
+                offset = VBODrawer2D.draw2DSquare(buffer, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
+                        (float)element.x + xStart, (float)element.y + yStart, bSize, bSize,
+                        but.butR, but.butG, but.butB, but.butA,
+                        0, but.hover ? 0.25f : 0, 0.25f, 0.25f);
                 //mid,
-                //TODO don't stretch but redraw
-                offset = VBODrawer2D.draw2DSquare(buffer, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, (float)element.x + bSize + xStart, (float)element.y + yStart, element.width - 2 * bSize, bSize, but.butR, but.butG, but.butB, but.butA, 0.25f, but.hover ? 0.25f : 0, 0.25f, 0.25f);
+                for(float i = bSize; i < (element.width - bSize); i += bSize) {
+                    float percWidth = i - (element.width - bSize);
+                    if(percWidth <= 0) percWidth = bSize;
+
+                    offset = VBODrawer2D.draw2DSquare(buffer, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
+                            (float) element.x + i + xStart, (float) element.y + yStart, percWidth, bSize,
+                            but.butR, but.butG, but.butB, but.butA,
+                            0.25f, but.hover ? 0.25f : 0, 0.25f * percWidth / bSize, 0.25f);
+                }
                 //end
-                offset = VBODrawer2D.draw2DSquare(buffer, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, (float)element.x + element.width - bSize + xStart, (float)element.y + yStart, bSize, bSize, but.butR, but.butG, but.butB, but.butA, 0.5f, but.hover ? 0.25f : 0, 0.25f, 0.25f);
+                offset = VBODrawer2D.draw2DSquare(buffer, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
+                        (float)element.x + element.width - bSize + xStart, (float)element.y + yStart, bSize, bSize,
+                        but.butR, but.butG, but.butB, but.butA,
+                        0.5f, but.hover ? 0.25f : 0, 0.25f, 0.25f);
             }
         }
         VBODrawer2D.writeBufToMem(vbo_id, buffer);

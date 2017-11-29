@@ -9,19 +9,15 @@ public class Camera2D {
 
     private int height;
     private int width;
-    private boolean screenSizeChanged = true;
-
     private float xPos;
     private float yPos;
-    private boolean positionChanged = true;
-
     private float zoom;
-    private boolean zoomChanged = true;
+    private boolean changed = true;
 
-    private Matrix4f projection, position, all;
+    private Matrix4f all;
 
-    public Camera2D(int shader, int height, int width){
-        this(shader, height, width, 0, 0, 1);
+    public Camera2D(int shader, int width, int height){
+        this(shader, width, height, 0, 0, 1);
     }
 
     public Camera2D(int shader, int width, int height, float xPos, float yPos, float zoom){
@@ -36,19 +32,16 @@ public class Camera2D {
     }
 
     public void update(){
-        //TODO cleanup this mess
-        boolean runtrue = screenSizeChanged || zoomChanged || positionChanged;
-        if(runtrue){
-            projection = new Matrix4f().ortho2D(-width/2, width/2, -height/2, height/2);
-            screenSizeChanged = false;
-            position = new Matrix4f().setTranslation(new Vector3f(xPos, yPos, 0));
-            positionChanged = false;
-            all = new Matrix4f();
+        if(changed){
+            Matrix4f projection = new Matrix4f().ortho2D(-width/2, width/2, -height/2, height/2);
             projection.scale(zoom);
+            Matrix4f position = new Matrix4f().setTranslation(new Vector3f(xPos, yPos, 0));
+            all = new Matrix4f();
             all = projection.mul(position, all);
-            zoomChanged = false;
+
             Shader.bind(shader);
             Shader.setUniform(shader, "projection", all);
+            changed = false;
         }
     }
 
@@ -68,26 +61,26 @@ public class Camera2D {
     public void setSceenSize(int width, int height){
         this.width = width;
         this.height = height;
-        screenSizeChanged = true;
+        changed = true;
     }
 
     public void setScreenPosition(float xPos, float yPos){
         this.xPos = xPos;
         this.yPos = yPos;
-        positionChanged = true;
+        changed = true;
     }
 
     public void setZoom(float zoom){
         this.zoom = zoom;
-        zoomChanged = true;
+        changed = true;
     }
     public void setxPos(float xPos) {
         this.xPos = xPos;
-        positionChanged = true;
+        changed = true;
     }
 
     public void setyPos(float yPos) {
         this.yPos = yPos;
-        positionChanged = true;
+        changed = true;
     }
 }
