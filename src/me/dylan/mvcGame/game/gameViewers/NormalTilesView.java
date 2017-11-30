@@ -30,18 +30,27 @@ public class NormalTilesView {
         for(int i = 0; i < worldX; i++){
             for(int j = 0; j < worldY; j++){
                 int color = model.getUnderGroundColor(i, j);
-                switch (model.getTileID(i, j)){
+                int tileID = model.getTileID(i, j);
+
+                int around = 0; // 0: up, 1: right, 2: down, 3: left
+                around += model.getTileID(i, j + 1) == tileID ? 1 : 0;
+                around += model.getTileID(i + 1, j) == tileID ? 2 : 0;
+                around += model.getTileID(i, j - 1) == tileID ? 4 : 0;
+                around += model.getTileID(i - 1, j) == tileID ? 8 : 0;
+                switch (tileID){
                     case Tiles.FLOOR_ID:
                         offset = VBODrawer2D.draw2DSquare(vertexes, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
                                 i * 64, j * 64, 64, 64,
                                 (float)(((color >> 16) % 256) / 256.0f), (float)(((color >> 8) % 256) / 256.0f), (float)((color % 256) / 256.0f), 1,
-                                0, 0, 0.25f, 0.25f);
+                                0, 0, 0.125f, 0.125f);
                         break;
                     case Tiles.WALL_ID:
+                        int tex = around % 4 + 4;
+                        int tey = (around / 4) % 4;
                         offset = VBODrawer2D.draw2DSquare(vertexes, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
                                 i * 64, j * 64, 64, 64,
                                 (float)(((color >> 16) % 256.0f) / 256.0f), (float)(((color >> 8) % 256.0f) / 256.0f), (float)((color % 256.0f) / 256.0f), 1,
-                                0.25f, 0, 0.25f, 0.25f);
+                                tex * 0.125f, tey * 0.125f, 0.125f, 0.125f);
                         break;
                         //TODO other tiles
                 }

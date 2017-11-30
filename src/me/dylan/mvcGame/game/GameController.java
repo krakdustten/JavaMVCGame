@@ -23,10 +23,10 @@ public class GameController extends State {
     public void init(int previousState) {
         SpecialTile.registerAllSpecialTiles();
 
-        GameModel model = new GameModel(mainModel, 10, 8);
-        for(int i = 0; i < (10 * 8); i++){
-            model.setTileID((int)(Math.random() * 3), i % 10, i / 10);
-            model.setUnderGroundColor(/*(int)(Math.random() * 255 * 255 * 255)*/ 255 * 255 * 255, i % 10, i / 10);
+        GameModel model = new GameModel(mainModel, 200, 160);
+        for(int i = 0; i < (200 * 160); i++){
+            model.setTileID((int)(Math.random() * 2 + 1), i % 200, i / 200);
+            model.setUnderGroundColor(/*(int)(Math.random() * 255 * 255 * 255)*/ 255 * 255 * 255, i % 200, i / 200);
         }
 
         GameMapLoader.saveMap(model, "game1.sg");
@@ -34,9 +34,10 @@ public class GameController extends State {
         this.model = GameMapLoader.loadMap(mainModel, "game1.sg");
         view = new GameView(model);
 
-        model.setViewZoom(0.1f);
+        model.setViewZoom(0.5f);
+        model.setViewX(model.getWorldXSize() * 64 / 2);
+        model.setViewY(model.getWorldYSize() * 64 / 2);
 
-        //TODO make code editor(maybe checker)
         //TODO make code runner --> method handling from code runner
         //TODO world editor
 
@@ -49,8 +50,8 @@ public class GameController extends State {
         if(keyPressed[1])model.moveView(0, 10f);
         if(keyPressed[2])model.moveView(10f, 0);
         if(keyPressed[3])model.moveView(-10f, 0);
-        if(keyPressed[4])model.setViewZoom(model.getViewZoom() + 0.1f);
-        if(keyPressed[5])model.setViewZoom(model.getViewZoom() - 0.1f);
+        if(keyPressed[4])model.setViewZoom(model.getViewZoom() * 1.02f);
+        if(keyPressed[5])model.setViewZoom(model.getViewZoom() * 0.98f);
 
         view.update();
     }
@@ -87,6 +88,8 @@ public class GameController extends State {
             case GLFW.GLFW_KEY_E:
                 handleKey(5, action);
                 break;
+            case GLFW.GLFW_KEY_ESCAPE:
+                if(action == GLFW.GLFW_PRESS) stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
         }
     }
 

@@ -48,8 +48,14 @@ public class GameModel {
     public MainModel getMainModel() { return mainModel; }
     public int getWorldXSize() { return worldXSize; }
     public int getWorldYSize() { return worldYSize; }
-    public int getUnderGroundColor(int x, int y) { return underGroundColor[x + y * worldXSize]; }
-    public int getTileID(int x, int y) { return tileID[x + y * worldXSize]; }
+    public int getUnderGroundColor(int x, int y) {
+        if(x < 0 || x >= worldXSize || y < 0 || y >= worldYSize) return -1;
+        return underGroundColor[x + y * worldXSize];
+    }
+    public int getTileID(int x, int y) {
+        if(x < 0 || x >= worldXSize || y < 0 || y >= worldYSize) return -1;
+        return tileID[x + y * worldXSize];
+    }
     public HashMap<Integer, SpecialTile> getSpecialTiles() { return specialTiles; }
     public boolean isMapChanged(){if(mapChanged){mapChanged = false; return true;} return false;}
 
@@ -85,8 +91,8 @@ public class GameModel {
         mainModel.getCamera2D().setyPos(-viewY);
     }
     public void setViewZoom(float viewZoom) {
-        if(viewZoom < 1) viewZoom = 1;
-        if(viewZoom > 16) viewZoom = 16;
+        if(viewZoom < 0.1f) viewZoom = 0.1f;
+        if(viewZoom > 8) viewZoom = 8f;
         mainModel.getCamera2D().setZoom(viewZoom);
     }
 
