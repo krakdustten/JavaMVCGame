@@ -19,6 +19,7 @@ public class GameModel {
     private boolean mapChanged = true;
 
     private RobotPlayer player;
+    private String code;
 
     public GameModel(MainModel mainModel, int worldXSize, int worldYSize){
         this(mainModel,worldXSize, worldYSize, null, null, new HashMap<Integer, SpecialTile>());
@@ -38,6 +39,8 @@ public class GameModel {
         this.underGroundColor = underGroundColor;
         this.tileID = tileID;
         this.specialTiles = specialTiles;
+
+        code = "";
     }
 
     /*****GETTERS*****/
@@ -53,6 +56,8 @@ public class GameModel {
     public float getViewX() { return -mainModel.getCamera2D().getxPos(); }
     public float getViewY() { return -mainModel.getCamera2D().getyPos(); }
     public float getViewZoom() { return mainModel.getCamera2D().getZoom(); }
+
+    public String getCode() { return code; }
 
     /****SETTERS*****/
 
@@ -84,6 +89,8 @@ public class GameModel {
         if(viewZoom > 16) viewZoom = 16;
         mainModel.getCamera2D().setZoom(viewZoom);
     }
+
+    public void setCode(String code){ this.code = code;}
 
     /*****OTHER SMALL LOGIC*****/
 

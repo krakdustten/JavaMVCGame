@@ -9,6 +9,7 @@ import org.lwjgl.glfw.GLFW;
 public class GameController extends State {
     private GameModel model;
     private GameView view;
+    private CodeIDEController codeIDEController;
 
     private boolean keyPressed[] = new boolean[6];//UP, DOWN, LEFT, RIGHT, ZOOM IN, ZOOM OUT
 
@@ -38,6 +39,8 @@ public class GameController extends State {
         //TODO make code editor(maybe checker)
         //TODO make code runner --> method handling from code runner
         //TODO world editor
+
+        codeIDEController = new CodeIDEController(model);
     }
 
     @Override
@@ -59,7 +62,8 @@ public class GameController extends State {
 
     @Override
     public void deInit() {
-
+        codeIDEController.distroy();
+        codeIDEController = null;
     }
 
     @Override
