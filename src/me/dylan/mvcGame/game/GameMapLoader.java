@@ -20,12 +20,12 @@ public class GameMapLoader {
             int worldXSize = is.readInt();
             int worldYSize = is.readInt();
             int[] butCol = new int[worldXSize * worldYSize];
-            int[] tiles = new int[worldXSize * worldYSize];
+            byte[] tiles = new byte[worldXSize * worldYSize];
 
             for(int i = 0; i < worldXSize; i++) {
                 for (int j = 0; j < worldYSize; j++) {
                     butCol[i + j * worldXSize] = is.readInt();
-                    tiles[i + j * worldXSize] = is.readInt();
+                    tiles[i + j * worldXSize] = is.readByte();
                 }
             }
 
@@ -59,7 +59,7 @@ public class GameMapLoader {
             for(int i = 0; i < model.getWorldXSize(); i++){
                 for(int j = 0; j < model.getWorldYSize(); j++){
                     os.writeInt(model.getUnderGroundColor(i, j));
-                    os.writeInt(model.getTileID(i, j));
+                    os.writeByte(model.getTileID(i, j));
                 }
             }
 

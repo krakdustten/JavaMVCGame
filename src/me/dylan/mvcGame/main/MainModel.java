@@ -5,7 +5,6 @@ import me.dylan.mvcGame.drawers.TextDrawer;
 public class MainModel {
     private long window;
     private int mainShader2D;
-    private int mainShader3D;
     private Camera2D camera2D;
 
     private TextDrawer textDrawer;
@@ -15,7 +14,6 @@ public class MainModel {
 
     void setWindow(long window) { this.window = window; }
     void setMainShader2D(int mainShader2D) { this.mainShader2D = mainShader2D; }
-    void setMainShader3D(int mainShader3D) { this.mainShader3D = mainShader3D; }
     void setCamera2D(Camera2D camera2D) { this.camera2D = camera2D; }
     void setTextDrawer(TextDrawer textDrawer) { this.textDrawer = textDrawer; }
 
@@ -33,7 +31,6 @@ public class MainModel {
 
     public long getWindow() { return window; }
     public int getMainShader2D() { return mainShader2D; }
-    public int getMainShader3D() { return mainShader3D; }
     public Camera2D getCamera2D() { return camera2D; }
 
     public TextDrawer getTextDrawer() { return textDrawer; }

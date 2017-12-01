@@ -43,15 +43,20 @@ public class MainViewer {
 
         GL11.glEnable(GL11.GL_TEXTURE_2D);
 
+
+
         //Make transparency work
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+        //Only render one side of the vertexes// We don't see the back side
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glCullFace(GL11.GL_BACK);
 
         // Set the clear color
         GL11.glClearColor(0.0f, 0.3f, 0.8f, 0.0f);
 
         mainModel.setMainShader2D(Shader.compileShader(mainShaderName2D));
-        mainModel.setMainShader3D(Shader.compileShader(mainShaderName3D));
         mainModel.setCamera2D(new Camera2D(mainModel.getMainShader2D(), 600, 400));
         mainModel.setTextDrawer(new TextDrawer("./img/ASCII-normal.png"));
 
@@ -79,7 +84,6 @@ public class MainViewer {
 
     public void deInit() {
         Shader.deleteShader(mainModel.getMainShader2D());
-        Shader.deleteShader(mainModel.getMainShader3D());
         Callbacks.glfwFreeCallbacks(mainModel.getWindow());
         GLFW.glfwDestroyWindow(mainModel.getWindow());
 

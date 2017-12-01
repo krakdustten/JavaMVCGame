@@ -14,7 +14,7 @@ public class GameModel {
     private int worldYSize;
 
     private int[] underGroundColor;
-    private int[] tileID;
+    private byte[] tileID;
     private HashMap<Integer, SpecialTile> specialTiles;
     private boolean mapChanged = true;
 
@@ -25,7 +25,7 @@ public class GameModel {
         this(mainModel,worldXSize, worldYSize, null, null, new HashMap<Integer, SpecialTile>());
     }
 
-    public GameModel(MainModel mainModel, int worldXSize, int worldYSize, int[] underGroundColor, int[] tileID, HashMap<Integer, SpecialTile> specialTiles){
+    public GameModel(MainModel mainModel, int worldXSize, int worldYSize, int[] underGroundColor, byte[] tileID, HashMap<Integer, SpecialTile> specialTiles){
         this.mainModel = mainModel;
 
         this.worldXSize = worldXSize;
@@ -33,7 +33,7 @@ public class GameModel {
 
         int totalArraySize = worldXSize * worldYSize;
         if(underGroundColor == null) underGroundColor = new int[totalArraySize];
-        if(tileID == null) tileID = new int[totalArraySize];
+        if(tileID == null) tileID = new byte[totalArraySize];
         if(underGroundColor.length != totalArraySize) return;
         if(tileID.length != totalArraySize) return;
         this.underGroundColor = underGroundColor;
@@ -78,7 +78,7 @@ public class GameModel {
         mapChanged = true;
     }
     public void setUnderGroundColor(int underGroundColor, int x, int y) { this.underGroundColor[x + y * worldXSize] = underGroundColor; mapChanged = true; }
-    public void setTileID(int tileID, int x, int y) { this.tileID[x + y * worldYSize] = tileID; mapChanged = true;}
+    public void setTileID(byte tileID, int x, int y) { this.tileID[x + y * worldXSize] = tileID; mapChanged = true;}
 
     public void setViewX(float viewX) {
         if(viewX > (worldXSize * 64)) viewX = worldXSize * 64;
@@ -91,7 +91,7 @@ public class GameModel {
         mainModel.getCamera2D().setyPos(-viewY);
     }
     public void setViewZoom(float viewZoom) {
-        if(viewZoom < 0.1f) viewZoom = 0.1f;
+        if(viewZoom < 0.25f) viewZoom = 0.25f;
         if(viewZoom > 8) viewZoom = 8f;
         mainModel.getCamera2D().setZoom(viewZoom);
     }
@@ -107,7 +107,7 @@ public class GameModel {
 
     private void changeActualMapSize(int oldXSize, int oldYSize, int newXSize, int newYSize){
         int[] underGroundColor = new int[newXSize * newYSize];
-        int[] tileID = new int[newXSize * newYSize];
+        byte[] tileID = new byte[newXSize * newYSize];
         HashMap<Integer, SpecialTile> specialTiles = new HashMap<>();
 
         int xSize = oldXSize < newXSize ? oldXSize : newXSize;

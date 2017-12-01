@@ -2,7 +2,6 @@ package me.dylan.mvcGame.game.gameViewers;
 
 import me.dylan.mvcGame.drawers.Texture;
 import me.dylan.mvcGame.drawers.VBODrawer2D;
-import me.dylan.mvcGame.game.GameMapLoader;
 import me.dylan.mvcGame.game.GameModel;
 import me.dylan.mvcGame.game.gameObjects.Tiles;
 
@@ -41,7 +40,7 @@ public class NormalTilesView {
                     case Tiles.FLOOR_ID:
                         offset = VBODrawer2D.draw2DSquare(vertexes, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
                                 i * 64, j * 64, 64, 64,
-                                (float)(((color >> 16) % 256) / 256.0f), (float)(((color >> 8) % 256) / 256.0f), (float)((color % 256) / 256.0f), 1,
+                                ((color >> 16) % 256) / 256.0f, ((color >> 8) % 256) / 256.0f, (color % 256) / 256.0f, 1,
                                 0, 0, 0.125f, 0.125f);
                         break;
                     case Tiles.WALL_ID:
@@ -49,10 +48,25 @@ public class NormalTilesView {
                         int tey = (around / 4) % 4;
                         offset = VBODrawer2D.draw2DSquare(vertexes, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
                                 i * 64, j * 64, 64, 64,
-                                (float)(((color >> 16) % 256.0f) / 256.0f), (float)(((color >> 8) % 256.0f) / 256.0f), (float)((color % 256.0f) / 256.0f), 1,
+                                ((color >> 16) % 256.0f) / 256.0f, ((color >> 8) % 256.0f) / 256.0f, (color % 256.0f) / 256.0f, 1,
                                 tex * 0.125f, tey * 0.125f, 0.125f, 0.125f);
                         break;
-                        //TODO other tiles
+                    case Tiles.START_ID:
+                        int tex2 = (around / 8 ) % 2 == 0 ? 0 : (around / 2 ) % 2 == 1 ? 1 : 2;
+                        int tey2 = around % 2 == 0 ? 2 : (around / 4 ) % 2 == 1 ? 3 : 4;
+                        offset = VBODrawer2D.draw2DSquare(vertexes, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
+                                i * 64, j * 64, 64, 64,
+                                ((color >> 16) % 256.0f) / 256.0f, ((color >> 8) % 256.0f) / 256.0f, (color % 256.0f) / 256.0f, 1,
+                                tex2 * 0.125f, tey2 * 0.125f, 0.125f, 0.125f);
+                        break;
+                    case Tiles.END_ID:
+                        int tex3 = (around / 8 ) % 2 == 0 ? 0 : (around / 2 ) % 2 == 1 ? 1 : 2;
+                        int tey3 = around % 2 == 0 ? 5 : (around / 4 ) % 2 == 1 ? 6 : 7;
+                        offset = VBODrawer2D.draw2DSquare(vertexes, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
+                                i * 64, j * 64, 64, 64,
+                                ((color >> 16) % 256.0f) / 256.0f, ((color >> 8) % 256.0f) / 256.0f, (color % 256.0f) / 256.0f, 1,
+                                tex3 * 0.125f, tey3 * 0.125f, 0.125f, 0.125f);
+                        break;
                 }
             }
         }

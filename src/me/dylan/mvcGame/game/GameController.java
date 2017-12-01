@@ -1,5 +1,6 @@
 package me.dylan.mvcGame.game;
 
+import me.dylan.mvcGame.game.gameObjects.Tiles;
 import me.dylan.mvcGame.game.gameObjects.specialTiles.SpecialTile;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.state.State;
@@ -23,13 +24,16 @@ public class GameController extends State {
     public void init(int previousState) {
         SpecialTile.registerAllSpecialTiles();
 
-        GameModel model = new GameModel(mainModel, 200, 160);
-        for(int i = 0; i < (200 * 160); i++){
-            model.setTileID((int)(Math.random() * 2 + 1), i % 200, i / 200);
-            model.setUnderGroundColor(/*(int)(Math.random() * 255 * 255 * 255)*/ 255 * 255 * 255, i % 200, i / 200);
+        /*GameModel model = new GameModel(mainModel, 40, 29);
+        for(int i = 0; i < (40 * 29); i++){
+            if((i / 40) % 4 == 0 || i % 40 == 0 || i % 40 == model.getWorldXSize() - 1) model.setTileID(Tiles.WALL_ID, i % 40, i / 40);
+            else model.setTileID(Tiles.FLOOR_ID, i % 40, i / 40);
+
+            model.setUnderGroundColor(/*(int)(Math.random() * 256 * 256 * 256)*//* 256 * 256 * 256 - 1, i % 40, i / 40);
         }
 
-        GameMapLoader.saveMap(model, "game1.sg");
+
+        GameMapLoader.saveMap(model, "game1.sg");*/
 
         this.model = GameMapLoader.loadMap(mainModel, "game1.sg");
         view = new GameView(model);
@@ -110,7 +114,7 @@ public class GameController extends State {
 
     @Override
     public void scrollEvent(long window, double xOffset, double yOffset) {
-        model.setViewZoom(model.getViewZoom() + (float)(yOffset * 0.1f));
+        model.setViewZoom(model.getViewZoom() * (float)(yOffset * 0.075f + 1.00f));
     }
 
     @Override
