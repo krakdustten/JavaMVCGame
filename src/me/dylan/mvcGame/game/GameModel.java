@@ -1,5 +1,6 @@
 package me.dylan.mvcGame.game;
 
+import me.dylan.mvcGame.drawers.AdvancedTextureTileMap;
 import me.dylan.mvcGame.game.gameObjects.RobotPlayer;
 import me.dylan.mvcGame.game.gameObjects.specialTiles.SpecialTile;
 import me.dylan.mvcGame.main.MainModel;
@@ -20,6 +21,8 @@ public class GameModel {
 
     private RobotPlayer player;
     private String code;
+
+    private AdvancedTextureTileMap tileTextures; //needed for sensors
 
     public GameModel(MainModel mainModel, int worldXSize, int worldYSize){
         this(mainModel,worldXSize, worldYSize, null, null, new HashMap<Integer, SpecialTile>());
@@ -65,6 +68,8 @@ public class GameModel {
 
     public String getCode() { return code; }
 
+    public AdvancedTextureTileMap getTileTextures() { return tileTextures; }
+
     /****SETTERS*****/
 
     public void setWorldXSize(int worldXSize) {
@@ -97,6 +102,8 @@ public class GameModel {
     }
 
     public void setCode(String code){ this.code = code;}
+
+    public void setTileTextures(AdvancedTextureTileMap tileTextures) { this.tileTextures = tileTextures; }
 
     /*****OTHER SMALL LOGIC*****/
 

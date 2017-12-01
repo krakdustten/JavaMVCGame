@@ -1,5 +1,6 @@
 package me.dylan.mvcGame.game;
 
+import me.dylan.mvcGame.game.gameObjects.Tiles;
 import me.dylan.mvcGame.game.gameObjects.specialTiles.SpecialTile;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.state.State;
@@ -102,12 +103,35 @@ public class GameController extends State {
 
     @Override
     public void mousePosEvent(long window) {
-
     }
 
     @Override
     public void mouseButtonEvent(long window, int button, int action, int mods) {
+        if(button == GLFW.GLFW_MOUSE_BUTTON_1 && action == GLFW.GLFW_PRESS){
+            int x = (int) (model.getWorldXSize() * 64 * Math.random());
+            int y = (int) (model.getWorldYSize() * 64 * Math.random());
 
+            int tileX = x / 64;
+            int tileY = y / 64;
+            int tileID = model.getTileID(tileX, tileY);
+            System.out.print (x + " " + y + " : " + tileX + " " + tileY + " : " + tileID + " ");
+
+            if(tileID == Tiles.FLOOR_ID){
+                int subX = x - tileX * 64;
+                int subY = y - tileY * 64;
+
+                System.out.print(": " + subX + " " + subY + " ");
+
+                int color = model.getTileTextures().getBaseColorInBlock(0, 2, subX / 64.0f, subY / 64.0f);
+                int blue = color & 0xff;
+                int green = (color >> 8) & 0xff;
+                int red = (color >> 16) & 0xff;
+
+                System.out.print(":        " + blue + " " + green + " " + red + " ");
+            }
+
+            System.out.println();
+        }
     }
 
     @Override
