@@ -1,6 +1,5 @@
 package me.dylan.mvcGame.game;
 
-import me.dylan.mvcGame.game.gameObjects.Tiles;
 import me.dylan.mvcGame.game.gameObjects.specialTiles.SpecialTile;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.state.State;
@@ -24,26 +23,25 @@ public class GameController extends State {
     public void init(int previousState) {
         SpecialTile.registerAllSpecialTiles();
 
-        /*GameModel model = new GameModel(mainModel, 40, 29);
+        GameModel model = new GameModel(mainModel, 40, 29);
         for(int i = 0; i < (40 * 29); i++){
-            if((i / 40) % 4 == 0 || i % 40 == 0 || i % 40 == model.getWorldXSize() - 1) model.setTileID(Tiles.WALL_ID, i % 40, i / 40);
-            else model.setTileID(Tiles.FLOOR_ID, i % 40, i / 40);
+            model.setTileID((byte)(Math.random() * 2 + 1), i % 40, i / 40);
 
-            model.setUnderGroundColor(/*(int)(Math.random() * 256 * 256 * 256)*//* 256 * 256 * 256 - 1, i % 40, i / 40);
+            model.setUnderGroundColor(/*(int)(Math.random() * 256 * 256 * 256)*/ 256 * 256 * 256 - 1, i % 40, i / 40);
         }
 
 
-        GameMapLoader.saveMap(model, "game1.sg");*/
+        //GameMapLoader.saveMap(model, "random.sg");
 
         this.model = GameMapLoader.loadMap(mainModel, "game1.sg");
-        view = new GameView(model);
+        view = new GameView(this.model);
 
-        model.setViewZoom(0.5f);
-        model.setViewX(model.getWorldXSize() * 64 / 2);
-        model.setViewY(model.getWorldYSize() * 64 / 2);
+        this.model.setViewZoom(0.5f);
+        this.model.setViewX(model.getWorldXSize() * 64 / 2);
+        this.model.setViewY(model.getWorldYSize() * 64 / 2);
 
-        //TODO make code runner --> method handling from code runner
-        //TODO world editor
+        //TODO make code runner --> for handling world code
+        //TODO world editor --> adaptive worlds with world code
 
         codeIDEController = new CodeIDEController(model);
     }
