@@ -107,7 +107,7 @@ public class GameController extends State {
 
     @Override
     public void mouseButtonEvent(long window, int button, int action, int mods) {
-        if(button == GLFW.GLFW_MOUSE_BUTTON_1 && action == GLFW.GLFW_PRESS){
+        /*if(button == GLFW.GLFW_MOUSE_BUTTON_1 && action == GLFW.GLFW_PRESS){
             int x = (int) (model.getWorldXSize() * 64 * Math.random());
             int y = (int) (model.getWorldYSize() * 64 * Math.random());
 
@@ -120,7 +120,7 @@ public class GameController extends State {
                 int subX = x - tileX * 64;
                 int subY = y - tileY * 64;
 
-                System.out.print(": " + subX + " " + subY + " ");
+                System.out.print(": " + subX/2 + " " + subY/2 + " ");
 
                 int color = model.getTileTextures().getBaseColorInBlock(0, 2, subX / 64.0f, subY / 64.0f);
                 int blue = color & 0xff;
@@ -131,7 +131,7 @@ public class GameController extends State {
             }
 
             System.out.println();
-        }
+        }*/
     }
 
     @Override

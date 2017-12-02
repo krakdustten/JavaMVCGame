@@ -18,18 +18,7 @@ public class AdvancedTextureTileMap extends TextureTileMap {
             BufferedImage image = ImageIO.read(new File(texturePath));
             this.imageHeight = image.getHeight();
             this.imageWidth = image.getWidth();
-            byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
-            this.image = new int[pixels.length / 4];
-
-            for(int i = 0; i < pixels.length; i+=4){
-                int pixel = pixels[i + 1] & 0xff;//blue
-                pixel += (pixels[i + 2] & 0xff) << 8;//green
-                pixel += (pixels[i + 3] & 0xff) << 16;//red
-                this.image[i / 4] = pixel;
-            }
-
-            //TODO error not eneugh pixels (PLEASE FIX)
-
+            this.image = image.getRGB(0, 0, imageWidth, imageHeight, null, 0 ,imageWidth);
         } catch (IOException e) {
             e.printStackTrace();
         }
