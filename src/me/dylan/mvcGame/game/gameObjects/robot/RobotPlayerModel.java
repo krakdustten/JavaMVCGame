@@ -1,0 +1,27 @@
+package me.dylan.mvcGame.game.gameObjects.robot;
+
+import me.dylan.mvcGame.game.gameObjects.robot.Sensor;
+
+import java.util.ArrayList;
+
+public class RobotPlayerModel {
+    private float x, y, rotatetion;
+
+    private ArrayList<Sensor> sensors = new ArrayList<>();
+    private ArrayList<DebugActuators> debugActuators = new ArrayList<>();
+
+    private boolean change = true;
+
+    public boolean isChanged(){if(change){change = false; return true;} return false;}
+
+    public float getX() { return x; }
+    public float getY() { return y; }
+
+//TODO load method (Controller)
+    //TODO make sensor calculator (Controller)
+    //TODO show debug on screen (leds, small text)
+    //TODO make code runner
+    //TODO update robot on code runner
+    //TODO make robot drawer
+    //TODO make drawer for sensors
+}

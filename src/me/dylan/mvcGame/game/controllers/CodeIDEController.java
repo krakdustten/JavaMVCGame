@@ -1,11 +1,10 @@
-package me.dylan.mvcGame.game;
+package me.dylan.mvcGame.game.controllers;
 
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
+import me.dylan.mvcGame.game.GameModel;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
@@ -17,8 +16,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static java.awt.SystemColor.text;
 
 public class CodeIDEController{
     private GameModel model;

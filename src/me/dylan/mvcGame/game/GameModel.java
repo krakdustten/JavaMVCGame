@@ -1,7 +1,7 @@
 package me.dylan.mvcGame.game;
 
 import me.dylan.mvcGame.drawers.AdvancedTextureTileMap;
-import me.dylan.mvcGame.game.gameObjects.RobotPlayer;
+import me.dylan.mvcGame.game.gameObjects.robot.RobotPlayerModel;
 import me.dylan.mvcGame.game.gameObjects.specialTiles.SpecialTile;
 import me.dylan.mvcGame.main.MainModel;
 
@@ -19,7 +19,7 @@ public class GameModel {
     private HashMap<Integer, SpecialTile> specialTiles;
     private boolean mapChanged = true;
 
-    private RobotPlayer player;
+    private RobotPlayerModel player;
     private String code;
 
     private AdvancedTextureTileMap tileTextures; //needed for sensors
@@ -67,6 +67,7 @@ public class GameModel {
     public float getViewZoom() { return mainModel.getCamera2D().getZoom(); }
 
     public String getCode() { return code; }
+    public RobotPlayerModel getPlayer() { return player; }
 
     public AdvancedTextureTileMap getTileTextures() { return tileTextures; }
 
@@ -105,6 +106,11 @@ public class GameModel {
 
     public void setTileTextures(AdvancedTextureTileMap tileTextures) { this.tileTextures = tileTextures; }
 
+
+    public void setPlayer(RobotPlayerModel player) {
+        this.player = player;
+    }
+
     /*****OTHER SMALL LOGIC*****/
 
     public void moveView(float dx, float dy){
@@ -138,4 +144,5 @@ public class GameModel {
         this.specialTiles = specialTiles;
         //TODO test this method
     }
+
 }

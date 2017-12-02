@@ -1,6 +1,7 @@
 package me.dylan.mvcGame.game;
 
-import me.dylan.mvcGame.game.gameObjects.Tiles;
+import me.dylan.mvcGame.game.controllers.CodeIDEController;
+import me.dylan.mvcGame.game.controllers.RobotPlayerController;
 import me.dylan.mvcGame.game.gameObjects.specialTiles.SpecialTile;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.state.State;
@@ -11,10 +12,12 @@ public class GameController extends State {
     private GameModel model;
     private GameView view;
     private CodeIDEController codeIDEController;
+    private RobotPlayerController playerController;
+
 
     private boolean keyPressed[] = new boolean[6];//UP, DOWN, LEFT, RIGHT, ZOOM IN, ZOOM OUT
-
-
+    private boolean mouseKeyPressed = false;
+    private double oldMouseX, oldMouseY;
 
     public GameController(MainModel mainModel, StateHandler stateHandler) {
         super(mainModel, stateHandler);
@@ -27,10 +30,8 @@ public class GameController extends State {
         GameModel model = new GameModel(mainModel, 40, 29);
         for(int i = 0; i < (40 * 29); i++){
             model.setTileID((byte)(Math.random() * 2 + 1), i % 40, i / 40);
-
             model.setUnderGroundColor(/*(int)(Math.random() * 256 * 256 * 256)*/ 256 * 256 * 256 - 1, i % 40, i / 40);
         }
-
 
         //GameMapLoader.saveMap(model, "random.sg");
 
@@ -45,6 +46,7 @@ public class GameController extends State {
         //TODO world editor --> adaptive worlds with world code
 
         codeIDEController = new CodeIDEController(model);
+        playerController = new RobotPlayerController(model);
     }
 
     @Override
@@ -57,11 +59,13 @@ public class GameController extends State {
         if(keyPressed[5])model.setViewZoom(model.getViewZoom() * 0.98f);
 
         view.update();
+        playerController.update();
     }
 
     @Override
     public void render() {
         view.render();
+        playerController.render();
     }
 
     @Override
@@ -103,10 +107,33 @@ public class GameController extends State {
 
     @Override
     public void mousePosEvent(long window) {
+        double mouseX = mainModel.getMouseX();
+        double mouseY = mainModel.getMouseY();
+
+        if(mouseKeyPressed) {
+            double dx = oldMouseX - mouseX;
+            double dy = oldMouseY - mouseY;
+
+            dx *= 1/model.getViewZoom() * 1;
+            dy *= 1/model.getViewZoom() * 1;
+
+            model.moveView(-(int)dx, (int)dy);
+        }
+
+        oldMouseX = mouseX;
+        oldMouseY = mouseY;
     }
 
     @Override
     public void mouseButtonEvent(long window, int button, int action, int mods) {
+        if(button == GLFW.GLFW_MOUSE_BUTTON_1) {
+            if (action == GLFW.GLFW_PRESS)
+                mouseKeyPressed = true;
+            else if (action == GLFW.GLFW_RELEASE)
+                mouseKeyPressed = false;
+        }
+
+
         /*if(button == GLFW.GLFW_MOUSE_BUTTON_1 && action == GLFW.GLFW_PRESS){
             int x = (int) (model.getWorldXSize() * 64 * Math.random());
             int y = (int) (model.getWorldYSize() * 64 * Math.random());
