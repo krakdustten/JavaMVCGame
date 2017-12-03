@@ -58,7 +58,7 @@ public class MainViewer {
 
         mainModel.setMainShader2D(Shader.compileShader(mainShaderName2D));
         mainModel.setCamera2D(new Camera2D(mainModel.getMainShader2D(), 600, 400));
-        mainModel.setTextDrawer(new TextDrawer("./img/ASCII-normal.png"));
+        mainModel.setTextDrawer(new TextDrawer("img/ASCII-normal.png"));
 
         GLFW.glfwSetWindowSizeCallback(mainModel.getWindow(), new GLFWWindowSizeCallback(){
             @Override

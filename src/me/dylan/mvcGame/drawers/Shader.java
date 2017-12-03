@@ -1,13 +1,11 @@
 package me.dylan.mvcGame.drawers;
 
+import me.dylan.mvcGame.other.ResourceHandling;
 import org.joml.Matrix4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.FloatBuffer;
 
 public class Shader {
@@ -73,7 +71,8 @@ public class Shader {
         StringBuilder string = new StringBuilder();
         BufferedReader br;
         try {
-            br = new BufferedReader(new FileReader(new File("./shaders/" + filename)));
+            br = new BufferedReader(new InputStreamReader(ResourceHandling.getFileOrResource("shaders/" + filename)));
+
             String line;
             while((line = br.readLine()) != null){
                 string.append(line);

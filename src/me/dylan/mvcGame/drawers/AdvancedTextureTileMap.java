@@ -1,5 +1,7 @@
 package me.dylan.mvcGame.drawers;
 
+import me.dylan.mvcGame.other.ResourceHandling;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
@@ -15,7 +17,7 @@ public class AdvancedTextureTileMap extends TextureTileMap {
         super(texturePath, xBlocks, yBlocks);
 
         try {
-            BufferedImage image = ImageIO.read(new File(texturePath));
+            BufferedImage image = ImageIO.read(ResourceHandling.getFileOrResource(texturePath));
             this.imageHeight = image.getHeight();
             this.imageWidth = image.getWidth();
             this.image = image.getRGB(0, 0, imageWidth, imageHeight, null, 0 ,imageWidth);

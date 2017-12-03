@@ -14,7 +14,7 @@ public class NormalTilesView {
 
     public NormalTilesView(GameModel model){
         this.model = model;
-        model.setTileTextures(new AdvancedTextureTileMap("./img/TileMap.png", 8, 8));
+        model.setTileTextures(new AdvancedTextureTileMap("img/TileMap.png", 8, 8));
         vbo_id = VBODrawer2D.createBufferId();
         update();
     }

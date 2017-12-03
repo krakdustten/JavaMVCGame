@@ -2,6 +2,7 @@ package me.dylan.mvcGame.game;
 
 import me.dylan.mvcGame.game.gameObjects.specialTiles.SpecialTile;
 import me.dylan.mvcGame.main.MainModel;
+import me.dylan.mvcGame.other.ResourceHandling;
 
 import java.io.*;
 import java.util.HashMap;
@@ -12,7 +13,7 @@ public class GameMapLoader {
 
     public static GameModel loadMap(MainModel mainModel, String filePath){
         try {
-            DataInputStream is = new DataInputStream(new FileInputStream(new File(filePath)));
+            DataInputStream is = new DataInputStream(ResourceHandling.getFileOrResource(filePath));
 
             int version = is.readInt();
             if(version != LOADER_VERSION)return null;

@@ -1,5 +1,6 @@
 package me.dylan.mvcGame.drawers;
 
+import me.dylan.mvcGame.other.ResourceHandling;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -15,7 +16,7 @@ public class Texture {
     public static int createImageId(String filePath){
         BufferedImage image;
         try {
-            image = ImageIO.read(new File(filePath));
+            image = ImageIO.read(ResourceHandling.getFileOrResource(filePath));
 
             return createImageIdWithImage(image);
         } catch (IOException e) {

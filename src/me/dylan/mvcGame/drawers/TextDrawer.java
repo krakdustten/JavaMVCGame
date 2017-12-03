@@ -1,6 +1,7 @@
 package me.dylan.mvcGame.drawers;
 
 import me.dylan.mvcGame.main.MainModel;
+import me.dylan.mvcGame.other.ResourceHandling;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -20,7 +21,7 @@ public class TextDrawer {
     public TextDrawer(String imageName){
         BufferedImage image = null;
         try {
-            image = ImageIO.read(new File(imageName));
+            image = ImageIO.read(ResourceHandling.getFileOrResource(imageName));
 
             xtextsize = 8.0f / image.getWidth();
             ytextsize = 8.0f / image.getHeight();

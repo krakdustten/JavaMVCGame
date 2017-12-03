@@ -15,7 +15,7 @@ public class RobotPlayerView {
         this.model = model;
 
         vbo = VBODrawer2D.createBufferId();
-        texture = Texture.createImageId("./img/Robot.png");
+        texture = Texture.createImageId("img/Robot.png");
 
         update();
     }

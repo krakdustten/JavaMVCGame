@@ -17,7 +17,7 @@ public class OptionsMenuController extends State {
     @Override
     public void init(int previousState) {
         this.perviousState = previousState;
-        menu = new MenuController(mainModel, "./img/menu.png");
+        menu = new MenuController(mainModel, "img/menu.png");
         menu.addGuiElement(new MenuModel.GuiLabel(0, 300, 250, 64, 0, "OPTIONS", 1, 1, 1, 1));
         menu.addGuiElement(new MenuModel.GuiButton(0, 0, 250, 64, 1, "BACK", 1, 1, 1, 1, 0, 1, 0, 1));
         menu.setAlignMargin(0, 0, 0, 0);

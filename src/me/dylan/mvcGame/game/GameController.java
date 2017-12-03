@@ -71,7 +71,7 @@ public class GameController extends State {
 
     @Override
     public void deInit() {
-        codeIDEController.distroy();
+        //codeIDEController.distroy();
         codeIDEController = null;
     }
 
