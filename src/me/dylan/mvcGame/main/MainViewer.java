@@ -15,7 +15,7 @@ public class MainViewer {
     private MainModel mainModel;
     private MainGameThread mainGameThread;
 
-    public MainViewer(MainModel mainModel, MainGameThread mainGameThread, String mainShaderName2D, String mainShaderName3D){
+    public MainViewer(MainModel mainModel, MainGameThread mainGameThread, String mainShaderName2D){
         this.mainModel = mainModel;
         this.mainGameThread = mainGameThread;
 

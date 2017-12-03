@@ -16,9 +16,12 @@ public class RobotPlayerController {
         gameModel.setPlayer(new RobotPlayerModel());
         this.model = gameModel.getPlayer();
         view = new RobotPlayerView(gameModel);
+        model.setMoterLSpeed(1.5f);
+        model.setMoterRSpeed(2.0f);
     }
 
     public void update(){
+        model.calculateMovement();
         view.update();
     }
 

@@ -43,25 +43,24 @@ public class VBODrawer2D {
         for(int i = 0; i < f.length; i++) array.add(f[i]);
     }
 
-    public static int draw2DSquare(float[] array, int offset, int type, float x, float y, float dx, float dy, float rotation, float r, float g, float b, float a, float tx, float ty, float dtx, float dty){
-        rotation += Math.PI * 3/4;
-        float radius = (float) Math.sqrt((dx/2) * (dx/2) + (dy/2) * (dy/2));
-        float rx = (float)Math.sin(rotation) * radius;
-        float ry = (float)Math.cos(rotation) * radius;
-        float xm = x + dx/2;
-        float ym = y + dy/2;
+    public static int draw2DSquareRot(float[] array, int offset, int type, float x, float y, float dx, float dy, float rotation, float r, float g, float b, float a, float tx, float ty, float dtx, float dty) {
+        return draw2DSquareRotCenter(array, offset, type, x, y, dx, dy, rotation, x + dx/2, y + dy/2, r, g, b, a, tx, ty, dtx, dty);
+    }
 
-        float x0 = xm - rx;
-        float y0 = ym + ry;
-        float x1 = xm - ry;
-        float y1 = ym - rx;
-        float x2 = xm + rx;
-        float y2 = ym - ry;
-        float x3 = xm + ry;
-        float y3 = ym + rx;
+    public static int draw2DSquareRotCenter(float[] array, int offset, int type, float x, float y, float dx, float dy, float rotation, float rotCx, float rotCy, float r, float g, float b, float a, float tx, float ty, float dtx, float dty){
+        float sin = (float) Math.sin(rotation);
+        float cos = (float) Math.cos(rotation);
+        float xT = x - rotCx;
+        float yT = y - rotCy;
 
-        /*float x1 = x + dx;
-        float y1 = y;*/
+        float x0 =  xT       * cos -  yT       * sin + rotCx;
+        float y0 =  xT       * sin +  yT       * cos + rotCy;
+        float x1 = (xT + dx) * cos -  yT       * sin + rotCx;
+        float y1 = (xT + dx) * sin +  yT       * cos + rotCy;
+        float x2 = (xT + dx) * cos - (yT + dy) * sin + rotCx;
+        float y2 = (xT + dx) * sin + (yT + dy) * cos + rotCy;
+        float x3 =  xT       * cos - (yT + dy) * sin + rotCx;
+        float y3 =  xT       * sin + (yT + dy) * cos + rotCy;
 
         return draw2DSquare(array, offset, type, x0, y0, x1, y1, x2, y2, x3, y3, r, g, b, a, tx, ty, dtx, dty);
     }
@@ -71,7 +70,7 @@ public class VBODrawer2D {
         return draw2DSquare(array, offset, type, x, y, x + dx, y, x + dx, y + dy, x, y + dy, r, g, b, a, tx, ty, dtx, dty);
     }
 
-    private static int draw2DSquare(float[] array, int offset, int type, float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3, float r, float g, float b, float a, float tx, float ty, float dtx, float dty){
+    public static int draw2DSquare(float[] array, int offset, int type, float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3, float r, float g, float b, float a, float tx, float ty, float dtx, float dty){
         switch (type){
             case COORDS_TYPE:
                 addAll(array, offset,

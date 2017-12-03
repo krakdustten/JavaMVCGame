@@ -45,19 +45,20 @@ public class GameController extends State {
         //TODO make code runner --> for handling world code
         //TODO world editor --> adaptive worlds with world code
 
-        codeIDEController = new CodeIDEController(model);
+        //codeIDEController = new CodeIDEController(model);
         playerController = new RobotPlayerController(model);
     }
 
     @Override
     public void update() {
-        if(keyPressed[0])model.moveView(0, -10f);
-        if(keyPressed[1])model.moveView(0, 10f);
-        if(keyPressed[2])model.moveView(10f, 0);
-        if(keyPressed[3])model.moveView(-10f, 0);
-        if(keyPressed[4])model.setViewZoom(model.getViewZoom() * 1.02f);
-        if(keyPressed[5])model.setViewZoom(model.getViewZoom() * 0.98f);
+        if(keyPressed[0])model.moveView(0, -25f/model.getViewZoom());
+        if(keyPressed[1])model.moveView(0, 25f/model.getViewZoom());
+        if(keyPressed[2])model.moveView(25f/model.getViewZoom(), 0);
+        if(keyPressed[3])model.moveView(-25f/model.getViewZoom(), 0);
+        if(keyPressed[4])model.setViewZoom(model.getViewZoom() * 1.03f);
+        if(keyPressed[5])model.setViewZoom(model.getViewZoom() * 0.97f);
 
+        //update views
         view.update();
         playerController.update();
     }
@@ -114,8 +115,8 @@ public class GameController extends State {
             double dx = oldMouseX - mouseX;
             double dy = oldMouseY - mouseY;
 
-            dx *= 1/model.getViewZoom() * 1;
-            dy *= 1/model.getViewZoom() * 1;
+            dx = dx/model.getViewZoom();
+            dy = dy/model.getViewZoom();
 
             model.moveView(-(int)dx, (int)dy);
         }
