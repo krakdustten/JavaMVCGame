@@ -43,49 +43,77 @@ public class VBODrawer2D {
         for(int i = 0; i < f.length; i++) array.add(f[i]);
     }
 
+    public static int draw2DSquare(float[] array, int offset, int type, float x, float y, float dx, float dy, float rotation, float r, float g, float b, float a, float tx, float ty, float dtx, float dty){
+        rotation += Math.PI * 3/4;
+        float radius = (float) Math.sqrt((dx/2) * (dx/2) + (dy/2) * (dy/2));
+        float rx = (float)Math.sin(rotation) * radius;
+        float ry = (float)Math.cos(rotation) * radius;
+        float xm = x + dx/2;
+        float ym = y + dy/2;
+
+        float x0 = xm - rx;
+        float y0 = ym + ry;
+        float x1 = xm - ry;
+        float y1 = ym - rx;
+        float x2 = xm + rx;
+        float y2 = ym - ry;
+        float x3 = xm + ry;
+        float y3 = ym + rx;
+
+        /*float x1 = x + dx;
+        float y1 = y;*/
+
+        return draw2DSquare(array, offset, type, x0, y0, x1, y1, x2, y2, x3, y3, r, g, b, a, tx, ty, dtx, dty);
+    }
+
     public static int draw2DSquare(float[] array, int offset, int type, float x, float y, float dx, float dy, float r, float g, float b, float a, float tx, float ty, float dtx, float dty){
+
+        return draw2DSquare(array, offset, type, x, y, x + dx, y, x + dx, y + dy, x, y + dy, r, g, b, a, tx, ty, dtx, dty);
+    }
+
+    private static int draw2DSquare(float[] array, int offset, int type, float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3, float r, float g, float b, float a, float tx, float ty, float dtx, float dty){
         switch (type){
             case COORDS_TYPE:
                 addAll(array, offset,
-                        x, y, 0.0f,
-                        x + dx, y     , 0.0f,
-                        x     , y + dy, 0.0f,
-                        x + dx, y + dy, 0.0f,
-                        x     , y + dy, 0.0f,
-                        x + dx, y     , 0.0f
-                        );
+                        x0, y0, 0.0f,
+                        x1, y1, 0.0f,
+                        x3, y3, 0.0f,
+                        x2, y2, 0.0f,
+                        x3, y3, 0.0f,
+                        x1, y1, 0.0f
+                );
                 offset += 3 * 6;
                 break;
             case COORDS_TEXTURE_TYPE:
                 addAll(array, offset,
-                        x, y, 0.0f, tx      , ty + dty,
-                        x + dx, y     , 0.0f, tx + dtx, ty + dty,
-                        x     , y + dy, 0.0f, tx      , ty      ,
-                        x + dx, y + dy, 0.0f, tx + dtx, ty      ,
-                        x     , y + dy, 0.0f, tx      , ty      ,
-                        x + dx, y     , 0.0f, tx + dtx, ty + dty
+                        x0, y0, 0.0f, tx      , ty + dty,
+                        x1, y1, 0.0f, tx + dtx, ty + dty,
+                        x3, y3, 0.0f, tx      , ty      ,
+                        x2, y2, 0.0f, tx + dtx, ty      ,
+                        x3, y3, 0.0f, tx      , ty      ,
+                        x1, y1, 0.0f, tx + dtx, ty + dty
                 );
                 offset += 5 * 6;
                 break;
             case COORDS_COLOR_TYPE:
                 addAll(array, offset,
-                        x, y, 0.0f, r, g, b, a,
-                        x + dx, y     , 0.0f, r, g, b, a,
-                        x     , y + dy, 0.0f, r, g, b, a,
-                        x + dx, y + dy, 0.0f, r, g, b, a,
-                        x     , y + dy, 0.0f, r, g, b, a,
-                        x + dx, y     , 0.0f, r, g, b, a
+                        x0, y0, 0.0f, r, g, b, a,
+                        x1, y1, 0.0f, r, g, b, a,
+                        x3, y3, 0.0f, r, g, b, a,
+                        x2, y2, 0.0f, r, g, b, a,
+                        x3, y3, 0.0f, r, g, b, a,
+                        x1, y1, 0.0f, r, g, b, a
                 );
                 offset += 7 * 6;
                 break;
             case COORDS_COLOR_TEXTURE_TYPE:
                 addAll(array, offset,
-                        x, y, 0.0f, r, g, b, a, tx      , ty + dty,
-                        x + dx, y     , 0.0f, r, g, b, a, tx + dtx, ty + dty,
-                        x     , y + dy, 0.0f, r, g, b, a, tx      , ty      ,
-                        x + dx, y + dy, 0.0f, r, g, b, a, tx + dtx, ty      ,
-                        x     , y + dy, 0.0f, r, g, b, a, tx      , ty      ,
-                        x + dx, y     , 0.0f, r, g, b, a, tx + dtx, ty + dty
+                        x0, y0, 0.0f, r, g, b, a, tx      , ty + dty,
+                        x1, y1, 0.0f, r, g, b, a, tx + dtx, ty + dty,
+                        x3, y3, 0.0f, r, g, b, a, tx      , ty      ,
+                        x2, y2, 0.0f, r, g, b, a, tx + dtx, ty      ,
+                        x3, y3, 0.0f, r, g, b, a, tx      , ty      ,
+                        x1, y1, 0.0f, r, g, b, a, tx + dtx, ty + dty
                 );
                 offset += 9 * 6;
                 break;
