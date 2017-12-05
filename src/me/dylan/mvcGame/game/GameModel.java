@@ -1,6 +1,7 @@
 package me.dylan.mvcGame.game;
 
 import me.dylan.mvcGame.drawers.AdvancedTextureTileMap;
+import me.dylan.mvcGame.game.gameObjects.Tiles;
 import me.dylan.mvcGame.game.gameObjects.robot.RobotPlayerModel;
 import me.dylan.mvcGame.game.gameObjects.specialTiles.SpecialTile;
 import me.dylan.mvcGame.main.MainModel;
@@ -18,9 +19,14 @@ public class GameModel {
     private byte[] tileID;
     private HashMap<Integer, SpecialTile> specialTiles;
     private boolean mapChanged = true;
+    private int startX, startY;
+    private int finishX, finishY;
 
     private RobotPlayerModel player;
     private String code;
+
+    private float gameTime = 0;
+    private boolean gameWon = false;
 
     private AdvancedTextureTileMap tileTextures; //needed for sensors
 
@@ -44,6 +50,29 @@ public class GameModel {
         this.specialTiles = specialTiles;
 
         code = "";
+
+        //find start and finish
+        boolean startFound = false;
+        boolean finishFound = false;
+        for(int i = 0; i < worldXSize - 3; i++) {
+            for (int j = 0; j < worldYSize - 3; j++) {
+                if(!startFound){
+                    if(getTileID(i, j) == Tiles.START_ID){
+                        startX = i;
+                        startY = j;
+                        startFound = true;
+                    }
+                }else if(!finishFound){
+                    if(getTileID(i, j) == Tiles.END_ID){
+                        finishX = i;
+                        finishY = j;
+                        finishFound = true;
+                    }
+                }else{
+                    break;
+                }
+            }
+        }
     }
 
     /*****GETTERS*****/
@@ -62,6 +91,11 @@ public class GameModel {
     public HashMap<Integer, SpecialTile> getSpecialTiles() { return specialTiles; }
     public boolean isMapChanged(){if(mapChanged){mapChanged = false; return true;} return false;}
 
+    public int getStartX() { return startX; }
+    public int getStartY() { return startY; }
+    public int getFinishX() { return finishX; }
+    public int getFinishY() { return finishY; }
+
     public float getViewX() { return -mainModel.getCamera2D().getxPos(); }
     public float getViewY() { return -mainModel.getCamera2D().getyPos(); }
     public float getViewZoom() { return mainModel.getCamera2D().getZoom(); }
@@ -70,6 +104,9 @@ public class GameModel {
     public RobotPlayerModel getPlayer() { return player; }
 
     public AdvancedTextureTileMap getTileTextures() { return tileTextures; }
+
+    public boolean getWon() { return gameWon; }
+    public float getGameTime() { return gameTime;}
 
     /****SETTERS*****/
 
@@ -111,6 +148,8 @@ public class GameModel {
         this.player = player;
     }
 
+    public void setWon(boolean gameWon){this.gameWon = gameWon;}
+
     /*****OTHER SMALL LOGIC*****/
 
     public void moveView(float dx, float dy){
@@ -145,4 +184,7 @@ public class GameModel {
         //TODO test this method
     }
 
+    public void updateGameTime() {
+        gameTime += 1/50f;
+    }
 }

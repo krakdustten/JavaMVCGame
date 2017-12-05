@@ -39,14 +39,14 @@ public class GameController extends State {
         view = new GameView(this.model);
 
         this.model.setViewZoom(0.5f);
-        this.model.setViewX(model.getWorldXSize() * 64 / 2);
-        this.model.setViewY(model.getWorldYSize() * 64 / 2);
+        this.model.setViewX(this.model.getWorldXSize() * 64 / 2);
+        this.model.setViewY(this.model.getWorldYSize() * 64 / 2);
 
         //TODO make code runner --> for handling world code
         //TODO world editor --> adaptive worlds with world code
 
         //codeIDEController = new CodeIDEController(model);
-        playerController = new RobotPlayerController(model);
+        playerController = new RobotPlayerController(this.model);
     }
 
     @Override
@@ -57,10 +57,11 @@ public class GameController extends State {
         if(keyPressed[3])model.moveView(-25f/model.getViewZoom(), 0);
         if(keyPressed[4])model.setViewZoom(model.getViewZoom() * 1.03f);
         if(keyPressed[5])model.setViewZoom(model.getViewZoom() * 0.97f);
-
+        if(model.getWon())return;
         //update views
         view.update();
         playerController.update();
+        model.updateGameTime();
     }
 
     @Override

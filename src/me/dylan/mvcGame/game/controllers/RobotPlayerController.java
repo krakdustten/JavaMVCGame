@@ -13,11 +13,11 @@ public class RobotPlayerController {
     public RobotPlayerController(GameModel gameModel){
         this.gameModel = gameModel;
 
-        gameModel.setPlayer(new RobotPlayerModel());
+        gameModel.setPlayer(new RobotPlayerModel(gameModel));
         this.model = gameModel.getPlayer();
         view = new RobotPlayerView(gameModel);
-        model.setMoterLSpeed(1.5f);
-        model.setMoterRSpeed(2.0f);
+        model.setMoterLSpeed(1.0f);
+        model.setMoterRSpeed(1.0f);
     }
 
     public void update(){

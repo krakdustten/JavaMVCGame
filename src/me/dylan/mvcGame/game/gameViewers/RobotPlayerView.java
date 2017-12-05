@@ -7,7 +7,6 @@ import me.dylan.mvcGame.game.GameModel;
 public class RobotPlayerView {
     private int vbo;
     private int texture;
-    private int textureTime = 0;
 
     private GameModel model;
 
@@ -21,9 +20,6 @@ public class RobotPlayerView {
     }
 
     public void update(){
-        textureTime++;
-
-        if(textureTime >= 800) textureTime = 0;
         if(!model.getPlayer().isChanged()){
             return;
         }
