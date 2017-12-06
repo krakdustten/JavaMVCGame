@@ -20,4 +20,22 @@ public abstract class Sensor<T> {
 
     public float getX() { return x; }
     public float getY() { return y; }
+
+    public float[] getRealPositionInWorld(){return getRealPositionInWorld(x , y);}
+    protected float[] getRealPositionInWorld(float xRel, float yRel){
+        float[] output = new float[2];
+        float xRob = model.getX();
+        float yRob = model.getY();
+        float rotRob = model.getRotation();
+
+        float sin = (float) Math.sin(rotRob);
+        float cos = (float) Math.cos(rotRob);
+        float xT = xRob + xRel - (xRob + 0.5f);
+        float yT = yRob + yRel - (yRob + 0.5f);
+
+        output[0] = xT * cos - yT * sin + (xRob + 0.5f);
+        output[1] = xT * sin + yT * cos + (yRob + 0.5f);
+
+        return output;
+    }
 }

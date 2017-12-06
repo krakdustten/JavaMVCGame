@@ -26,7 +26,7 @@ public class RobotSensorViewer {
     }
 
     public void update(){
-        if(!model.isChanged())return;
+        //if(!model.isChanged())return;
 
         ArrayList<Sensor> sensors = model.getAllSensors();
 
@@ -50,10 +50,11 @@ public class RobotSensorViewer {
             }
 
             offset = VBODrawer2D.draw2DSquareRotCenter(vertexes, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
-                    (xStart + sensor.getX()) * 64, (yStart + sensor.getY()) * 64, 16, 16,
+                    (xStart + sensor.getX() - 0.0625f) * 64, (yStart + sensor.getY() - 0.0625f) * 64, 16, 16,
                     model.getRotation(), xStart * 64 + 32, yStart * 64 + 32,1, 1, 1, 1,
                     texbX * 0.125f + (rot % 4) * 0.03125f, texbY * 0.125f + (rot / 4) * 0.03125f, 0.03125f, 0.03125f);
         }
+
         VBODrawer2D.writeBufToMem(vbo, vertexes);
     }
 

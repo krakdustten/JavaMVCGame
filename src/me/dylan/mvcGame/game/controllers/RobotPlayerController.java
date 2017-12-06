@@ -20,8 +20,8 @@ public class RobotPlayerController {
         this.model = gameModel.getPlayer();
         view = new RobotPlayerView(gameModel);
         senserView = new RobotSensorViewer(this.gameModel);
-        model.setMoterLSpeed(1.0f);
-        model.setMoterRSpeed(2.0f);
+        model.setMoterLSpeed(0.1f);
+        model.setMoterRSpeed(0.2f);
 
         model.addSensor(new DistanceSensor(this.gameModel, 1.0f * 6.0f/8, 1.0f * 6.0f/8, 0f));
     }
