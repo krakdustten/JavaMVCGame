@@ -3,8 +3,11 @@ package me.dylan.mvcGame.game.controllers;
 import me.dylan.mvcGame.game.GameModel;
 import me.dylan.mvcGame.game.gameObjects.robot.DistanceSensor;
 import me.dylan.mvcGame.game.gameObjects.robot.RobotPlayerModel;
+import me.dylan.mvcGame.game.gameObjects.robot.Sensor;
 import me.dylan.mvcGame.game.gameViewers.RobotPlayerView;
 import me.dylan.mvcGame.game.gameViewers.RobotSensorViewer;
+
+import java.util.HashMap;
 
 public class RobotPlayerController {
     private RobotPlayerModel model;
@@ -23,7 +26,7 @@ public class RobotPlayerController {
         model.setMoterLSpeed(0.1f);
         model.setMoterRSpeed(0.2f);
 
-        model.addSensor(new DistanceSensor(this.gameModel, 1.0f * 6.0f/8, 1.0f * 6.0f/8, 0f));
+        model.addSensor(new DistanceSensor(this.gameModel, 1.0f * 6.0f/8, 1.0f * 6.0f/8, 0f, ""));
     }
 
     public void update(){
@@ -36,5 +39,14 @@ public class RobotPlayerController {
     public void render(){
         view.render();
         senserView.render();
+    }
+
+    public HashMap<String, Object> calculateSensorData(){
+        HashMap<String, Object> output = new HashMap<>();
+        for(Sensor sensor : model.getAllSensors()){
+            output.put(sensor.getName(), sensor.calculateOutput());
+        }
+
+        return output;
     }
 }

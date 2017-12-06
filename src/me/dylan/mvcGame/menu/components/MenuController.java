@@ -31,7 +31,10 @@ public class MenuController {
         for(MenuModel.GuiElement element : model.getAllGuiElements()) {
             if (element instanceof MenuModel.GuiButton) {
                 MenuModel.GuiButton but = (MenuModel.GuiButton) element;
-                if(mouseX > (but.x + model.getDrawXstart()) && mouseX < (but.x + but.width + model.getDrawXstart()) && mouseY > (but.y + model.getDrawYstart()) && mouseY < (but.y + but.height + model.getDrawYstart()))
+                if(mouseX > (but.x + model.getDrawXstart()) &&
+                        mouseX < (but.x + but.width + model.getDrawXstart()) &&
+                        mouseY > (but.y + model.getDrawYstart()) &&
+                        mouseY < (but.y + but.height + model.getDrawYstart()))
                     return but.id;
             }
         }

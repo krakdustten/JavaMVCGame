@@ -7,19 +7,22 @@ public abstract class Sensor<T> {
     protected RobotPlayerModel model;
 
     protected float x, y;
+    protected String name;
 
-    public Sensor(GameModel gameModel, float x, float y){
+    public Sensor(GameModel gameModel, float x, float y, String name){
         this.gameModel = gameModel;
         this.model = gameModel.getPlayer();
 
         this.x = x;
         this.y = y;
+        this.name = name;
     }
 
     public abstract T calculateOutput();
 
     public float getX() { return x; }
     public float getY() { return y; }
+    public String getName() { return name; }
 
     public float[] getRealPositionInWorld(){return getRealPositionInWorld(x , y);}
     protected float[] getRealPositionInWorld(float xRel, float yRel){
@@ -38,4 +41,6 @@ public abstract class Sensor<T> {
 
         return output;
     }
+
+    //TODO make something that holds all of the sensor types (every sensor has an ID)
 }
