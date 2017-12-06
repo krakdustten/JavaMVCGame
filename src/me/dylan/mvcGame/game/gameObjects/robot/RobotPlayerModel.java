@@ -2,7 +2,6 @@ package me.dylan.mvcGame.game.gameObjects.robot;
 
 import me.dylan.mvcGame.game.GameModel;
 import me.dylan.mvcGame.game.gameObjects.Tiles;
-import me.dylan.mvcGame.game.gameObjects.robot.Sensor;
 
 import java.util.ArrayList;
 
@@ -24,7 +23,8 @@ public class RobotPlayerModel {
         y = 26;
     }
 
-    public boolean isChanged(){if(change){change = false; return true;} return false;}
+    public boolean isChanged(){return change;}
+    public void changesDone() {change = false; }
 
     public float getX() { return x; }
     public float getY() { return y; }
@@ -40,8 +40,8 @@ public class RobotPlayerModel {
     public void setMoterRSpeed(float moterRSpeed) { this.moterRSpeed = moterRSpeed; }
 
     public void calculateMovement(){
-        moterLPos = (moterLPos + moterLSpeed / 10 + 1.0f) % 1.0f; //50 = UPS
-        moterRPos = (moterRPos + moterRSpeed / 10 + 1.0f) % 1.0f;
+        moterLPos = (moterLPos + moterLSpeed / 25 + 1.0f) % 1.0f;
+        moterRPos = (moterRPos + moterRSpeed / 25 + 1.0f) % 1.0f;
 
         float mov = (moterLSpeed + moterRSpeed) / 100;
         float rot = (float) Math.atan2((moterLSpeed - moterRSpeed), 50);
@@ -118,6 +118,16 @@ public class RobotPlayerModel {
         x = outX;
         y = outY;
     }
+
+    public void addSensor(Sensor sensor) {
+        this.sensors.add(sensor);
+        change = true;
+    }
+
+    public ArrayList<Sensor> getAllSensors() {
+        return sensors;
+    }
+
 
     //TODO make more precise hit detection
     //TODO load method (Controller)

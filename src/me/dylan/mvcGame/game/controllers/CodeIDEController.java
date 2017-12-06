@@ -1,5 +1,5 @@
 package me.dylan.mvcGame.game.controllers;
-/*
+
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
@@ -15,10 +15,10 @@ import javax.swing.*;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;*/
+import java.util.regex.Pattern;
 
 public class CodeIDEController{
-    /*private GameModel model;
+    private GameModel model;
     private JFrame frame;
     private JFXPanel fxPanel;
 
@@ -41,8 +41,8 @@ public class CodeIDEController{
     private static final String BRACKET_PATTERN = "\\[|\\]";
     private static final String SEMICOLON_PATTERN = "\\;";
     private static final String STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
-    *///private static final String COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
-/*
+    private static final String COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
+
     private static final Pattern PATTERN = Pattern.compile(
             "(?<KEYWORD>" + KEYWORD_PATTERN + ")"
                     + "|(?<PAREN>" + PAREN_PATTERN + ")"
@@ -95,8 +95,8 @@ public class CodeIDEController{
                                                     matcher.group("SEMICOLON") != null ? "semicolon" :
                                                             matcher.group("STRING") != null ? "string" :
                                                                     matcher.group("COMMENT") != null ? "comment" :
-          *///                                                                  null; /* never happens */ assert styleClass != null;
-         /*   spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
+                                                                            null; /* never happens */ assert styleClass != null;
+            spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
             spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
             lastKwEnd = matcher.end();
         }
@@ -108,5 +108,5 @@ public class CodeIDEController{
         frame.dispose();
         frame = null;
         fxPanel = null;
-    }*/
+    }
 }
