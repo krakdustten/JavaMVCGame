@@ -29,11 +29,11 @@ public class GameController extends State {
 
         GameModel model = new GameModel(mainModel, 40, 29);
         for(int i = 0; i < (40 * 29); i++){
-            model.setTileID((byte)(Math.random() * 2 + 1), i % 40, i / 40);
+            model.setTileID((byte)(Math.random() * 1.5 + 1), i % 40, i / 40);
             model.setUnderGroundColor(/*(int)(Math.random() * 256 * 256 * 256)*/ 256 * 256 * 256 - 1, i % 40, i / 40);
         }
 
-        //GameMapLoader.saveMap(model, "random.sg");
+        GameMapLoader.saveMap(model, "random.sg");
 
         this.model = GameMapLoader.loadMap(mainModel, "game1.sg");
         view = new GameView(this.model);
@@ -72,7 +72,7 @@ public class GameController extends State {
 
     @Override
     public void deInit() {
-        //codeIDEController.distroy();
+        codeIDEController.distroy();
         codeIDEController = null;
     }
 
