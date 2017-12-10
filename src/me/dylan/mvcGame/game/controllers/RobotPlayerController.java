@@ -35,10 +35,14 @@ public class RobotPlayerController {
     }
 
     public void update(){
-        model.calculateMovement();
+
         view.update();
         senserView.update();
         model.changesDone();
+    }
+
+    public void updateGame() {
+        model.calculateMovement();
     }
 
     public void render(){
@@ -54,4 +58,6 @@ public class RobotPlayerController {
         }
         return output;
     }
+
+
 }

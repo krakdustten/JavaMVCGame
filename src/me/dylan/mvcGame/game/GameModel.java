@@ -1,6 +1,7 @@
 package me.dylan.mvcGame.game;
 
 import me.dylan.mvcGame.drawers.AdvancedTextureTileMap;
+import me.dylan.mvcGame.game.controllers.RobotPlayerController;
 import me.dylan.mvcGame.game.gameObjects.Tiles;
 import me.dylan.mvcGame.game.gameObjects.robot.RobotPlayerModel;
 import me.dylan.mvcGame.game.gameObjects.specialTiles.SpecialTile;
@@ -28,11 +29,12 @@ public class GameModel {
     private float gameTime = 0;
     private boolean gameWon = false;
     private boolean gameStarted = false;
+    private boolean shouldGameReset = true;
 
     private AdvancedTextureTileMap tileTextures; //needed for sensors
 
     public GameModel(MainModel mainModel, int worldXSize, int worldYSize){
-        this(mainModel,worldXSize, worldYSize, null, null, new HashMap<Integer, SpecialTile>());
+        this(mainModel,worldXSize, worldYSize, null, null, new HashMap<>());
     }
 
     public GameModel(MainModel mainModel, int worldXSize, int worldYSize, int[] underGroundColor, byte[] tileID, HashMap<Integer, SpecialTile> specialTiles){
@@ -109,6 +111,7 @@ public class GameModel {
     public boolean getWon() { return gameWon; }
     public boolean getGameStarted() { return gameStarted; }
     public float getGameTime() { return gameTime;}
+    public boolean getShouldGameReset() { return shouldGameReset; }
 
     /****SETTERS*****/
 
@@ -152,6 +155,7 @@ public class GameModel {
 
     public void setGameStarted(boolean gameStarted){this.gameStarted = gameStarted;}
     public void setWon(boolean gameWon){this.gameWon = gameWon;}
+    public void setShouldGameReset(boolean shouldGameReset) { this.shouldGameReset = shouldGameReset; }
 
     /*****OTHER SMALL LOGIC*****/
 
@@ -188,7 +192,9 @@ public class GameModel {
     }
 
     public void updateGameTime() {
-        if(gameStarted && !gameWon)
-            gameTime += 1/50f;
+        gameTime += 1/50f;
+    }
+    public boolean isGameRunning(){
+        return (gameStarted && !gameWon);
     }
 }

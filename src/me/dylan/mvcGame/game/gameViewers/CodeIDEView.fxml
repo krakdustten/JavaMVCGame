@@ -26,7 +26,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Button fx:id="Start" mnemonicParsing="false" onAction="#startPressed" text="Start" />
-                  <Button fx:id="Pause" mnemonicParsing="false" onAction="#pausePressed" text="Pause" />
+                  <Button fx:id="Pause" disable="true" mnemonicParsing="false" onAction="#pausePressed" text="Pause" />
                </children>
             </VBox>
          </content>

@@ -45,26 +45,34 @@ public class GameController extends State {
         //TODO make code runner --> for handling world code
         //TODO world editor --> adaptive worlds with world code
 
-        codeIDEViewer = new CodeIDEViewer(model);
+        codeIDEViewer = new CodeIDEViewer(this.model);
         playerController = new RobotPlayerController(this.model);
-
-        this.model.setGameStarted(true);
     }
 
     @Override
     public void update() {
-        model.updateGameTime();
+        if(model.isGameRunning())
+            updateGame();
+
+        if(model.getShouldGameReset()){
+            playerController = new RobotPlayerController(this.model);
+            model.setShouldGameReset(false);
+        }
+
         if(keyPressed[0])model.moveView(0, -25f/model.getViewZoom());
         if(keyPressed[1])model.moveView(0, 25f/model.getViewZoom());
         if(keyPressed[2])model.moveView(25f/model.getViewZoom(), 0);
         if(keyPressed[3])model.moveView(-25f/model.getViewZoom(), 0);
         if(keyPressed[4])model.setViewZoom(model.getViewZoom() * 1.03f);
         if(keyPressed[5])model.setViewZoom(model.getViewZoom() * 0.97f);
-        if(model.getWon() || !model.getGameStarted())return;
-        //update views
         view.update();
         playerController.update();
 
+    }
+
+    private void updateGame(){
+        model.updateGameTime();
+        playerController.updateGame();
     }
 
     @Override
@@ -137,33 +145,6 @@ public class GameController extends State {
             else if (action == GLFW.GLFW_RELEASE)
                 mouseKeyPressed = false;
         }
-
-
-        /*if(button == GLFW.GLFW_MOUSE_BUTTON_1 && action == GLFW.GLFW_PRESS){
-            int x = (int) (model.getWorldXSize() * 64 * Math.random());
-            int y = (int) (model.getWorldYSize() * 64 * Math.random());
-
-            int tileX = x / 64;
-            int tileY = y / 64;
-            int tileID = model.getTileID(tileX, tileY);
-            System.out.print (x + " " + y + " : " + tileX + " " + tileY + " : " + tileID + " ");
-
-            if(tileID == Tiles.FLOOR_ID){
-                int subX = x - tileX * 64;
-                int subY = y - tileY * 64;
-
-                System.out.print(": " + subX/2 + " " + subY/2 + " ");
-
-                int color = model.getTileTextures().getBaseColorInBlock(0, 2, subX / 64.0f, subY / 64.0f);
-                int blue = color & 0xff;
-                int green = (color >> 8) & 0xff;
-                int red = (color >> 16) & 0xff;
-
-                System.out.print(":        " + blue + " " + green + " " + red + " ");
-            }
-
-            System.out.println();
-        }*/
     }
 
     @Override

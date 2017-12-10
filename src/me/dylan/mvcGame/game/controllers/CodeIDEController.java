@@ -37,19 +37,37 @@ public class CodeIDEController {
 
     @FXML
     void initialize() {
-        Code.textProperty().addListener(((observable, oldValue, newValue) -> {
-            codeTextChanged(observable, oldValue, newValue);
-        }));
+        Code.textProperty().addListener((this::codeTextChanged));
     }
 
     @FXML
     void startPressed(ActionEvent event) {
-        System.out.println("Start");
+        if(Start.getText().contains("Stop")) {
+            model.setShouldGameReset(true);
+            model.setGameStarted(false);
+            Start.setText("Start");
+            Pause.setDisable(true);
+            Pause.setText("Pause");
+            Code.setDisable(false);
+        }
+        else{
+            model.setGameStarted(true);
+            Start.setText("Stop");
+            Pause.setDisable(false);
+            Code.setDisable(true);
+        }
     }
 
     @FXML
     void pausePressed(ActionEvent event) {
-        System.out.println("Pause");
+        if(Pause.getText().contains("Pause")){
+            model.setGameStarted(false);
+            Pause.setText("Un pause");
+        }
+        else {
+            model.setGameStarted(true);
+            Pause.setText("Pause");
+        }
     }
 
     @FXML

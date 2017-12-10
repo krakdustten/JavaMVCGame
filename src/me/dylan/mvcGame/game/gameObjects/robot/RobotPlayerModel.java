@@ -20,9 +20,8 @@ public class RobotPlayerModel {
     public RobotPlayerModel(GameModel parent){
         this.parent = parent;
 
-        //TODO set position to start coordinates
-        x = 2;
-        y = 24;
+        x = parent.getStartX() + 1;
+        y = parent.getStartY() + 1;
     }
 
     public boolean isChanged(){return change;}
@@ -139,9 +138,6 @@ public class RobotPlayerModel {
     public ArrayList<Sensor> getAllSensors() {
         return sensors;
     }
-
-
     //TODO show debug on screen (leds, small text)
-    //TODO make code runner
     //TODO update robot on code runner
 }
