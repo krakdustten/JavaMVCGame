@@ -21,8 +21,8 @@ public class RobotPlayerModel {
         this.parent = parent;
 
         //TODO set position to start coordinates
-        x = 5;
-        y = 26;
+        x = 2;
+        y = 24;
     }
 
     public boolean isChanged(){return change;}
@@ -62,38 +62,36 @@ public class RobotPlayerModel {
         float newY = y + dy;
         float newRot = rotation + rot;
 
-        float sin = (float) Math.sin(newRot);
-        float cos = (float) Math.cos(newRot);
-        float xT = newX - (newX + 0.5f);
-        float yT = newY - (newY + 0.5f);
-
-        float[] outers = new float[8];
-        outers[0] =  xT      * cos -  yT      * sin + (newX + 0.5f);
-        outers[4] =  xT      * sin +  yT      * cos + (newY + 0.5f);
-        outers[1] = (xT + 1) * cos -  yT      * sin + (newX + 0.5f);
-        outers[5] = (xT + 1) * sin +  yT      * cos + (newY + 0.5f);
-        outers[2] = (xT + 1) * cos - (yT + 1) * sin + (newX + 0.5f);
-        outers[6] = (xT + 1) * sin + (yT + 1) * cos + (newY + 0.5f);
-        outers[3] =  xT      * cos - (yT + 1) * sin + (newX + 0.5f);
-        outers[7] =  xT      * sin + (yT + 1) * cos + (newY + 0.5f);
-
-        float xMin = outers[0];
-        float xMax = outers[0];
-        float yMin = outers[4];
-        float yMax = outers[4];
+        float[] oldOuters = calculateOuterPoints(x, y, rot);
+        float[] outers = calculateOuterPoints(newX, newY, newRot);
 
         int finishX = parent.getFinishX();
         int finishY = parent.getFinishY();
         boolean finish = true;
 
-        for(int i = 0; i < 4; i++){
-            if(xMin > outers[i])xMin = outers[i];
-            if(xMax < outers[i])xMax = outers[i];
-            if(yMin > outers[i + 4])yMin = outers[i + 4];
-            if(yMax < outers[i + 4])yMax = outers[i + 4];
+        for(int i = 0; i < 8; i++){
+            float xTest = outers[i];
+            float yTest = outers[i + 8];
+            float xOld = oldOuters[i];
+            float yOld = oldOuters[i + 8];
+
+            if(parent.getTileID((int) xTest, (int) yOld) == Tiles.WALL_ID){
+                if((x + 0.5f) < xTest)
+                    newX = newX + ((int) xTest - xTest);
+                else
+                    newX = newX + ((int) xTest + 1 - xTest);
+            }
+
+
+            if(parent.getTileID((int) xOld, (int) yTest) == Tiles.WALL_ID){
+                if((y + 0.5f) < yTest)
+                    newY = newY + ((int) yTest - yTest);
+                else
+                    newY = newY + ((int) yTest + 1 - yTest);
+            }
 
             //Check for finish
-            if(!(finishX < outers[i] && finishX + 3 > outers[i] && finishY < outers[i + 4] && finishY + 3 > outers[i + 4]))
+            if(!(finishX < xTest && finishX + 3 > xTest && finishY < yTest && finishY + 3 > yTest))
                 finish = false;
         }
 
@@ -102,17 +100,35 @@ public class RobotPlayerModel {
             System.out.println(parent.getGameTime());
         }
 
-        //TODO make more precise hit detection
-        //X part
-        if(parent.getTileID((int) xMin, (int) y) == Tiles.WALL_ID) newX = newX + ((int) xMin + 1 - xMin);
-        if(parent.getTileID((int) xMax, (int) y) == Tiles.WALL_ID) newX = newX + ((int) xMax - xMax);
-
-        //Y part
-        if(parent.getTileID((int) x, (int) yMin) == Tiles.WALL_ID) newY = newY + ((int) yMin + 1 - yMin);
-        if(parent.getTileID((int) x, (int) yMax) == Tiles.WALL_ID) newY = newY + ((int) yMax - yMax);
-
         x = newX;
         y = newY;
+    }
+
+    private float[] calculateOuterPoints(float x, float y, float rot){
+        float sin = (float) Math.sin(rot);
+        float cos = (float) Math.cos(rot);
+        float xT = x - (x + 0.5f);
+        float yT = y - (y + 0.5f);
+
+        float[] outers = new float[16];
+        outers[ 0] = (xT +  7.0f/32) * cos - (yT +  0.0f/32) * sin + (x + 0.5f);// 7,  0
+        outers[ 8] = (xT +  7.0f/32) * sin + (yT +  0.0f/32) * cos + (y + 0.5f);// 7,  0
+        outers[ 1] = (xT + 25.0f/32) * cos - (yT +  0.0f/32) * sin + (x + 0.5f);//25,  0
+        outers[ 9] = (xT + 25.0f/32) * sin + (yT +  0.0f/32) * cos + (y + 0.5f);//25,  0
+        outers[ 2] = (xT +  7.0f/32) * cos - (yT + 32.0f/32) * sin + (x + 0.5f);// 7, 32
+        outers[10] = (xT +  7.0f/32) * sin + (yT + 32.0f/32) * cos + (y + 0.5f);// 7, 32
+        outers[ 3] = (xT + 25.0f/32) * cos - (yT + 32.0f/32) * sin + (x + 0.5f);//25, 32
+        outers[11] = (xT + 25.0f/32) * sin + (yT + 32.0f/32) * cos + (y + 0.5f);//25, 32
+        outers[ 4] = (xT +  0.0f/32) * cos - (yT + 13.0f/32) * sin + (x + 0.5f);// 0, 13
+        outers[12] = (xT +  0.0f/32) * sin + (yT + 13.0f/32) * cos + (y + 0.5f);// 0, 13
+        outers[ 5] = (xT +  0.0f/32) * cos - (yT + 21.0f/32) * sin + (x + 0.5f);// 0, 21
+        outers[13] = (xT +  0.0f/32) * sin + (yT + 21.0f/32) * cos + (y + 0.5f);// 0, 21
+        outers[ 6] = (xT + 32.0f/32) * cos - (yT + 13.0f/32) * sin + (x + 0.5f);//32, 13
+        outers[14] = (xT + 32.0f/32) * sin + (yT + 13.0f/32) * cos + (y + 0.5f);//32, 13
+        outers[ 7] = (xT + 32.0f/32) * cos - (yT + 21.0f/32) * sin + (x + 0.5f);//32, 21
+        outers[15] = (xT + 32.0f/32) * sin + (yT + 21.0f/32) * cos + (y + 0.5f);//32, 21
+
+        return outers;
     }
 
     public void addSensor(Sensor sensor) {

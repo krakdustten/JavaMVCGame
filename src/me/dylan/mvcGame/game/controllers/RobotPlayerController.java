@@ -30,8 +30,8 @@ public class RobotPlayerController {
         model.addSensor(new DistanceSensor(this.gameModel, 1.0f * 29.0f/32, 1.0f * 16.0f/32, 0, "Front"));
         update();
 
-        model.setMoterLSpeed(0.1f);
-        model.setMoterRSpeed(0.2f);
+        model.setMoterLSpeed(0.3f);
+        model.setMoterRSpeed(0.6f);
     }
 
     public void update(){
