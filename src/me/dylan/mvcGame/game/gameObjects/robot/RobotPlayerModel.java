@@ -19,6 +19,8 @@ public class RobotPlayerModel {
 
     public RobotPlayerModel(GameModel parent){
         this.parent = parent;
+
+        //TODO set position to start coordinates
         x = 5;
         y = 26;
     }
@@ -59,8 +61,6 @@ public class RobotPlayerModel {
         float newX = x + dx;
         float newY = y + dy;
         float newRot = rotation + rot;
-        float outX = newX;
-        float outY = newY;
 
         float sin = (float) Math.sin(newRot);
         float cos = (float) Math.cos(newRot);
@@ -102,21 +102,17 @@ public class RobotPlayerModel {
             System.out.println(parent.getGameTime());
         }
 
+        //TODO make more precise hit detection
         //X part
-        if(dx < 0){
-            if(parent.getTileID((int) xMin, (int) y) == Tiles.WALL_ID) outX = newX + ((int) xMin + 1 - xMin);
-        }else if(dx > 0){
-            if(parent.getTileID((int) xMax, (int) y) == Tiles.WALL_ID) outX = newX + ((int) xMax - xMax);
-        }
-        //Y part
-        if(dy < 0){
-            if(parent.getTileID((int) x, (int) yMin) == Tiles.WALL_ID) outY = newY + ((int) yMin + 1 - yMin);
-        }else if(dy > 0){
-            if(parent.getTileID((int) x, (int) yMax) == Tiles.WALL_ID) outY = newY + ((int) yMax - yMax);
-        }
+        if(parent.getTileID((int) xMin, (int) y) == Tiles.WALL_ID) newX = newX + ((int) xMin + 1 - xMin);
+        if(parent.getTileID((int) xMax, (int) y) == Tiles.WALL_ID) newX = newX + ((int) xMax - xMax);
 
-        x = outX;
-        y = outY;
+        //Y part
+        if(parent.getTileID((int) x, (int) yMin) == Tiles.WALL_ID) newY = newY + ((int) yMin + 1 - yMin);
+        if(parent.getTileID((int) x, (int) yMax) == Tiles.WALL_ID) newY = newY + ((int) yMax - yMax);
+
+        x = newX;
+        y = newY;
     }
 
     public void addSensor(Sensor sensor) {
@@ -129,11 +125,7 @@ public class RobotPlayerModel {
     }
 
 
-    //TODO make more precise hit detection
-    //TODO load method (Controller)
-    //TODO make sensor calculator (Controller)
     //TODO show debug on screen (leds, small text)
     //TODO make code runner
     //TODO update robot on code runner
-    //TODO make drawer for sensors
 }

@@ -43,29 +43,6 @@ public class RobotSensorViewer {
                 texbX = 0;
                 texbY = 0;
                 rot = (int)(((DistanceSensor) sensor).getRotation() * 8/Math.PI);
-
-                //TEST
-                float length = ((DistanceSensor) sensor).calculateOutput();
-                //length = 0;
-                float xTest = (float) (Math.cos(rot + model.getRotation()) * length);
-                float yTest = (float) (Math.sin(rot + model.getRotation()) * length);
-
-                System.out.println(length + " " + xTest + " " + yTest);
-
-
-                float sin = (float) Math.sin(model.getRotation());
-                float cos = (float) Math.cos(model.getRotation());
-                float xT = sensor.getX() -0.5f;
-                float yT = sensor.getY() -0.5f;
-                float x0 =  xT       * cos -  yT       * sin + xStart + 0.5f;
-                float y0 =  xT       * sin +  yT       * cos + yStart + 0.5f;
-
-                offset = VBODrawer2D.draw2DSquare(vertexes, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
-                        (x0 + xTest) * 64, (y0 + yTest) * 64, 2, 2,
-                        1, 0, 1, 1,
-                        0, 0, 1, 1);
-
-                //--TEST
             }else{
                 texbX = 1;
                 texbY = 0;

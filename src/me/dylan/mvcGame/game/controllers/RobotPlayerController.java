@@ -23,10 +23,15 @@ public class RobotPlayerController {
         this.model = gameModel.getPlayer();
         view = new RobotPlayerView(gameModel);
         senserView = new RobotSensorViewer(this.gameModel);
+
+        //TODO load sensors from world file or make full default robot
+        model.addSensor(new DistanceSensor(this.gameModel, 1.0f * 26.0f/32, 1.0f * 25.0f/32, (float) (Math.PI * 3/2), "Left"));
+        model.addSensor(new DistanceSensor(this.gameModel, 1.0f * 26.0f/32, 1.0f * 6.0f/32, (float) (Math.PI * 1/2), "Right"));
+        model.addSensor(new DistanceSensor(this.gameModel, 1.0f * 29.0f/32, 1.0f * 16.0f/32, 0, "Front"));
+        update();
+
         model.setMoterLSpeed(0.1f);
         model.setMoterRSpeed(0.2f);
-
-        model.addSensor(new DistanceSensor(this.gameModel, 1.0f * 6.0f/8, 1.0f * 6.0f/8, 0f, ""));
     }
 
     public void update(){
@@ -41,12 +46,12 @@ public class RobotPlayerController {
         senserView.render();
     }
 
+    //TODO add the hasmap as seperated values to the jython exendable class
     public HashMap<String, Object> calculateSensorData(){
         HashMap<String, Object> output = new HashMap<>();
         for(Sensor sensor : model.getAllSensors()){
             output.put(sensor.getName(), sensor.calculateOutput());
         }
-
         return output;
     }
 }

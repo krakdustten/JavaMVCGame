@@ -1,8 +1,8 @@
 package me.dylan.mvcGame.game;
 
-import me.dylan.mvcGame.game.controllers.CodeIDEController;
 import me.dylan.mvcGame.game.controllers.RobotPlayerController;
 import me.dylan.mvcGame.game.gameObjects.specialTiles.SpecialTile;
+import me.dylan.mvcGame.game.gameViewers.CodeIDEViewer;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.state.State;
 import me.dylan.mvcGame.state.StateHandler;
@@ -11,7 +11,7 @@ import org.lwjgl.glfw.GLFW;
 public class GameController extends State {
     private GameModel model;
     private GameView view;
-    private CodeIDEController codeIDEController;
+    private CodeIDEViewer codeIDEViewer;
     private RobotPlayerController playerController;
 
 
@@ -45,23 +45,26 @@ public class GameController extends State {
         //TODO make code runner --> for handling world code
         //TODO world editor --> adaptive worlds with world code
 
-        //codeIDEController = new CodeIDEController(model);
+        codeIDEViewer = new CodeIDEViewer(model);
         playerController = new RobotPlayerController(this.model);
+
+        this.model.setGameStarted(true);
     }
 
     @Override
     public void update() {
+        model.updateGameTime();
         if(keyPressed[0])model.moveView(0, -25f/model.getViewZoom());
         if(keyPressed[1])model.moveView(0, 25f/model.getViewZoom());
         if(keyPressed[2])model.moveView(25f/model.getViewZoom(), 0);
         if(keyPressed[3])model.moveView(-25f/model.getViewZoom(), 0);
         if(keyPressed[4])model.setViewZoom(model.getViewZoom() * 1.03f);
         if(keyPressed[5])model.setViewZoom(model.getViewZoom() * 0.97f);
-        if(model.getWon())return;
+        if(model.getWon() || !model.getGameStarted())return;
         //update views
         view.update();
         playerController.update();
-        model.updateGameTime();
+
     }
 
     @Override
@@ -72,8 +75,8 @@ public class GameController extends State {
 
     @Override
     public void deInit() {
-        codeIDEController.distroy();
-        codeIDEController = null;
+        codeIDEViewer.distroy();
+        codeIDEViewer = null;
     }
 
     @Override

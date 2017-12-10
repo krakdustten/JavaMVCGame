@@ -41,6 +41,4 @@ public abstract class Sensor<T> {
 
         return output;
     }
-
-    //TODO make something that holds all of the sensor types (every sensor has an ID)
 }

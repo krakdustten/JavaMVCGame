@@ -23,10 +23,11 @@ public class GameModel {
     private int finishX, finishY;
 
     private RobotPlayerModel player;
-    private String code;
+    private String code = "";
 
     private float gameTime = 0;
     private boolean gameWon = false;
+    private boolean gameStarted = false;
 
     private AdvancedTextureTileMap tileTextures; //needed for sensors
 
@@ -49,7 +50,7 @@ public class GameModel {
         this.tileID = tileID;
         this.specialTiles = specialTiles;
 
-        code = "";
+        code = " wauaw   aw";
 
         //find start and finish
         boolean startFound = false;
@@ -106,6 +107,7 @@ public class GameModel {
     public AdvancedTextureTileMap getTileTextures() { return tileTextures; }
 
     public boolean getWon() { return gameWon; }
+    public boolean getGameStarted() { return gameStarted; }
     public float getGameTime() { return gameTime;}
 
     /****SETTERS*****/
@@ -148,6 +150,7 @@ public class GameModel {
         this.player = player;
     }
 
+    public void setGameStarted(boolean gameStarted){this.gameStarted = gameStarted;}
     public void setWon(boolean gameWon){this.gameWon = gameWon;}
 
     /*****OTHER SMALL LOGIC*****/
@@ -185,6 +188,7 @@ public class GameModel {
     }
 
     public void updateGameTime() {
-        gameTime += 1/50f;
+        if(gameStarted && !gameWon)
+            gameTime += 1/50f;
     }
 }
