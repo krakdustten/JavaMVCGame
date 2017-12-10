@@ -27,6 +27,9 @@
                <children>
                   <Button fx:id="Start" mnemonicParsing="false" onAction="#startPressed" text="Start" />
                   <Button fx:id="Pause" disable="true" mnemonicParsing="false" onAction="#pausePressed" text="Pause" />
+                  <Separator orientation="VERTICAL" prefHeight="7.0" prefWidth="55.0" />
+                  <Label text="Variable:s" />
+                  <ListView fx:id="Variables" prefHeight="200.0" prefWidth="200.0" />
                </children>
             </VBox>
          </content>

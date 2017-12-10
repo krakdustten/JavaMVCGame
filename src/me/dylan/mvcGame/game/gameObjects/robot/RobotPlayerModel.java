@@ -13,6 +13,8 @@ public class RobotPlayerModel {
     private float moterLSpeed, moterRSpeed;//1 rot/s = 1 tile/s
 
     private ArrayList<Sensor> sensors = new ArrayList<>();
+    private String[] sensorNames;
+    private float[] sensorValues;
     private ArrayList<DebugActuators> debugActuators = new ArrayList<>();
 
     private boolean change = true;
@@ -138,6 +140,18 @@ public class RobotPlayerModel {
     public ArrayList<Sensor> getAllSensors() {
         return sensors;
     }
+
+    public void setSensorNames(String[] sensorNames) {
+        this.sensorNames = sensorNames;
+        this.sensorValues = new float[sensorNames.length];
+    }
+
+    public float[] getSensorValues(){return sensorValues;}
+
+    public String[] getSensorNames() {
+        return sensorNames;
+    }
+
     //TODO show debug on screen (leds, small text)
     //TODO update robot on code runner
 }

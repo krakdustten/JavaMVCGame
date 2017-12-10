@@ -3,16 +3,16 @@ package me.dylan.mvcGame.game.gameObjects.robot;
 import me.dylan.mvcGame.game.GameModel;
 import me.dylan.mvcGame.game.gameObjects.Tiles;
 
-public class DistanceSensor extends Sensor<Float>{
+public class DistanceSensor extends Sensor{
     private float rotation;
 
     public DistanceSensor(GameModel gameModel, float x, float y, float rotation, String name) {
-        super(gameModel, x, y, name);
+        super(gameModel, x, y, new String[]{name});
         this.rotation = rotation;
     }
 
     @Override
-    public Float calculateOutput() {
+    public void calculateOutput(float[] data) {
         float[] sensor = getRealPositionInWorld();
         float xSensor = sensor[0];
         float ySensor = sensor[1];
@@ -30,19 +30,23 @@ public class DistanceSensor extends Sensor<Float>{
         boolean found = false;
         while(!found){
             if(xLength < yLength){
-                if(gameModel.getTileID(nextX + (modX > 0 ? 0 : -1), nextY - (modY > 0 ? 1 : 0)) == Tiles.WALL_ID) return xLength;
+                if(gameModel.getTileID(nextX + (modX > 0 ? 0 : -1), nextY - (modY > 0 ? 1 : 0)) == Tiles.WALL_ID) {
+                    data[ID[0]] = xLength;
+                    return;
+                }
                 nextX += modX;
                 xLength = Math.abs((nextX - xSensor) / cos);
             }else{
-                if(gameModel.getTileID(nextX - (modX > 0 ? 1: 0), nextY + (modY > 0 ? 0 : -1)) == Tiles.WALL_ID) return yLength;
+                if(gameModel.getTileID(nextX - (modX > 0 ? 1: 0), nextY + (modY > 0 ? 0 : -1)) == Tiles.WALL_ID) {
+                    data[ID[0]] = yLength;
+                    return;
+                }
                 nextY += modY;
                 yLength = Math.abs((nextY - ySensor) / sin);
             }
 
             if(xLength > 10 && yLength > 10)found = true;
         }
-
-        return 10.0f;
     }
 
     public float getRotation() { return rotation; }

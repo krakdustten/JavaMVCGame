@@ -2,14 +2,15 @@ package me.dylan.mvcGame.game.gameObjects.robot;
 
 import me.dylan.mvcGame.game.GameModel;
 
-public abstract class Sensor<T> {
+public abstract class Sensor {
     protected GameModel gameModel;
     protected RobotPlayerModel model;
 
     protected float x, y;
-    protected String name;
+    protected String[] name;
+    protected int[] ID;
 
-    public Sensor(GameModel gameModel, float x, float y, String name){
+    public Sensor(GameModel gameModel, float x, float y, String[] name){
         this.gameModel = gameModel;
         this.model = gameModel.getPlayer();
 
@@ -18,11 +19,11 @@ public abstract class Sensor<T> {
         this.name = name;
     }
 
-    public abstract T calculateOutput();
+    public abstract void calculateOutput(float[] data);
 
     public float getX() { return x; }
     public float getY() { return y; }
-    public String getName() { return name; }
+    public String[] getNames() { return name; }
 
     public float[] getRealPositionInWorld(){return getRealPositionInWorld(x , y);}
     protected float[] getRealPositionInWorld(float xRel, float yRel){
@@ -41,4 +42,6 @@ public abstract class Sensor<T> {
 
         return output;
     }
+
+    public void setID(int[] ID){this.ID = ID;}
 }

@@ -7,6 +7,7 @@ import me.dylan.mvcGame.game.gameObjects.robot.Sensor;
 import me.dylan.mvcGame.game.gameViewers.RobotPlayerView;
 import me.dylan.mvcGame.game.gameViewers.RobotSensorViewer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RobotPlayerController {
@@ -25,9 +26,11 @@ public class RobotPlayerController {
         senserView = new RobotSensorViewer(this.gameModel);
 
         //TODO load sensors from world file or make full default robot
-        model.addSensor(new DistanceSensor(this.gameModel, 1.0f * 26.0f/32, 1.0f * 25.0f/32, (float) (Math.PI * 3/2), "Left"));
-        model.addSensor(new DistanceSensor(this.gameModel, 1.0f * 26.0f/32, 1.0f * 6.0f/32, (float) (Math.PI * 1/2), "Right"));
-        model.addSensor(new DistanceSensor(this.gameModel, 1.0f * 29.0f/32, 1.0f * 16.0f/32, 0, "Front"));
+        model.addSensor(new DistanceSensor(this.gameModel, 1.0f * 26.0f/32, 1.0f * 25.0f/32, (float) (Math.PI * 3/2), "Distance_Left"));
+        model.addSensor(new DistanceSensor(this.gameModel, 1.0f * 26.0f/32, 1.0f * 6.0f/32, (float) (Math.PI * 1/2), "Distance_Right"));
+        model.addSensor(new DistanceSensor(this.gameModel, 1.0f * 29.0f/32, 1.0f * 16.0f/32, 0, "Distance_Front"));
+        addIDsToSensors();
+
         update();
 
         model.setMoterLSpeed(0.3f);
@@ -43,6 +46,7 @@ public class RobotPlayerController {
 
     public void updateGame() {
         model.calculateMovement();
+        calculateSensorData();
     }
 
     public void render(){
@@ -50,14 +54,26 @@ public class RobotPlayerController {
         senserView.render();
     }
 
-    //TODO add the hasmap as seperated values to the jython exendable class
-    public HashMap<String, Object> calculateSensorData(){
-        HashMap<String, Object> output = new HashMap<>();
-        for(Sensor sensor : model.getAllSensors()){
-            output.put(sensor.getName(), sensor.calculateOutput());
+    private void addIDsToSensors() {
+        ArrayList<String> sensorNames = new ArrayList<>();
+        int totalFloatAmount = 0;
+        for (Sensor sensor : model.getAllSensors()) {
+            String[] sNames = sensor.getNames();
+            int[] ids = new int[sNames.length];
+            for(int i = 0; i < sNames.length; i++){
+                sensorNames.add(sNames[i]);
+                ids[i] = totalFloatAmount++;
+            }
+            sensor.setID(ids);
         }
-        return output;
+
+        model.setSensorNames(sensorNames.toArray(new String[0]));
     }
 
-
+    public void calculateSensorData(){
+        float[] data = model.getSensorValues();
+        for (Sensor sensor : model.getAllSensors()) {
+            sensor.calculateOutput(data);
+        }
+    }
 }

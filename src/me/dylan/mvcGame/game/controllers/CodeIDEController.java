@@ -7,6 +7,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import me.dylan.mvcGame.game.GameModel;
@@ -25,6 +26,9 @@ public class CodeIDEController {
 
     @FXML
     private Button Start;
+
+    @FXML
+    private ListView<String> Variables;
 
     @FXML
     private MenuItem MenuFileSave;
@@ -87,6 +91,10 @@ public class CodeIDEController {
     public void setGameModel(GameModel model) {
         this.model = model;
         Code.setText(model.getCode());
+
+        for(String str : model.getPlayer().getSensorNames()){
+            Variables.getItems().add(str);
+        }
     }
 }
 
