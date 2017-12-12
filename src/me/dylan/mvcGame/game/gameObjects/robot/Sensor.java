@@ -44,4 +44,8 @@ public abstract class Sensor {
     }
 
     public void setID(int[] ID){this.ID = ID;}
+
+    public int[] getID() {
+        return ID;
+    }
 }

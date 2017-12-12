@@ -26,6 +26,13 @@ public class MainGameThread implements Runnable{
             fps = (1_000_000_000.0 / diffFrame);
             frameTimer += diffFrame;
             render();
+            if(diffTick < WANTED_UPS / 2){
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         deInit();
     }

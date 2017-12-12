@@ -30,7 +30,7 @@ public class RobotSensorViewer {
 
         ArrayList<Sensor> sensors = model.getAllSensors();
 
-        float[] vertexes = new float[VBODrawer2D.calcArraySizeForSquares(VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, sensors.size() + 1)];
+        float[] vertexes = new float[VBODrawer2D.calcArraySizeForSquares(VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, sensors.size() + 3)];
         int offset = 0;
 
         float xStart = model.getX();
@@ -50,7 +50,7 @@ public class RobotSensorViewer {
             }
 
             offset = VBODrawer2D.draw2DSquareRotCenter(vertexes, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
-                    (xStart + sensor.getX() - 0.0625f) * 64, (yStart + sensor.getY() - 0.0625f) * 64, 16, 16,
+                    (xStart + sensor.getX() - 0.09375f) * 64, (yStart + sensor.getY() - 0.09375f) * 64, 16, 16,
                     model.getRotation(), xStart * 64 + 32, yStart * 64 + 32,1, 1, 1, 1,
                     texbX * 0.125f + (rot % 4) * 0.03125f, texbY * 0.125f + (rot / 4) * 0.03125f, 0.03125f, 0.03125f);
         }
@@ -59,6 +59,6 @@ public class RobotSensorViewer {
     }
 
     public void render(){
-        VBODrawer2D.drawVBO(gameModel.getMainModel(), vbo, texture, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, VBODrawer2D.calcDrawAmountForSquares(model.getAllSensors().size()+1));
+        VBODrawer2D.drawVBO(gameModel.getMainModel(), vbo, texture, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, VBODrawer2D.calcDrawAmountForSquares(model.getAllSensors().size()+3));
     }
 }

@@ -26,8 +26,8 @@ public class RobotPlayerController {
         senserView = new RobotSensorViewer(this.gameModel);
 
         //TODO load sensors from world file or make full default robot
-        model.addSensor(new DistanceSensor(this.gameModel, 1.0f * 26.0f/32, 1.0f * 25.0f/32, (float) (Math.PI * 3/2), "Distance_Left"));
-        model.addSensor(new DistanceSensor(this.gameModel, 1.0f * 26.0f/32, 1.0f * 6.0f/32, (float) (Math.PI * 1/2), "Distance_Right"));
+        model.addSensor(new DistanceSensor(this.gameModel, 1.0f * 26.0f/32, 1.0f * 25.0f/32, (float) (Math.PI * 1/2), "Distance_Left"));
+        model.addSensor(new DistanceSensor(this.gameModel, 1.0f * 26.0f/32, 1.0f * 6.0f/32, (float) (Math.PI * 3/2), "Distance_Right"));
         model.addSensor(new DistanceSensor(this.gameModel, 1.0f * 29.0f/32, 1.0f * 16.0f/32, 0, "Distance_Front"));
         addIDsToSensors();
 

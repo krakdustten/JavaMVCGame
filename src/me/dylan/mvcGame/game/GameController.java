@@ -73,6 +73,12 @@ public class GameController extends State {
     private void updateGame(){
         model.updateGameTime();
         playerController.updateGame();
+
+        //TODO remove test
+        playerController.calculateSensorData();
+        float[] sensorData = model.getPlayer().getSensorValues();
+        model.getPlayer().setMoterLSpeed(sensorData[0] / 2 + 0.5f);
+        model.getPlayer().setMoterRSpeed(sensorData[1] / 2 + 0.5f);
     }
 
     @Override

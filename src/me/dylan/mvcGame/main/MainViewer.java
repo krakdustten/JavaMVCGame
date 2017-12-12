@@ -43,7 +43,8 @@ public class MainViewer {
 
         GL11.glEnable(GL11.GL_TEXTURE_2D);
 
-
+        //turn on V-sync
+        GLFW.glfwSwapInterval(1);
 
         //Make transparency work
         GL11.glEnable(GL11.GL_BLEND);

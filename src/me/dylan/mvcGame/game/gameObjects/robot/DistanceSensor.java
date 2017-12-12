@@ -47,7 +47,14 @@ public class DistanceSensor extends Sensor{
 
             if(xLength > 10 && yLength > 10)found = true;
         }
+        data[ID[0]] = 10.0f;
     }
 
     public float getRotation() { return rotation; }
+
+    public float calculateOutput() {
+        float[] temp = new float[ID[0] + 1];
+        calculateOutput(temp);
+        return temp[ID[0]];
+    }
 }
