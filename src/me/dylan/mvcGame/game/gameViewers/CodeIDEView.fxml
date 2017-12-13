@@ -6,7 +6,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.dylan.mvcGame.game.controllers.CodeIDEController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
@@ -38,4 +37,7 @@
    <center>
       <TextArea fx:id="Code" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
+   <bottom>
+      <TextArea fx:id="Log" prefHeight="88.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>

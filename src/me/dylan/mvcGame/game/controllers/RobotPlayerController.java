@@ -6,6 +6,8 @@ import me.dylan.mvcGame.game.gameObjects.robot.RobotPlayerModel;
 import me.dylan.mvcGame.game.gameObjects.robot.Sensor;
 import me.dylan.mvcGame.game.gameViewers.RobotPlayerView;
 import me.dylan.mvcGame.game.gameViewers.RobotSensorViewer;
+import me.dylan.mvcGame.jython.JythonRunner;
+import org.python.core.PyObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +18,8 @@ public class RobotPlayerController {
 
     private RobotPlayerView view;
     private RobotSensorViewer senserView;
+
+    private JythonRunner codeRunner;
 
     public RobotPlayerController(GameModel gameModel){
         this.gameModel = gameModel;
@@ -33,8 +37,10 @@ public class RobotPlayerController {
 
         update();
 
-        model.setMoterLSpeed(0.3f);
-        model.setMoterRSpeed(0.6f);
+        model.setMoterLSpeed(0.0f);
+        model.setMoterRSpeed(0.0f);
+
+        codeRunner = new JythonRunner(gameModel);
     }
 
     public void update(){
@@ -47,6 +53,7 @@ public class RobotPlayerController {
     public void updateGame() {
         model.calculateMovement();
         calculateSensorData();
+        runCode();
     }
 
     public void render(){
@@ -68,6 +75,23 @@ public class RobotPlayerController {
         }
 
         model.setSensorNames(sensorNames.toArray(new String[0]));
+    }
+
+    private void runCode() {
+        if(gameModel.getCodeChanged()){
+            if(!codeRunner.compileCode(gameModel.getCode()))
+                gameModel.setShouldGameReset(true);
+            gameModel.setCodeChanged(false);
+        }
+        codeRunner.setVarArray(model.getSensorNames(), model.getSensorValues());
+        codeRunner.setVar("MotorL", model.getMoterLSpeed());
+        codeRunner.setVar("MotorR", model.getMoterRSpeed());
+        PyObject ret = codeRunner.runMethod("tick");
+        if(ret == null){
+            gameModel.setShouldGameReset(true);
+        }
+        model.setMoterLSpeed(codeRunner.getVar("MotorL", float.class));
+        model.setMoterRSpeed(codeRunner.getVar("MotorR", float.class));
     }
 
     public void calculateSensorData(){

@@ -11,11 +11,12 @@ import me.dylan.mvcGame.game.controllers.CodeIDEController;
 import javax.swing.*;
 import java.io.IOException;
 
-public class CodeIDEViewer{
+public class CodeIDEContainer{
     private JFrame frame;
     private JFXPanel fxPanel;
+    private CodeIDEController codeIDEController;
 
-    public CodeIDEViewer(GameModel model){
+    public CodeIDEContainer(GameModel model){
         frame = new JFrame("Code editor");//we have to use jframe because stage has to be run from the main thread
         fxPanel = new JFXPanel();
         frame.add(fxPanel);
@@ -28,7 +29,8 @@ public class CodeIDEViewer{
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("CodeIDEView.fxml"));
                 Parent root = loader.load();
-                ((CodeIDEController)loader.getController()).setGameModel(model);
+                this.codeIDEController = (CodeIDEController)loader.getController();
+                codeIDEController.setGameModel(model);
 
                 Scene scene = new Scene(root, frame.getWidth(), frame.getHeight());
                 fxPanel.setScene(scene);
@@ -36,6 +38,10 @@ public class CodeIDEViewer{
             e.printStackTrace();
         }
         });
+    }
+
+    public void update(){
+        codeIDEController.gameTick();
     }
 
     public void distroy() {

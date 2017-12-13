@@ -1,6 +1,10 @@
 package me.dylan.mvcGame.game.controllers;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.beans.value.ObservableValue;
@@ -34,6 +38,9 @@ public class CodeIDEController {
     private MenuItem MenuFileSave;
 
     @FXML
+    private TextArea Log;
+
+    @FXML
     private TextArea Code;
 
     @FXML
@@ -53,12 +60,14 @@ public class CodeIDEController {
             Pause.setDisable(true);
             Pause.setText("Pause");
             Code.setDisable(false);
+            model.setCodeChanged(true);
         }
         else{
             model.setGameStarted(true);
             Start.setText("Stop");
             Pause.setDisable(false);
             Code.setDisable(true);
+            model.setError("");
         }
     }
 
@@ -94,6 +103,13 @@ public class CodeIDEController {
 
         for(String str : model.getPlayer().getSensorNames()){
             Variables.getItems().add(str);
+        }
+    }
+
+    public void gameTick(){
+        if(model.getErrorChanged()){
+            Log.setText(model.getError());
+            model.setErrorChanged(false);
         }
     }
 }

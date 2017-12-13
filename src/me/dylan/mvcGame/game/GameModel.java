@@ -25,6 +25,7 @@ public class GameModel {
 
     private RobotPlayerModel player;
     private String code = "";
+    private boolean codeChanged = true;
 
     private float gameTime = 0;
     private boolean gameWon = false;
@@ -32,6 +33,9 @@ public class GameModel {
     private boolean shouldGameReset = true;
 
     private AdvancedTextureTileMap tileTextures; //needed for sensors
+
+    private String error;
+    private boolean errorChanged;
 
     public GameModel(MainModel mainModel, int worldXSize, int worldYSize){
         this(mainModel,worldXSize, worldYSize, null, null, new HashMap<>());
@@ -52,7 +56,15 @@ public class GameModel {
         this.tileID = tileID;
         this.specialTiles = specialTiles;
 
-        code = " wauaw   aw";
+        //TODO add default code to world file
+        code = "\n" +
+                "def tick():\n" +
+                "     global MotorL\n" +
+                "     global MotorR\n" +
+                "     MotorL = Distance_Right\n" +
+                "     MotorR = Distance_Left";
+
+        error = "";
 
         //find start and finish
         boolean startFound = false;
@@ -104,6 +116,7 @@ public class GameModel {
     public float getViewZoom() { return mainModel.getCamera2D().getZoom(); }
 
     public String getCode() { return code; }
+    public boolean getCodeChanged() { return codeChanged; }
     public RobotPlayerModel getPlayer() { return player; }
 
     public AdvancedTextureTileMap getTileTextures() { return tileTextures; }
@@ -112,6 +125,9 @@ public class GameModel {
     public boolean getGameStarted() { return gameStarted; }
     public float getGameTime() { return gameTime;}
     public boolean getShouldGameReset() { return shouldGameReset; }
+
+    public boolean getErrorChanged() { return errorChanged; }
+    public String getError() { return error; }
 
     /****SETTERS*****/
 
@@ -144,7 +160,8 @@ public class GameModel {
         mainModel.getCamera2D().setZoom(viewZoom);
     }
 
-    public void setCode(String code){ this.code = code;}
+    public void setCode(String code){ this.code = code; codeChanged = true; }
+    public void setCodeChanged(boolean codeChanged){ this.codeChanged = codeChanged; }
 
     public void setTileTextures(AdvancedTextureTileMap tileTextures) { this.tileTextures = tileTextures; }
 
@@ -156,6 +173,9 @@ public class GameModel {
     public void setGameStarted(boolean gameStarted){this.gameStarted = gameStarted;}
     public void setWon(boolean gameWon){this.gameWon = gameWon;}
     public void setShouldGameReset(boolean shouldGameReset) { this.shouldGameReset = shouldGameReset; }
+
+    public void setError(String error){ this.error = error; errorChanged = true;}
+    public void setErrorChanged(boolean errorChanged) { this.errorChanged = errorChanged; }
 
     /*****OTHER SMALL LOGIC*****/
 
@@ -197,4 +217,5 @@ public class GameModel {
     public boolean isGameRunning(){
         return (gameStarted && !gameWon);
     }
+
 }

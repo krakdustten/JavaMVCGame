@@ -2,7 +2,7 @@ package me.dylan.mvcGame.game;
 
 import me.dylan.mvcGame.game.controllers.RobotPlayerController;
 import me.dylan.mvcGame.game.gameObjects.specialTiles.SpecialTile;
-import me.dylan.mvcGame.game.gameViewers.CodeIDEViewer;
+import me.dylan.mvcGame.game.gameViewers.CodeIDEContainer;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.state.State;
 import me.dylan.mvcGame.state.StateHandler;
@@ -11,7 +11,7 @@ import org.lwjgl.glfw.GLFW;
 public class GameController extends State {
     private GameModel model;
     private GameView view;
-    private CodeIDEViewer codeIDEViewer;
+    private CodeIDEContainer codeIDEContainer;
     private RobotPlayerController playerController;
 
 
@@ -45,7 +45,7 @@ public class GameController extends State {
         //TODO make code runner --> for handling world code
         //TODO world editor --> adaptive worlds with world code
 
-        codeIDEViewer = new CodeIDEViewer(this.model);
+        codeIDEContainer = new CodeIDEContainer(this.model);
         playerController = new RobotPlayerController(this.model);
     }
 
@@ -67,18 +67,12 @@ public class GameController extends State {
         if(keyPressed[5])model.setViewZoom(model.getViewZoom() * 0.97f);
         view.update();
         playerController.update();
-
+        codeIDEContainer.update();
     }
 
     private void updateGame(){
         model.updateGameTime();
         playerController.updateGame();
-
-        //TODO remove test
-        playerController.calculateSensorData();
-        float[] sensorData = model.getPlayer().getSensorValues();
-        model.getPlayer().setMoterLSpeed(sensorData[0] / 2 + 0.5f);
-        model.getPlayer().setMoterRSpeed(sensorData[1] / 2 + 0.5f);
     }
 
     @Override
@@ -89,8 +83,8 @@ public class GameController extends State {
 
     @Override
     public void deInit() {
-        codeIDEViewer.distroy();
-        codeIDEViewer = null;
+        codeIDEContainer.distroy();
+        codeIDEContainer = null;
     }
 
     @Override
