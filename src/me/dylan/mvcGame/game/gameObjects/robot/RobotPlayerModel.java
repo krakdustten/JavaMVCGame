@@ -9,8 +9,11 @@ public class RobotPlayerModel {
     private GameModel parent;
 
     private float x, y, rotation;
-    private float moterLPos, moterRPos;//1 rot = 1 tile
-    private float moterLSpeed, moterRSpeed;//1 rot/s = 1 tile/s
+    private float motorLSpeedTop, motorRSpeedTop;
+    private float motorLPos, motorRPos;//1 rot = 1 tile
+    private float motorLSpeed, motorRSpeed;//1 rot/s = 1 tile/s
+
+    private float[] oldOuters;
 
     private ArrayList<Sensor> sensors = new ArrayList<>();
     private String[] sensorNames;
@@ -33,21 +36,35 @@ public class RobotPlayerModel {
     public float getY() { return y; }
     public float getRotation() { return rotation; }
 
-    public float getMoterLPos() { return moterLPos; }
-    public float getMoterRPos() { return moterRPos; }
+    public float getMoterLPos() { return motorLPos; }
+    public float getMoterRPos() { return motorRPos; }
 
-    public float getMoterLSpeed() { return moterLSpeed; }
-    public float getMoterRSpeed() { return moterRSpeed; }
+    public float getMoterLSpeed() { return motorLSpeed; }
+    public float getMoterRSpeed() { return motorRSpeed; }
 
-    public void setMoterLSpeed(float moterLSpeed) { this.moterLSpeed = moterLSpeed; }
-    public void setMoterRSpeed(float moterRSpeed) { this.moterRSpeed = moterRSpeed; }
+    public float getMoterLSpeedTop() { return motorLSpeed; }
+    public float getMoterRSpeedTop() { return motorRSpeed; }
+
+    public void setMoterLSpeedTop(float moterLSpeedTop) {
+        this.motorLSpeedTop = moterLSpeedTop;
+        if(moterLSpeedTop > 2.56f) this.motorLSpeedTop = 2.56f;
+        if(moterLSpeedTop < -2.56f) this.motorLSpeedTop = -2.56f;
+    }
+    public void setMoterRSpeedTop(float moterRSpeedTop) {
+        this.motorRSpeedTop = moterRSpeedTop;
+        if(moterRSpeedTop > 2.56f) this.motorRSpeedTop = 2.56f;
+        if(moterRSpeedTop < -2.56f) this.motorRSpeedTop = -2.56f;
+    }
 
     public void calculateMovement(){
-        moterLPos = (moterLPos + moterLSpeed / 25 + 1.0f) % 1.0f;
-        moterRPos = (moterRPos + moterRSpeed / 25 + 1.0f) % 1.0f;
+        motorLSpeed += (motorLSpeedTop - motorLSpeed) * 0.05f;
+        motorRSpeed += (motorRSpeedTop - motorRSpeed) * 0.05f;
 
-        float mov = (moterLSpeed + moterRSpeed) / 100;
-        float rot = (float) Math.atan2((moterLSpeed - moterRSpeed), 50);
+        motorLPos = (motorLPos + motorLSpeed / 25 + 1.0f) % 1.0f;
+        motorRPos = (motorRPos + motorRSpeed / 25 + 1.0f) % 1.0f;
+
+        float mov = (motorLSpeed + motorRSpeed) / 100;
+        float rot = (float) Math.atan2((motorLSpeed - motorRSpeed), 50);
         float dx = mov * (float) Math.cos(rotation);
         float dy = mov * (float) Math.sin(rotation);
 
@@ -59,36 +76,41 @@ public class RobotPlayerModel {
     }
 
     private void calculateHit(float dx, float dy, float rot) {
+        //TODO redo hitboxes (circle of 0.5)
+
         float newX = x + dx;
         float newY = y + dy;
         float newRot = rotation + rot;
 
-        float[] oldOuters = calculateOuterPoints(x, y, rot);
         float[] outers = calculateOuterPoints(newX, newY, newRot);
+        if(oldOuters == null) oldOuters = outers;
 
         int finishX = parent.getFinishX();
         int finishY = parent.getFinishY();
         boolean finish = true;
+        float xChange = 0.0f;
+        float yChange = 0.0f;
 
         for(int i = 0; i < 8; i++){
-            float xTest = outers[i];
-            float yTest = outers[i + 8];
+            float xTest = outers[i] + xChange;
+            float yTest = outers[i + 8] + yChange;
             float xOld = oldOuters[i];
             float yOld = oldOuters[i + 8];
 
             if(parent.getTileID((int) xTest, (int) yOld) == Tiles.WALL_ID){
-                if((x + 0.5f) < xTest)
-                    newX = newX + ((int) xTest - xTest);
-                else
-                    newX = newX + ((int) xTest + 1 - xTest);
+                if((x + 0.5f) < xTest) {
+                    if(Math.abs((int) xTest - xTest) < Math.abs(xTest - xOld))xChange = ((int) xTest - xTest);
+                }else {
+                    if(Math.abs((int) xTest + 1 - xTest) < Math.abs(xTest - xOld))xChange = ((int) xTest + 1 - xTest);
+                }
             }
 
 
             if(parent.getTileID((int) xOld, (int) yTest) == Tiles.WALL_ID){
                 if((y + 0.5f) < yTest)
-                    newY = newY + ((int) yTest - yTest);
+                    yChange = ((int) yTest - yTest);
                 else
-                    newY = newY + ((int) yTest + 1 - yTest);
+                    yChange = ((int) yTest + 1 - yTest);
             }
 
             //Check for finish
@@ -101,8 +123,10 @@ public class RobotPlayerModel {
             System.out.println(parent.getGameTime());
         }
 
-        x = newX;
-        y = newY;
+
+        x = newX + xChange;
+        y = newY + yChange;
+        oldOuters = calculateOuterPoints(newX + xChange * 1.1f, newY + yChange * 1.1f, newRot);
     }
 
     private float[] calculateOuterPoints(float x, float y, float rot){

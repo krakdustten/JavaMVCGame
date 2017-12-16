@@ -37,9 +37,6 @@ public class RobotPlayerController {
 
         update();
 
-        model.setMoterLSpeed(0.0f);
-        model.setMoterRSpeed(0.0f);
-
         codeRunner = new JythonRunner(gameModel);
     }
 
@@ -90,8 +87,8 @@ public class RobotPlayerController {
         if(ret == null){
             gameModel.setShouldGameReset(true);
         }
-        model.setMoterLSpeed(codeRunner.getVar("MotorL", float.class));
-        model.setMoterRSpeed(codeRunner.getVar("MotorR", float.class));
+        model.setMoterLSpeedTop(codeRunner.getVar("MotorL", float.class));
+        model.setMoterRSpeedTop(codeRunner.getVar("MotorR", float.class));
     }
 
     public void calculateSensorData(){
