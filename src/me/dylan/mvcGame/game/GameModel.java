@@ -61,8 +61,8 @@ public class GameModel {
                 "def tick():\n" +
                 "     global MotorL\n" +
                 "     global MotorR\n" +
-                "     MotorL = Distance_Right\n" +
-                "     MotorR = Distance_Left";
+                "     MotorR = Distance_Right\n" +
+                "     MotorL = Distance_Left";
 
         error = "";
 
