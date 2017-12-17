@@ -31,7 +31,6 @@ public class GameController extends State {
             model.setTileID((byte)(Math.random() * 1.5 + 1), i % 40, i / 40);
             model.setUnderGroundColor(/*(int)(Math.random() * 256 * 256 * 256)*/ 256 * 256 * 256 - 1, i % 40, i / 40);
         }
-
         GameMapLoader.saveMap(model, "random.sg");
 
         this.model = GameMapLoader.loadMap(mainModel, "game1.sg");
@@ -41,7 +40,6 @@ public class GameController extends State {
 
         //TODO make code runner --> for handling world code
         //TODO world editor --> adaptive worlds with world code
-        //TODO save progress
 
         playerController = new RobotPlayerController(this.model);
         codeIDEContainer = new CodeIDEContainer(this.model);
@@ -161,6 +159,7 @@ public class GameController extends State {
                     stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
                     break;
                 case 2://save
+                    //TODO save progress
                     break;
                 case 3://back
                     model.setGameMenuShown(false);

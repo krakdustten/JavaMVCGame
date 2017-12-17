@@ -30,4 +30,10 @@ public class MainFXContainer {
     public void setVisible(boolean visible){
         frame.setVisible(visible);
     }
+
+    public void distroy(){
+        frame.dispose();
+        frame = null;
+        fxPanel = null;
+    }
 }

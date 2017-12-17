@@ -70,6 +70,7 @@ public class MainGameThread implements Runnable{
         mainController = null;
         mainViewer.deInit();
         mainViewer = null;
+        mainModel.distroy();
         mainModel = null;
     }
 

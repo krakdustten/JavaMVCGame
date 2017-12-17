@@ -41,4 +41,9 @@ public class MainModel {
     public float getMouseYWorld() { return mouseYWorld; }
 
     public MainFXContainer getFxContainer() { return fxContainer; }
+
+    public void distroy() {
+        fxContainer.distroy();
+        fxContainer = null;
+    }
 }
