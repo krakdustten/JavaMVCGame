@@ -1,6 +1,6 @@
 package me.dylan.mvcGame.game.gameObjects.robot;
 
-import me.dylan.mvcGame.game.GameModel;
+import me.dylan.mvcGame.game.gameObjects.GameModel;
 import me.dylan.mvcGame.game.gameObjects.Tiles;
 
 public class DistanceSensor extends Sensor{

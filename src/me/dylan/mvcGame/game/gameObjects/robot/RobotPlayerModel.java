@@ -1,6 +1,6 @@
 package me.dylan.mvcGame.game.gameObjects.robot;
 
-import me.dylan.mvcGame.game.GameModel;
+import me.dylan.mvcGame.game.gameObjects.GameModel;
 import me.dylan.mvcGame.game.gameObjects.Tiles;
 
 import java.util.ArrayList;
@@ -169,5 +169,4 @@ public class RobotPlayerModel {
     }
 
     //TODO show debug on screen (leds, small text)
-    //TODO update robot on code runner
 }

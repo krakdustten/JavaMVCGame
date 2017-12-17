@@ -1,6 +1,6 @@
 package me.dylan.mvcGame.game.gameObjects.robot;
 
-import me.dylan.mvcGame.game.GameModel;
+import me.dylan.mvcGame.game.gameObjects.GameModel;
 
 public abstract class Sensor {
     protected GameModel gameModel;

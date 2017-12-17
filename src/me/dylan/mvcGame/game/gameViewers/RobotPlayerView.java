@@ -2,7 +2,7 @@ package me.dylan.mvcGame.game.gameViewers;
 
 import me.dylan.mvcGame.drawers.Texture;
 import me.dylan.mvcGame.drawers.VBODrawer2D;
-import me.dylan.mvcGame.game.GameModel;
+import me.dylan.mvcGame.game.gameObjects.GameModel;
 
 public class RobotPlayerView {
     private int vbo;
@@ -46,5 +46,10 @@ public class RobotPlayerView {
 
     public void render() {
         VBODrawer2D.drawVBO(model.getMainModel(), vbo, texture, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, VBODrawer2D.calcDrawAmountForSquares(3));
+    }
+
+    public void distroy() {
+        VBODrawer2D.deleteVBO(vbo);
+        Texture.deleteImage(texture);
     }
 }

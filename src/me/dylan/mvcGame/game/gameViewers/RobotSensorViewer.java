@@ -2,7 +2,7 @@ package me.dylan.mvcGame.game.gameViewers;
 
 import me.dylan.mvcGame.drawers.Texture;
 import me.dylan.mvcGame.drawers.VBODrawer2D;
-import me.dylan.mvcGame.game.GameModel;
+import me.dylan.mvcGame.game.gameObjects.GameModel;
 import me.dylan.mvcGame.game.gameObjects.robot.DistanceSensor;
 import me.dylan.mvcGame.game.gameObjects.robot.RobotPlayerModel;
 import me.dylan.mvcGame.game.gameObjects.robot.Sensor;
@@ -60,5 +60,10 @@ public class RobotSensorViewer {
 
     public void render(){
         VBODrawer2D.drawVBO(gameModel.getMainModel(), vbo, texture, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, VBODrawer2D.calcDrawAmountForSquares(model.getAllSensors().size()+3));
+    }
+
+    public void distroy() {
+        VBODrawer2D.deleteVBO(vbo);
+        Texture.deleteImage(texture);
     }
 }

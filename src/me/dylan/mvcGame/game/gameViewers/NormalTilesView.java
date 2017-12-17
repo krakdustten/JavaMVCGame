@@ -1,10 +1,8 @@
 package me.dylan.mvcGame.game.gameViewers;
 
 import me.dylan.mvcGame.drawers.AdvancedTextureTileMap;
-import me.dylan.mvcGame.drawers.Texture;
-import me.dylan.mvcGame.drawers.TextureTileMap;
 import me.dylan.mvcGame.drawers.VBODrawer2D;
-import me.dylan.mvcGame.game.GameModel;
+import me.dylan.mvcGame.game.gameObjects.GameModel;
 import me.dylan.mvcGame.game.gameObjects.Tiles;
 
 public class NormalTilesView {

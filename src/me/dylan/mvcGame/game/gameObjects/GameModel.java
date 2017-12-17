@@ -1,11 +1,12 @@
-package me.dylan.mvcGame.game;
+package me.dylan.mvcGame.game.gameObjects;
 
 import me.dylan.mvcGame.drawers.AdvancedTextureTileMap;
-import me.dylan.mvcGame.game.controllers.RobotPlayerController;
 import me.dylan.mvcGame.game.gameObjects.Tiles;
 import me.dylan.mvcGame.game.gameObjects.robot.RobotPlayerModel;
 import me.dylan.mvcGame.game.gameObjects.specialTiles.SpecialTile;
 import me.dylan.mvcGame.main.MainModel;
+import me.dylan.mvcGame.menu.components.MenuController;
+import me.dylan.mvcGame.menu.components.MenuModel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,9 +14,9 @@ import java.util.Map;
 public class GameModel {
     private MainModel mainModel;
 
+    //world stuff
     private int worldXSize;
     private int worldYSize;
-
     private int[] underGroundColor;
     private byte[] tileID;
     private HashMap<Integer, SpecialTile> specialTiles;
@@ -23,17 +24,23 @@ public class GameModel {
     private int startX, startY;
     private int finishX, finishY;
 
+    //player stuff
     private RobotPlayerModel player;
-    private String code = "";
+    private String code;
     private boolean codeChanged = true;
 
+    //score and gametime stuff
     private float gameTime = 0;
     private boolean gameWon = false;
     private boolean gameStarted = false;
     private boolean shouldGameReset = true;
 
-    private AdvancedTextureTileMap tileTextures; //needed for sensors
+    //menu
+    private MenuController inGameMenu;
+    private boolean isGameMenuShown = false;
 
+    //extra
+    private AdvancedTextureTileMap tileTextures;
     private String error;
     private boolean errorChanged;
 
@@ -55,7 +62,7 @@ public class GameModel {
         this.underGroundColor = underGroundColor;
         this.tileID = tileID;
         this.specialTiles = specialTiles;
-        
+
         code = "\n" +
                 "def tick():\n" +
                 "     global MotorL\n" +
@@ -87,6 +94,14 @@ public class GameModel {
 
         setViewX(getWorldXSize() * 64 / 2);
         setViewY(getWorldYSize() * 64 / 2);
+
+        inGameMenu = new MenuController(mainModel, "img/menu.png");
+        inGameMenu.addGuiElement(new MenuModel.GuiButton(0, 300, 350, 64, 1, "MAIN MENU", 1, 1, 1, 1, 0, 1, 0, 1));
+        inGameMenu.addGuiElement(new MenuModel.GuiButton(0, 200, 350, 64, 2, "SAVE", 1, 1, 1, 1, 0, 1, 0, 1));
+        inGameMenu.addGuiElement(new MenuModel.GuiButton(0, 100, 350, 64, 3, "BACK", 1, 1, 1, 1, 0, 1, 0, 1));
+        inGameMenu.addGuiElement(new MenuModel.GuiButton(0, 0, 350, 64, 4, "QUIT", 1, 1, 1, 1, 0, 1, 0, 1));
+        inGameMenu.setAlignMargin(0, 0, 0, 0);
+        inGameMenu.setBackgroundColor(0.8f, 0.5f,0.4f, 0.3f);
     }
 
     /*****GETTERS*****/
@@ -127,6 +142,9 @@ public class GameModel {
 
     public boolean getErrorChanged() { return errorChanged; }
     public String getError() { return error; }
+
+    public MenuController getInGameMenu() { return inGameMenu; }
+    public boolean getGameMenuShown() { return isGameMenuShown; }
 
     /****SETTERS*****/
 
@@ -176,6 +194,11 @@ public class GameModel {
     public void setError(String error){ this.error = error; errorChanged = true;}
     public void setErrorChanged(boolean errorChanged) { this.errorChanged = errorChanged; }
 
+    public void setGameMenuShown(boolean gameMenuShown) {
+        isGameMenuShown = gameMenuShown;
+        inGameMenu.updateView();
+    }
+
     /*****OTHER SMALL LOGIC*****/
 
     public void moveView(float dx, float dy){
@@ -217,4 +240,8 @@ public class GameModel {
         return (gameStarted && !gameWon);
     }
 
+    public void distroy() {
+        inGameMenu.delete();
+        tileTextures.distroy();
+    }
 }

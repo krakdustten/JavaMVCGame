@@ -12,6 +12,8 @@ public class MainModel {
     private double mouseX, mouseY;
     private float mouseXWorld, mouseYWorld;
 
+    private MainFXContainer fxContainer = new MainFXContainer();
+
     void setWindow(long window) { this.window = window; }
     void setMainShader2D(int mainShader2D) { this.mainShader2D = mainShader2D; }
     void setCamera2D(Camera2D camera2D) { this.camera2D = camera2D; }
@@ -19,11 +21,11 @@ public class MainModel {
 
     void setMouseX(double mouseX){
         this.mouseX = mouseX;
-        this.mouseXWorld = (float) ((mouseX - camera2D.getWidth() / 2 - camera2D.getxPos()) / camera2D.getZoom());
- }
+        this.mouseXWorld = (float) ((mouseX - camera2D.getWidth() / 2) / camera2D.getZoom() - camera2D.getxPos());
+    }
     void setMouseY(double mouseY){
         this.mouseY = mouseY;
-        this.mouseYWorld = (float) ((-mouseY + camera2D.getHeight() / 2 - camera2D.getyPos()) / camera2D.getZoom());
+        this.mouseYWorld = (float) ((-mouseY + camera2D.getHeight() / 2) / camera2D.getZoom() - camera2D.getyPos());
     }
 
     public double getMouseX(){return mouseX; }
@@ -37,4 +39,6 @@ public class MainModel {
 
     public float getMouseXWorld() { return mouseXWorld; }
     public float getMouseYWorld() { return mouseYWorld; }
+
+    public MainFXContainer getFxContainer() { return fxContainer; }
 }

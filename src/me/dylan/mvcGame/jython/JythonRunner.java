@@ -1,13 +1,10 @@
 package me.dylan.mvcGame.jython;
 
-import me.dylan.mvcGame.game.GameModel;
+import me.dylan.mvcGame.game.gameObjects.GameModel;
 import org.python.core.Py;
 import org.python.core.PyObject;
-import org.python.core.PyString;
 import org.python.util.PythonInterpreter;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.lang.reflect.Array;
 
 public class JythonRunner {

@@ -1,5 +1,6 @@
 package me.dylan.mvcGame.game;
 
+import me.dylan.mvcGame.game.gameObjects.GameModel;
 import me.dylan.mvcGame.game.gameObjects.specialTiles.SpecialTile;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.other.ResourceHandling;

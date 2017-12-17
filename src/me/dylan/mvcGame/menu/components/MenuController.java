@@ -28,13 +28,14 @@ public class MenuController {
         if(button != GLFW.GLFW_MOUSE_BUTTON_1 || action != GLFW.GLFW_PRESS)return -1;
         int mouseX = (int)model.getMainModel().getMouseXWorld();
         int mouseY = (int)model.getMainModel().getMouseYWorld();
+        float z = model.getMainModel().getCamera2D().getZoom();
         for(MenuModel.GuiElement element : model.getAllGuiElements()) {
             if (element instanceof MenuModel.GuiButton) {
                 MenuModel.GuiButton but = (MenuModel.GuiButton) element;
-                if(mouseX > (but.x + model.getDrawXstart()) &&
-                        mouseX < (but.x + but.width + model.getDrawXstart()) &&
-                        mouseY > (but.y + model.getDrawYstart()) &&
-                        mouseY < (but.y + but.height + model.getDrawYstart()))
+                if(mouseX > (but.x / z + model.getDrawXstart()) &&
+                        mouseX < ((but.x + but.width) / z + model.getDrawXstart()) &&
+                        mouseY > (but.y  / z  + model.getDrawYstart()) &&
+                        mouseY < ((but.y + but.height)  / z + model.getDrawYstart()))
                     return but.id;
             }
         }
@@ -45,10 +46,11 @@ public class MenuController {
     public void mousePosEvent(long window) {
         int mouseX = (int)model.getMainModel().getMouseXWorld();
         int mouseY = (int)model.getMainModel().getMouseYWorld();
+        float z = model.getMainModel().getCamera2D().getZoom();
         for(MenuModel.GuiElement element : model.getAllGuiElements()){
             if(element instanceof  MenuModel.GuiButton){
                 MenuModel.GuiButton but = (MenuModel.GuiButton) element;
-                boolean onBut = mouseX > (but.x + model.getDrawXstart()) && mouseX < (but.x + but.width + model.getDrawXstart()) && mouseY > (but.y + model.getDrawYstart()) && mouseY < (but.y + but.height + model.getDrawYstart());
+                boolean onBut = mouseX > (but.x / z + model.getDrawXstart()) && mouseX < ((but.x + but.width) / z + model.getDrawXstart()) && mouseY > (but.y / z + model.getDrawYstart()) && mouseY < ((but.y + but.height) / z + model.getDrawYstart());
                 if(onBut != but.hover){
                     but.hover = onBut;
                     model.updateView();
@@ -82,6 +84,8 @@ public class MenuController {
     public void setBackG(float backG) { model.setBackG(backG); }
     public void setBackB(float backB) { model.setBackB(backB); }
     public void setBackA(float backA) { model.setBackA(backA); }
+
+    public void updateView(){model.updateView();}
 
     public void delete(){
         view.delete();

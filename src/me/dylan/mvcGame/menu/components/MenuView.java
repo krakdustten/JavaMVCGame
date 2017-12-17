@@ -22,26 +22,27 @@ public class MenuView {
         if(!model.needUpdating())return;
 
         Camera2D camera2D = model.getMainModel().getCamera2D();
+        float z = camera2D.getZoom();
         float width = model.getTotalWidth();
         float height = model.getTotalHeight();
 
-        float xStartBackground = (-camera2D.getWidth() / 2 - camera2D.getxPos()) / camera2D.getZoom();
-        float yStartBackground = (-camera2D.getHeight() / 2 - camera2D.getyPos()) / camera2D.getZoom();
-        float widthBackground = camera2D.getWidth() / camera2D.getZoom();
-        float heightBackground = camera2D.getHeight() / camera2D.getZoom();
+        float xStartBackground = (-camera2D.getWidth() / 2) / z - camera2D.getxPos();
+        float yStartBackground = (-camera2D.getHeight() / 2) / z - camera2D.getyPos();
+        float widthBackground = camera2D.getWidth() / z;
+        float heightBackground = camera2D.getHeight() / z;
 
-        float backgroundRepeatSize = 64 / camera2D.getZoom();
+        float backgroundRepeatSize = 64 / z;
 
         int drawAmountX = model.getBackA() <= 0 ? 0: (int)Math.ceil(widthBackground / backgroundRepeatSize);
         int drawAmountY = model.getBackA() <= 0 ? 0: (int) Math.ceil(heightBackground / backgroundRepeatSize);
 
         float xStart, yStart;
-        if(model.getxAlign() < 0) xStart = xStartBackground + model.getxMargin();
-        else if(model.getxAlign() > 0)xStart = (camera2D.getWidth() / 2 - camera2D.getxPos()) / camera2D.getZoom() - width - model.getxMargin();
-        else xStart = -camera2D.getxPos() / camera2D.getZoom() - width / 2;
-        if(model.getyAlign() < 0) yStart = yStartBackground + model.getyMargin();
-        else if(model.getyAlign() > 0) yStart = (camera2D.getHeight() / 2 - camera2D.getyPos()) / camera2D.getZoom() - height - model.getyMargin();
-        else yStart = -camera2D.getyPos() / camera2D.getZoom() - height / 2;
+        if(model.getxAlign() < 0) xStart = xStartBackground + model.getxMargin() / z;
+        else if(model.getxAlign() > 0)xStart = (camera2D.getWidth() / 2 - width - model.getxMargin()) / z - camera2D.getxPos();
+        else xStart = -camera2D.getxPos() - (width / 2) / z;
+        if(model.getyAlign() < 0) yStart = yStartBackground + model.getyMargin() / z;
+        else if(model.getyAlign() > 0) yStart = (camera2D.getHeight() / 2 - height - model.getyMargin()) / z - camera2D.getyPos();
+        else yStart = -camera2D.getyPos() - (height / 2) / z;
 
         model.setDrawXstart(xStart);
         model.setDrawYstart(yStart);
@@ -72,22 +73,22 @@ public class MenuView {
                 float bSize = element.height;
                 //pre
                 offset = VBODrawer2D.draw2DSquare(buffer, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
-                        (float)element.x + xStart, (float)element.y + yStart, bSize, bSize,
+                        (float)element.x / z + xStart, (float)element.y / z + yStart, bSize / z, bSize / z,
                         but.butR, but.butG, but.butB, but.butA,
                         0, but.hover ? 0.25f : 0, 0.25f, 0.25f);
                 //mid,
                 for(float i = bSize; i < (element.width - bSize); i += bSize) {
-                    float percWidth = i - (element.width - bSize);
+                    float percWidth = (i - (element.width - bSize));
                     if(percWidth <= 0) percWidth = bSize;
 
                     offset = VBODrawer2D.draw2DSquare(buffer, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
-                            (float) element.x + i + xStart, (float) element.y + yStart, percWidth, bSize,
+                            (float) (element.x + i) / z + xStart, (float) element.y / z + yStart, percWidth / z, bSize / z,
                             but.butR, but.butG, but.butB, but.butA,
                             0.25f, but.hover ? 0.25f : 0, 0.25f * percWidth / bSize, 0.25f);
                 }
                 //end
                 offset = VBODrawer2D.draw2DSquare(buffer, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
-                        (float)element.x + element.width - bSize + xStart, (float)element.y + yStart, bSize, bSize,
+                        (float)(element.x + element.width - bSize) / z + xStart, (float)element.y / z + yStart, bSize / z, bSize / z,
                         but.butR, but.butG, but.butB, but.butA,
                         0.5f, but.hover ? 0.25f : 0, 0.25f, 0.25f);
             }
@@ -100,9 +101,15 @@ public class MenuView {
             if(element instanceof MenuModel.GuiLabel){
                 MenuModel.GuiLabel sub = (MenuModel.GuiLabel) element;
                 if(sub instanceof MenuModel.GuiButton)
-                    textDrawer.drawText(sub.text, element.x + (element.width - textDrawer.getSizeForText(sub.text, element.height * 2/3)) / 2 + xStart , element.y + element.height / 6 + yStart, sub.textR, sub.textG, sub.textB, sub.textA, element.height * 2/3);
+                    textDrawer.drawText(sub.text,
+                            (element.x + (element.width - textDrawer.getSizeForText(sub.text, element.height * 2/3)) / 2) / z + xStart ,
+                            (element.y + element.height / 6 ) / z + yStart, sub.textR, sub.textG, sub.textB, sub.textA,
+                            (element.height * 2/3)  / z);
                 else
-                    textDrawer.drawText(sub.text, element.x + (element.width - textDrawer.getSizeForText(sub.text, element.height)) / 2 + xStart, element.y + yStart, sub.textR, sub.textG, sub.textB, sub.textA, element.height);
+                    textDrawer.drawText(sub.text,
+                            (element.x + (element.width - textDrawer.getSizeForText(sub.text, element.height)) / 2) / z + xStart,
+                            element.y / z + yStart, sub.textR, sub.textG, sub.textB, sub.textA,
+                            element.height / z);
             }
         }
         textDrawer.writeBufToMem();

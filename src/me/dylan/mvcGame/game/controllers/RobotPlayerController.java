@@ -1,6 +1,6 @@
 package me.dylan.mvcGame.game.controllers;
 
-import me.dylan.mvcGame.game.GameModel;
+import me.dylan.mvcGame.game.gameObjects.GameModel;
 import me.dylan.mvcGame.game.gameObjects.robot.DistanceSensor;
 import me.dylan.mvcGame.game.gameObjects.robot.RobotPlayerModel;
 import me.dylan.mvcGame.game.gameObjects.robot.Sensor;
@@ -10,7 +10,6 @@ import me.dylan.mvcGame.jython.JythonRunner;
 import org.python.core.PyObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class RobotPlayerController {
     private RobotPlayerModel model;
@@ -41,7 +40,6 @@ public class RobotPlayerController {
     }
 
     public void update(){
-
         view.update();
         senserView.update();
         model.changesDone();
@@ -96,5 +94,12 @@ public class RobotPlayerController {
         for (Sensor sensor : model.getAllSensors()) {
             sensor.calculateOutput(data);
         }
+    }
+
+    public void distroy() {
+        view.distroy();
+        view = null;
+        senserView.distroy();
+        senserView = null;
     }
 }

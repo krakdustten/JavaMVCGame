@@ -23,4 +23,8 @@ public class TextureTileMap {
     }
 
     public int getTexture_id() { return texture_id; }
+
+    public void distroy() {
+        Texture.deleteImage(texture_id);
+    }
 }

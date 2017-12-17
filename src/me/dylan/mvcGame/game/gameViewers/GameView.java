@@ -1,7 +1,7 @@
-package me.dylan.mvcGame.game;
+package me.dylan.mvcGame.game.gameViewers;
 
+import me.dylan.mvcGame.game.gameObjects.GameModel;
 import me.dylan.mvcGame.game.gameViewers.NormalTilesView;
-import me.dylan.mvcGame.main.MainModel;
 
 public class GameView {
     private NormalTilesView normalTilesView;
