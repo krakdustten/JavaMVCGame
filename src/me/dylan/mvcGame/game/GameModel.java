@@ -55,15 +55,11 @@ public class GameModel {
         this.underGroundColor = underGroundColor;
         this.tileID = tileID;
         this.specialTiles = specialTiles;
-
-        //TODO add default code to world file
+        
         code = "\n" +
                 "def tick():\n" +
                 "     global MotorL\n" +
-                "     global MotorR\n" +
-                "     MotorR = Distance_Right\n" +
-                "     MotorL = Distance_Left";
-
+                "     global MotorR\n";
         error = "";
 
         //find start and finish
@@ -88,6 +84,9 @@ public class GameModel {
                 }
             }
         }
+
+        setViewX(getWorldXSize() * 64 / 2);
+        setViewY(getWorldYSize() * 64 / 2);
     }
 
     /*****GETTERS*****/

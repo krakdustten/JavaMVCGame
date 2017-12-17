@@ -36,10 +36,10 @@ public class RobotPlayerView {
                 1, 1, 1, 1, 0, 0, 0.125f, 0.125f);
         offset = VBODrawer2D.draw2DSquareRotCenter(vertexes, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
                 xStart * 64, yStart * 64, 64, 8, model.getPlayer().getRotation(), xStart * 64 + 32, yStart * 64 + 32,
-                1, 1, 1, 1, 0, 0.125f + motL * 0.015625f, 0.125f, 0.015625f);
+                1, 1, 1, 1, 0, 0.125f + motR * 0.015625f, 0.125f, 0.015625f);
         offset = VBODrawer2D.draw2DSquareRotCenter(vertexes, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
                 xStart * 64, yStart * 64 + 56, 64, 8, model.getPlayer().getRotation(), xStart * 64 + 32, yStart * 64 + 32,
-                1, 1, 1, 1, 0, 0.125f + motR * 0.015625f, 0.125f, 0.015625f);
+                1, 1, 1, 1, 0, 0.125f + motL * 0.015625f, 0.125f, 0.015625f);
 
         VBODrawer2D.writeBufToMem(vbo, vertexes);
     }

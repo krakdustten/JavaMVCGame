@@ -11,10 +11,6 @@ import java.io.OutputStream;
 import java.lang.reflect.Array;
 
 public class JythonRunner {
-    //TODO make runner for jython
-    //TODO make error system
-    //TODO make python code checker
-
     private PythonInterpreter interpreter;
     private GameModel model;
 

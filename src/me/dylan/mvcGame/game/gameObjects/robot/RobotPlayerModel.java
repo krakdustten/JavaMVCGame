@@ -64,7 +64,7 @@ public class RobotPlayerModel {
         motorRPos = (motorRPos + motorRSpeed / 25 + 1.0f) % 1.0f;
 
         float mov = (motorLSpeed + motorRSpeed) / 100;
-        float rot = (float) Math.atan2((motorLSpeed - motorRSpeed), 50);
+        float rot = (float) Math.atan2((motorRSpeed - motorLSpeed), 50);
         float dx = mov * (float) Math.cos(rotation);
         float dy = mov * (float) Math.sin(rotation);
 

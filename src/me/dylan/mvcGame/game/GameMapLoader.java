@@ -38,9 +38,17 @@ public class GameMapLoader {
                 specialTiles.put(pos, specialTile);
             }
 
+            int starterCodeChars = is.readInt();
+            StringBuilder stringBuilder = new StringBuilder();
+            for(int i = 0; i < starterCodeChars; i++) stringBuilder.append(is.readChar());
+            String code = stringBuilder.toString();
 
             is.close();
-            return new GameModel(mainModel, worldXSize, worldYSize, butCol, tiles, specialTiles);
+
+            GameModel gameModel= new GameModel(mainModel, worldXSize, worldYSize, butCol, tiles, specialTiles);
+            gameModel.setCode(code);
+
+            return gameModel;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -69,6 +77,10 @@ public class GameMapLoader {
                 os.writeInt(entry.getKey());
                 entry.getValue().saveToFile(os);
             }
+
+            char[] starterCodeChars = model.getCode().toCharArray();
+            os.writeInt(starterCodeChars.length);
+            for(int i = 0; i < starterCodeChars.length; i++) os.writeChar(starterCodeChars[i]);
 
             os.close();
             return true;

@@ -8,6 +8,8 @@ import me.dylan.mvcGame.state.State;
 import me.dylan.mvcGame.state.StateHandler;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.ArrayList;
+
 public class GameController extends State {
     private GameModel model;
     private GameView view;
@@ -19,9 +21,8 @@ public class GameController extends State {
     private boolean mouseKeyPressed = false;
     private double oldMouseX, oldMouseY;
 
-    public GameController(MainModel mainModel, StateHandler stateHandler) {
-        super(mainModel, stateHandler);
-    }
+
+    public GameController(MainModel mainModel, StateHandler stateHandler) { super(mainModel, stateHandler); }
 
     @Override
     public void init(int previousState) {
@@ -39,8 +40,6 @@ public class GameController extends State {
         view = new GameView(this.model);
 
         this.model.setViewZoom(0.5f);
-        this.model.setViewX(this.model.getWorldXSize() * 64 / 2);
-        this.model.setViewY(this.model.getWorldYSize() * 64 / 2);
 
         //TODO make code runner --> for handling world code
         //TODO world editor --> adaptive worlds with world code
