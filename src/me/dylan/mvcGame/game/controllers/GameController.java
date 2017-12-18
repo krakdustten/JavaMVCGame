@@ -3,6 +3,7 @@ package me.dylan.mvcGame.game.controllers;
 import javafx.scene.control.TextInputDialog;
 import me.dylan.mvcGame.game.GameMapLoader;
 import me.dylan.mvcGame.game.gameObjects.GameModel;
+import me.dylan.mvcGame.game.gameObjects.MapModel;
 import me.dylan.mvcGame.game.gameViewers.GameView;
 import me.dylan.mvcGame.game.gameViewers.CodeIDEContainer;
 import me.dylan.mvcGame.main.MainModel;
@@ -31,14 +32,16 @@ public class GameController extends State {
     public void init(int previousState) {
         long start = System.currentTimeMillis();
 
+        MapModel map = null;
         if(mainModel.getGameFileToLoad().endsWith(".mapd")){
-            this.model = GameMapLoader.loadMap(mainModel, mainModel.getGameFileToLoad());
+            map = GameMapLoader.loadMap(mainModel, mainModel.getGameFileToLoad());
         }else if(mainModel.getGameFileToLoad().endsWith(".savd")){
-            this.model = GameMapLoader.loadSave(mainModel, mainModel.getGameFileToLoad());
+            map = GameMapLoader.loadSave(mainModel, mainModel.getGameFileToLoad());
         }else
             stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
 
-        if(this.model == null) stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
+        if(map == null) stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
+        this.model = new GameModel(map);
 
         view = new GameView(this.model);
 

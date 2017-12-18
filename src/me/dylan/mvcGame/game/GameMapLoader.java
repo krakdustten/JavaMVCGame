@@ -1,6 +1,7 @@
 package me.dylan.mvcGame.game;
 
 import me.dylan.mvcGame.game.gameObjects.GameModel;
+import me.dylan.mvcGame.game.gameObjects.MapModel;
 import me.dylan.mvcGame.game.gameObjects.specialTiles.SpecialTile;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.other.ResourceHandling;
@@ -12,7 +13,7 @@ import java.util.Map;
 public class GameMapLoader {
     public static final int LOADER_VERSION = 001;
 
-    public static GameModel loadMap(MainModel mainModel, String filePath){
+    public static MapModel loadMap(MainModel mainModel, String filePath){
         try {
             DataInputStream is = new DataInputStream(ResourceHandling.getFileOrResource(filePath));
 
@@ -48,17 +49,17 @@ public class GameMapLoader {
 
             is.close();
 
-            GameModel gameModel= new GameModel(mainModel, worldXSize, worldYSize, butCol, tiles, specialTiles);
-            gameModel.setCode(code);
+            MapModel mapModel= new MapModel(mainModel, worldXSize, worldYSize, butCol, tiles, specialTiles);
+            mapModel.setCode(code);
 
-            return gameModel;
+            return mapModel;
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public static boolean saveMap(GameModel model, String filePath){
+    public static boolean saveMap(MapModel model, String filePath){
         try {
             DataOutputStream os = new DataOutputStream(new FileOutputStream(new File(filePath)));
 
@@ -93,7 +94,7 @@ public class GameMapLoader {
         return false;
     }
 
-    public static GameModel loadSave(MainModel mainModel, String filePath) {
+    public static MapModel loadSave(MainModel mainModel, String filePath) {
         try {
             filePath = ResourceHandling.GetExecutionPath() + "/" + filePath;
             File file = new File(filePath);
@@ -136,17 +137,17 @@ public class GameMapLoader {
 
             is.close();
 
-            GameModel gameModel= new GameModel(mainModel, worldXSize, worldYSize, butCol, tiles, specialTiles);
-            gameModel.setCode(code);
+            MapModel mapModel= new MapModel(mainModel, worldXSize, worldYSize, butCol, tiles, specialTiles);
+            mapModel.setCode(code);
 
-            return gameModel;
+            return mapModel;
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public static boolean saveSave(GameModel model, String filePath) {
+    public static boolean saveSave(MapModel model, String filePath) {
         try {
             filePath = ResourceHandling.GetExecutionPath() + "\\" + filePath;
             File file = new File(filePath);

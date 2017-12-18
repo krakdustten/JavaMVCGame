@@ -14,17 +14,19 @@ public class WorldEditorController extends State{
 
     @Override
     public void init(int previousState) {
+        model = new WorldEditorModel(mainModel);
 
+        view = new WorldEditorView(model);
     }
 
     @Override
     public void update() {
-
+        view.update();
     }
 
     @Override
     public void render() {
-
+        view.render();
     }
 
     @Override
