@@ -171,8 +171,9 @@ public class GameController extends State {
                 case 2://save
                     //have to use old dialog because we are not in the FX thread
 
-                    String name = JOptionPane.showInputDialog(null, "What's the name of the save file?");
+                    String name = JOptionPane.showInputDialog(null, "What's the name of the save file?", "");
                     String prepath = model.getMainModel().getGameFileToLoad();
+                    if(name == null) break;
 
                     if(!prepath.startsWith("saves/")) prepath = "saves/" + prepath;
                     prepath = prepath.substring(0, prepath.lastIndexOf("/")) + "/";

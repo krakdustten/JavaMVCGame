@@ -98,7 +98,6 @@ public class GameMapLoader {
         try {
             filePath = ResourceHandling.GetExecutionPath() + "/" + filePath;
             File file = new File(filePath);
-            System.out.println(file);
             if(!file.exists()){
                 return null;
             }
