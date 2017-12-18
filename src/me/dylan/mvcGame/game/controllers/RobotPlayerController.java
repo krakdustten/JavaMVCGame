@@ -22,6 +22,7 @@ public class RobotPlayerController {
 
     public RobotPlayerController(GameModel gameModel){
         this.gameModel = gameModel;
+        long start = System.currentTimeMillis();
 
         gameModel.setPlayer(new RobotPlayerModel(gameModel));
         this.model = gameModel.getPlayer();
@@ -35,11 +36,10 @@ public class RobotPlayerController {
         addIDsToSensors();
 
         update();
-
-        codeRunner = new JythonRunner(gameModel);
     }
 
     public void update(){
+        if(codeRunner == null) codeRunner = new JythonRunner(gameModel);
         view.update();
         senserView.update();
         model.changesDone();

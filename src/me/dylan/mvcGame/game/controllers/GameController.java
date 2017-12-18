@@ -1,5 +1,6 @@
 package me.dylan.mvcGame.game.controllers;
 
+import javafx.scene.control.TextInputDialog;
 import me.dylan.mvcGame.game.GameMapLoader;
 import me.dylan.mvcGame.game.gameObjects.GameModel;
 import me.dylan.mvcGame.game.gameViewers.GameView;
@@ -8,6 +9,9 @@ import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.state.State;
 import me.dylan.mvcGame.state.StateHandler;
 import org.lwjgl.glfw.GLFW;
+
+import javax.swing.*;
+import java.util.Optional;
 
 public class GameController extends State {
     private GameModel model;
@@ -25,18 +29,11 @@ public class GameController extends State {
 
     @Override
     public void init(int previousState) {
+        long start = System.currentTimeMillis();
 
-        /*GameModel model = new GameModel(mainModel, 40, 29);
-        for(int i = 0; i < (40 * 29); i++){
-            model.setTileID((byte)(Math.random() * 1.5 + 1), i % 40, i / 40);
-            model.setUnderGroundColor(/*(int)(Math.random() * 256 * 256 * 256)*//* 256 * 256 * 256 - 1, i % 40, i / 40);
-        }
-        GameMapLoader.saveMap(model, "random.sg");*/
-
-        System.out.println(mainModel.getGameFileToLoad());
-        if(mainModel.getGameFileToLoad().endsWith(".map")){
+        if(mainModel.getGameFileToLoad().endsWith(".mapd")){
             this.model = GameMapLoader.loadMap(mainModel, mainModel.getGameFileToLoad());
-        }else if(mainModel.getGameFileToLoad().endsWith(".sav")){
+        }else if(mainModel.getGameFileToLoad().endsWith(".savd")){
             this.model = GameMapLoader.loadSave(mainModel, mainModel.getGameFileToLoad());
         }else
             stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
@@ -44,8 +41,6 @@ public class GameController extends State {
         if(this.model == null) stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
 
         view = new GameView(this.model);
-
-        this.model.setViewZoom(0.5f);
 
         //TODO make code runner --> for handling world code
         //TODO world editor --> adaptive worlds with world code
@@ -77,7 +72,7 @@ public class GameController extends State {
         playerController.update();
         codeIDEContainer.update();
 
-        if(model.getWindowClosing()) stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
+        if(model.getWindowClosing())stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
     }
 
     private void updateGame(){
@@ -94,11 +89,12 @@ public class GameController extends State {
 
     @Override
     public void deInit() {
-        codeIDEContainer.distroy();
+        if(model != null)GameMapLoader.saveSave(model, "saves/maps/autoSave.savd");
+        if(codeIDEContainer != null)codeIDEContainer.distroy();
         codeIDEContainer = null;
-        playerController.distroy();
+        if(playerController != null)playerController.distroy();
         playerController = null;
-        model.distroy();
+        if(model != null)model.distroy();
         model = null;
     }
 
@@ -170,7 +166,16 @@ public class GameController extends State {
                     stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
                     break;
                 case 2://save
-                    //TODO save progress
+                    //have to use old dialog because we are not in the FX thread
+
+                    String name = JOptionPane.showInputDialog(null, "What's the name of the save file?");
+                    String prepath = model.getMainModel().getGameFileToLoad();
+
+                    if(!prepath.startsWith("saves/")) prepath = "saves/" + prepath;
+                    prepath = prepath.substring(0, prepath.lastIndexOf("/")) + "/";
+                    if(!GameMapLoader.saveSave(model, prepath + name + ".savd"))
+                        JOptionPane.showMessageDialog(null, "Something whent wrong, the file is not saved.", "Warning", JOptionPane.INFORMATION_MESSAGE);
+
                     break;
                 case 3://back
                     model.setGameMenuShown(false);

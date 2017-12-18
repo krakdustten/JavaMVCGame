@@ -28,7 +28,7 @@
       <element id="directory" name="img">
         <element id="dir-copy" path="$PROJECT_DIR$/img" />
       </element>
-      <element id="file-copy" path="$PROJECT_DIR$/maps/game1.map" />
+      <element id="file-copy" path="$PROJECT_DIR$/maps/game1.mapd" />
       <element id="directory" name="maps">
         <element id="dir-copy" path="$PROJECT_DIR$/maps" />
       </element>

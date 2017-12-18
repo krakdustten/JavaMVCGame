@@ -93,8 +93,9 @@ public class GameModel {
             }
         }
 
-        setViewX(getWorldXSize() * 64 / 2);
-        setViewY(getWorldYSize() * 64 / 2);
+        setViewZoom(0.5f);
+        setViewX((startX + 1.5f) * 64);
+        setViewY((startY + 1.5f) * 64);
 
         inGameMenu = new MenuController(mainModel, "img/menu.png");
         inGameMenu.addGuiElement(new MenuModel.GuiButton(0, 300, 350, 64, 1, "MAIN MENU", 1, 1, 1, 1, 0, 1, 0, 1));

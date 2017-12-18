@@ -50,35 +50,31 @@ public class MenuLevelsController {
     void initialize() {
         NewDefaultMapList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> newDefaultMapMouseClick(oldValue, newValue));
         NewUserMapList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> newUserMapMouseClick(oldValue, newValue));
-        LoadUserMapList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> loadDefaultMapMouseClick(oldValue, newValue));
-        LoadDefaultMapList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> loadUserMapMouseClick(oldValue, newValue));
+        LoadDefaultMapList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> loadDefaultMapMouseClick(oldValue, newValue));
+        LoadUserMapList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> loadUserMapMouseClick(oldValue, newValue));
     }
 
     private void newDefaultMapMouseClick(String oldValue, String newValue) {
-        System.out.println("ND " + oldValue + " " + newValue);
         if(newValue == null) return;
-        model.getMainModel().setGameFileToLoad("maps/" + newValue + ".map");
+        model.getMainModel().setGameFileToLoad("maps/" + newValue + ".mapd");
         model.setMapSelected(true);
     }
 
     private void newUserMapMouseClick(String oldValue, String newValue) {
-        System.out.println("NU " + oldValue + " " + newValue);
         if(newValue == null) return;
-        model.getMainModel().setGameFileToLoad("usermaps/" + newValue + ".map");
+        model.getMainModel().setGameFileToLoad("usermaps/" + newValue + ".mapd");
         model.setMapSelected(true);
     }
 
     private void loadUserMapMouseClick(String oldValue, String newValue) {
-        System.out.println("LU " + oldValue + " " + newValue);
         if(newValue == null) return;
-        model.getMainModel().setGameFileToLoad("saves/usermaps/" + newValue + ".sav");
+        model.getMainModel().setGameFileToLoad("saves/usermaps/" + newValue + ".savd");
         model.setMapSelected(true);
     }
 
     private void loadDefaultMapMouseClick(String oldValue, String newValue) {
-        System.out.println("LD " + oldValue + " " + newValue);
         if(newValue == null) return;
-        model.getMainModel().setGameFileToLoad("saves/maps/" + newValue + ".sav");
+        model.getMainModel().setGameFileToLoad("saves/maps/" + newValue + ".savd");
         model.setMapSelected(true);
     }
 
@@ -106,9 +102,9 @@ public class MenuLevelsController {
 
     private void populateOtherLists(){
         String startPath = ResourceHandling.GetExecutionPath();
-        populateListWithFiles(startPath + "/usermaps/", ".map", NewUserMapList);
-        populateListWithFiles(startPath + "/saves/usermaps/", ".sav", LoadUserMapList);
-        populateListWithFiles(startPath + "/saves/maps/", ".sav", LoadDefaultMapList);
+        populateListWithFiles(startPath + "/usermaps/", ".mapd", NewUserMapList);
+        populateListWithFiles(startPath + "/saves/usermaps/", ".savd", LoadUserMapList);
+        populateListWithFiles(startPath + "/saves/maps/", ".savd", LoadDefaultMapList);
     }
 
     private void populateListWithFiles(String folder, String end, ListView<String> listView){
@@ -126,7 +122,5 @@ public class MenuLevelsController {
     public void gameTick() {
 
     }
-
-
 }
 
