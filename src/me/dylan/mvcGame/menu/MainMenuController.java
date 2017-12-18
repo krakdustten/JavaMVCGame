@@ -20,7 +20,7 @@ public class MainMenuController extends State {
 
         menu = new MenuController(mainModel, "img/menu.png");
         menu.addGuiElement(new MenuModel.GuiButton(0, 200, 250, 64, 1, "PLAY", 1, 1, 1, 1, 0, 1, 0, 1));
-        menu.addGuiElement(new MenuModel.GuiButton(0, 100, 250, 64, 2, "OPTIONS", 1, 1, 1, 1, 0, 1, 0, 1));
+        menu.addGuiElement(new MenuModel.GuiButton(0, 100, 250, 64, 2, "EDITOR", 1, 1, 1, 1, 0, 1, 0, 1));
         menu.addGuiElement(new MenuModel.GuiButton(0, 0, 250, 64, 3, "QUIT", 1, 1, 1, 1, 0, 1, 0, 1));
         menu.setAlignMargin(0, 0, 0, 0);
         menu.setBackgroundColor(0.8f, 0.5f,0.4f, 1);
@@ -56,7 +56,7 @@ public class MainMenuController extends State {
         if(id >= 0){
             switch (id){
                 case 1:stateHandler.changeState(StateHandler.STATE_MENU_LEVELS);break;
-                case 2:stateHandler.changeState(StateHandler.STATE_MENU_OPTIONS);break;
+                case 2:stateHandler.changeState(StateHandler.STATE_MENU_WORLD_EDITOR);break;
                 case 3:stateHandler.changeState(StateHandler.STATE_QUIT);break;
             }
 

@@ -4,8 +4,9 @@ import me.dylan.mvcGame.game.controllers.GameController;
 import me.dylan.mvcGame.main.MainGameThread;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.menu.MainMenuController;
-import me.dylan.mvcGame.menu.OptionsMenuController;
 import me.dylan.mvcGame.menu.levelMenu.StateMenuLevels;
+import me.dylan.mvcGame.menu.worldEditorPicker.StateMenuWorldEditorPicker;
+import me.dylan.mvcGame.worldEditor.WorldEditorController;
 
 public class StateHandler{
 
@@ -18,10 +19,11 @@ public class StateHandler{
 
     public static final int STATE_QUIT = -1;
     public static final int STATE_MENU_MAIN = 0;
-    public static final int STATE_MENU_OPTIONS= 1;
+    public static final int STATE_MENU_WORLD_EDITOR= 1;
     public static final int STATE_MENU_LEVELS = 2;
     public static final int STATE_GAME = 3;
-    public static final int STATE_MAX = STATE_GAME;
+    public static final int STATE_WORLD_EDITOR = 4;
+    public static final int STATE_MAX = STATE_WORLD_EDITOR;
 
     public static final State[] states = new State[STATE_MAX + 1];
 
@@ -30,9 +32,10 @@ public class StateHandler{
         this.mainGameThread = mainGameThread;
 
         states[STATE_MENU_MAIN] = new MainMenuController(mainModel, this);
-        states[STATE_MENU_OPTIONS] = new OptionsMenuController(mainModel, this);
+        states[STATE_MENU_WORLD_EDITOR] = new StateMenuWorldEditorPicker(mainModel, this);
         states[STATE_MENU_LEVELS] = new StateMenuLevels(mainModel, this);
         states[STATE_GAME] = new GameController(mainModel, this);
+        states[STATE_WORLD_EDITOR] = new WorldEditorController(mainModel, this);
 
         changeState(STATE_MENU_MAIN);
     }

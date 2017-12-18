@@ -3,6 +3,7 @@ package me.dylan.mvcGame.main;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -16,6 +17,8 @@ public class MainFXContainer {
         fxPanel = new JFXPanel();
         frame.add(fxPanel);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+        setScene(new Scene(new StackPane(), 300, 300));//set scene so this thread doesn't wait for one
     }
 
     public void setScene(Scene scene){
