@@ -43,6 +43,7 @@ public class GameModel {
     private AdvancedTextureTileMap tileTextures;
     private String error;
     private boolean errorChanged;
+    private boolean windowClosing = false;
 
     public GameModel(MainModel mainModel, int worldXSize, int worldYSize){
         this(mainModel,worldXSize, worldYSize, null, null, new HashMap<>());
@@ -146,6 +147,8 @@ public class GameModel {
     public MenuController getInGameMenu() { return inGameMenu; }
     public boolean getGameMenuShown() { return isGameMenuShown; }
 
+    public boolean getWindowClosing() { return windowClosing; }
+
     /****SETTERS*****/
 
     public void setWorldXSize(int worldXSize) {
@@ -197,6 +200,10 @@ public class GameModel {
     public void setGameMenuShown(boolean gameMenuShown) {
         isGameMenuShown = gameMenuShown;
         inGameMenu.updateView();
+    }
+
+    public void setWindowClosing(boolean windowClosing) {
+        this.windowClosing = windowClosing;
     }
 
     /*****OTHER SMALL LOGIC*****/

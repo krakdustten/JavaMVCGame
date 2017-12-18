@@ -34,6 +34,4 @@ public class SpecialTile {
 
     public void render(){}
     public void update(){}
-
-    //TODO add events when something happens
 }

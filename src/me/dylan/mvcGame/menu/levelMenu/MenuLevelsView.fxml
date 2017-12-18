@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.dylan.mvcGame.menu.levelMenu.MenuLevelsController">
+  <tabs>
+    <Tab text="Default levels">
+         <content>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="181.0" minHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="351.0" minHeight="10.0" prefHeight="350.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="New map" />
+                  <Label text="Load map" GridPane.columnIndex="1" />
+                  <ListView fx:id="NewDefaultMapList" prefHeight="350.0" prefWidth="300.0" GridPane.rowIndex="1" />
+                  <ListView fx:id="LoadDefaultMapList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+         </content></Tab>
+    <Tab text="User made levels">
+         <content>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="181.0" minHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="352.0" minHeight="10.0" prefHeight="350.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="New map" />
+                  <Label text="Load map" GridPane.columnIndex="1" />
+                  <ListView fx:id="NewUserMapList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                  <ListView fx:id="LoadUserMapList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+         </content></Tab>
+      <Tab text="Open level file">
+         <content>
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
+               <top>
+                  <HBox prefHeight="34.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Button fx:id="OpenFile" mnemonicParsing="false" onAction="#openFileClicked" text="Open file">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <HBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="PlayLevel" disable="true" mnemonicParsing="false" onAction="#playClicked" text="Play" />
+                     </children>
+                  </HBox>
+               </top>
+               <center>
+                  <TextArea fx:id="LevelFileInfo" editable="false" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
+         </content>
+      </Tab>
+  </tabs>
+</TabPane>

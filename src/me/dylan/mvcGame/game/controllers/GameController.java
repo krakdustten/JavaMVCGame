@@ -26,14 +26,23 @@ public class GameController extends State {
     @Override
     public void init(int previousState) {
 
-        GameModel model = new GameModel(mainModel, 40, 29);
+        /*GameModel model = new GameModel(mainModel, 40, 29);
         for(int i = 0; i < (40 * 29); i++){
             model.setTileID((byte)(Math.random() * 1.5 + 1), i % 40, i / 40);
-            model.setUnderGroundColor(/*(int)(Math.random() * 256 * 256 * 256)*/ 256 * 256 * 256 - 1, i % 40, i / 40);
+            model.setUnderGroundColor(/*(int)(Math.random() * 256 * 256 * 256)*//* 256 * 256 * 256 - 1, i % 40, i / 40);
         }
-        GameMapLoader.saveMap(model, "random.sg");
+        GameMapLoader.saveMap(model, "random.sg");*/
 
-        this.model = GameMapLoader.loadMap(mainModel, "game1.sg");
+        System.out.println(mainModel.getGameFileToLoad());
+        if(mainModel.getGameFileToLoad().endsWith(".map")){
+            this.model = GameMapLoader.loadMap(mainModel, mainModel.getGameFileToLoad());
+        }else if(mainModel.getGameFileToLoad().endsWith(".sav")){
+            this.model = GameMapLoader.loadSave(mainModel, mainModel.getGameFileToLoad());
+        }else
+            stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
+
+        if(this.model == null) stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
+
         view = new GameView(this.model);
 
         this.model.setViewZoom(0.5f);
@@ -67,6 +76,8 @@ public class GameController extends State {
         view.update();
         playerController.update();
         codeIDEContainer.update();
+
+        if(model.getWindowClosing()) stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
     }
 
     private void updateGame(){

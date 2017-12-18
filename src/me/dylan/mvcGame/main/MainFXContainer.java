@@ -5,6 +5,7 @@ import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
 
 public class MainFXContainer {
     private JFrame frame;
@@ -35,5 +36,14 @@ public class MainFXContainer {
         frame.dispose();
         frame = null;
         fxPanel = null;
+    }
+
+    public void setFocus(){
+        frame.setAlwaysOnTop(true);
+        frame.setAlwaysOnTop(false);
+    }
+
+    public void setCloseACtion(WindowAdapter action){
+        frame.addWindowListener(action);
     }
 }

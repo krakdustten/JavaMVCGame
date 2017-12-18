@@ -16,6 +16,8 @@ public class GameMapLoader {
         try {
             DataInputStream is = new DataInputStream(ResourceHandling.getFileOrResource(filePath));
 
+            if(is == null) return null;
+
             int version = is.readInt();
             if(version != LOADER_VERSION)return null;
 
@@ -88,6 +90,14 @@ public class GameMapLoader {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return false;
+    }
+
+    public static GameModel loadSave(MainModel mainModel, String gameFileToLoad) {
+        return null;
+    }
+
+    public static boolean saveSave(GameModel model, String filePath) {
         return false;
     }
 }

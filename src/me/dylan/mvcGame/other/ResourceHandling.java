@@ -3,6 +3,7 @@ package me.dylan.mvcGame.other;
 import me.dylan.mvcGame.drawers.Shader;
 
 import java.io.*;
+import java.util.regex.Pattern;
 
 public class ResourceHandling {
     private static ClassLoader classLoader = ResourceHandling.class.getClassLoader();
@@ -16,19 +17,16 @@ public class ResourceHandling {
                 e.printStackTrace();
             }
         }else{
-            ClassLoader classLoader = Shader.class.getClassLoader();
+            ClassLoader classLoader = ResourceHandling.class.getClassLoader();
             return classLoader.getResourceAsStream(name);
         }
         throw new IOException(name + " not found");
     }
 
-    /** DO NOT USE ***/
-    /*
-    public static String getAllResourceNames(String folder){
-        return "";
+    public static String GetExecutionPath(){
+        String absolutePath = (new ResourceHandling()).getClass().getProtectionDomain().getCodeSource().getLocation().getPath();//get the path of the class
+        absolutePath = absolutePath.substring(0, absolutePath.lastIndexOf("/"));//make sure it is the directory not the file
+        absolutePath = absolutePath.replaceAll("%20"," "); //replace all of the %20 with spaces
+        return absolutePath;//return the path
     }
-
-    public static void saveResourceInJar(){
-
-    }*/
 }

@@ -14,6 +14,8 @@ public class MainModel {
 
     private MainFXContainer fxContainer = new MainFXContainer();
 
+    private String gameFileToLoad = "";
+
     void setWindow(long window) { this.window = window; }
     void setMainShader2D(int mainShader2D) { this.mainShader2D = mainShader2D; }
     void setCamera2D(Camera2D camera2D) { this.camera2D = camera2D; }
@@ -28,6 +30,8 @@ public class MainModel {
         this.mouseYWorld = (float) ((-mouseY + camera2D.getHeight() / 2) / camera2D.getZoom() - camera2D.getyPos());
     }
 
+    public void setGameFileToLoad(String gameFileToLoad){ this.gameFileToLoad = gameFileToLoad; }
+
     public double getMouseX(){return mouseX; }
     public double getMouseY(){return mouseY; }
 
@@ -41,6 +45,8 @@ public class MainModel {
     public float getMouseYWorld() { return mouseYWorld; }
 
     public MainFXContainer getFxContainer() { return fxContainer; }
+
+    public String getGameFileToLoad() { return gameFileToLoad; }
 
     public void distroy() {
         fxContainer.distroy();
