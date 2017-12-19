@@ -1,7 +1,7 @@
 package me.dylan.mvcGame.game.gameObjects;
 
-import me.dylan.mvcGame.game.gameObjects.specialTiles.SpecialTile;
 import me.dylan.mvcGame.main.MainModel;
+import me.dylan.mvcGame.worldEditor.WorldEditorModel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +14,6 @@ public class MapModel {
     private int worldYSize;
     private int[] underGroundColor;
     private byte[] tileID;
-    private HashMap<Integer, SpecialTile> specialTiles;
     private boolean mapChanged = true;
     private int startX, startY;
     private int finishX, finishY;
@@ -23,7 +22,7 @@ public class MapModel {
     private boolean codeChanged = true;
 
 
-    public MapModel(MainModel mainModel, int worldXSize, int worldYSize, int[] underGroundColor, byte[] tileID, HashMap<Integer, SpecialTile> specialTiles){
+    public MapModel(MainModel mainModel, int worldXSize, int worldYSize, int[] underGroundColor, byte[] tileID){
         this.mainModel = mainModel;
 
         this.worldXSize = worldXSize;
@@ -36,7 +35,6 @@ public class MapModel {
         if(tileID.length != totalArraySize) return;
         this.underGroundColor = underGroundColor;
         this.tileID = tileID;
-        this.specialTiles = specialTiles;
 
         findStartAndFinish();
 
@@ -58,7 +56,6 @@ public class MapModel {
         if(x < 0 || x >= worldXSize || y < 0 || y >= worldYSize) return -1;
         return tileID[x + y * worldXSize];
     }
-    public HashMap<Integer, SpecialTile> getSpecialTiles() { return specialTiles; }
     public boolean isMapChanged(){if(mapChanged){mapChanged = false; return true;} return false;}
 
     public int getStartX() { return startX; }
@@ -71,12 +68,12 @@ public class MapModel {
 
     /****SETTERS*****/
     public void setWorldXSize(int worldXSize) {
-        changeActualMapSize(this.worldXSize, this.worldYSize, worldXSize, worldYSize);
+        changeActualMapSize(worldXSize, worldYSize, 0, 0);
         this.worldXSize = worldXSize;
         mapChanged = true;
     }
     public void setWorldYSize(int worldYSize) {
-        changeActualMapSize(this.worldXSize, this.worldYSize, worldXSize, worldYSize);
+        changeActualMapSize(worldXSize, worldYSize, 0, 0);
         this.worldYSize = worldYSize;
         mapChanged = true;
     }
@@ -87,31 +84,78 @@ public class MapModel {
     public void setCodeChanged(boolean codeChanged){ this.codeChanged = codeChanged; }
 
     /*****OTHER SMALL LOGIC*****/
-    private void changeActualMapSize(int oldXSize, int oldYSize, int newXSize, int newYSize){
+    public void changeActualMapSize(int newXSize, int newYSize, int xOffset, int yOffset){
         int[] underGroundColor = new int[newXSize * newYSize];
         byte[] tileID = new byte[newXSize * newYSize];
-        HashMap<Integer, SpecialTile> specialTiles = new HashMap<>();
 
-        int xSize = oldXSize < newXSize ? oldXSize : newXSize;
-        int ySize = oldYSize < newYSize ? oldYSize : newYSize;
+        int xSize;
+        int ySize;
+        int negXOffset = 0;
+        int negYOffset = 0;
+
+        if(xOffset < 0){
+            xSize = worldXSize < newXSize ? worldXSize : newXSize;
+            negXOffset = -xOffset;
+            xOffset = 0;
+        }else xSize = worldXSize < (newXSize + xOffset) ? worldXSize : newXSize + xOffset;
+
+        if(yOffset < 0){
+            ySize = worldYSize < newYSize ? worldYSize : newXSize;
+            negYOffset = -yOffset;
+            yOffset = 0;
+        }else ySize = worldYSize < (newYSize + yOffset) ? worldYSize : newYSize + yOffset;
+
 
         for(int i = 0; i < xSize; i++){
             for(int j = 0; j < ySize; j++){
-                underGroundColor[i + j * xSize] = this.underGroundColor[i + j * xSize];
-                tileID[i + j * xSize] = this.tileID[i + j * xSize];
+                underGroundColor[i + (j + yOffset) * newXSize + xOffset] = this.underGroundColor[i + (j + negYOffset) * worldXSize + negXOffset];
+                tileID[i + (j + yOffset) * newXSize + xOffset] = this.tileID[i + (j + negYOffset) * worldXSize + negXOffset];
             }
-        }
-        for(Map.Entry<Integer, SpecialTile> sTile : this.specialTiles.entrySet()){
-            int loc = sTile.getKey();
-            int x = loc % oldXSize;
-            int y = loc / oldXSize;
-            if(x < newXSize && y < newYSize)
-                specialTiles.put(loc, sTile.getValue());
         }
         this.underGroundColor = underGroundColor;
         this.tileID = tileID;
-        this.specialTiles = specialTiles;
-        //TODO test this method
+        this.worldXSize = newXSize;
+        this.worldYSize = newYSize;
+    }
+
+    public void checkIfMapCanBeSmaller(WorldEditorModel model) {
+        if(worldXSize <= 0 || worldYSize <= 0)return;
+
+        boolean tileHereTop = false;
+        boolean tileHereBottom = false;
+        boolean tileHereLeft = false;
+        boolean tileHereRight = false;
+
+        for(int i = 0; i < worldXSize; i++){
+            if(!tileHereTop){
+                if(getTileID(i, worldYSize - 1) != Tiles.NO_TILE) tileHereTop = true;
+            }
+            if(!tileHereBottom){
+                if(getTileID(i, 0) != Tiles.NO_TILE) tileHereBottom = true;
+            }
+            if(tileHereTop && tileHereBottom) break;
+        }
+        for(int i = 0; i < worldYSize; i++){
+            if(!tileHereLeft){
+                if(getTileID(0, i) != Tiles.NO_TILE) tileHereLeft = true;
+            }
+            if(!tileHereRight){
+                if(getTileID(worldXSize - 1, i) != Tiles.NO_TILE) tileHereRight = true;
+            }
+            if(tileHereLeft && tileHereRight) break;
+        }
+
+        if(!tileHereBottom || !tileHereTop || !tileHereLeft || !tileHereRight){
+            changeActualMapSize(
+                    worldXSize - (!tileHereLeft ? 1 : 0) - (!tileHereRight ? 1 : 0),
+                    worldYSize - (!tileHereTop ? 1 : 0) - (!tileHereBottom ? 1 : 0),
+                    !tileHereLeft ? -1 : 0,
+                    !tileHereBottom ? -1 : 0);
+
+            model.moveView(!tileHereLeft ? 64f : 0f, !tileHereBottom ? 64f : 0f);
+
+            checkIfMapCanBeSmaller(model);
+        }
     }
 
     public void findStartAndFinish(){
@@ -138,4 +182,6 @@ public class MapModel {
             }
         }
     }
+
+
 }

@@ -3,7 +3,6 @@ package me.dylan.mvcGame.game.gameObjects;
 import me.dylan.mvcGame.drawers.AdvancedTextureTileMap;
 import me.dylan.mvcGame.game.gameObjects.Tiles;
 import me.dylan.mvcGame.game.gameObjects.robot.RobotPlayerModel;
-import me.dylan.mvcGame.game.gameObjects.specialTiles.SpecialTile;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.menu.components.MenuController;
 import me.dylan.mvcGame.menu.components.MenuModel;
@@ -32,11 +31,11 @@ public class GameModel extends MapModel{
     private boolean windowClosing = false;
 
     public GameModel(MainModel mainModel, int worldXSize, int worldYSize){
-        this(mainModel,worldXSize, worldYSize, null, null, new HashMap<>());
+        this(mainModel,worldXSize, worldYSize, null, null);
     }
 
-    public GameModel(MainModel mainModel, int worldXSize, int worldYSize, int[] underGroundColor, byte[] tileID, HashMap<Integer, SpecialTile> specialTiles){
-        super(mainModel, worldXSize, worldYSize, underGroundColor, tileID, specialTiles);
+    public GameModel(MainModel mainModel, int worldXSize, int worldYSize, int[] underGroundColor, byte[] tileID){
+        super(mainModel, worldXSize, worldYSize, underGroundColor, tileID);
 
         error = "";
 
@@ -54,7 +53,7 @@ public class GameModel extends MapModel{
     }
 
     public GameModel(MapModel mapModel) {
-        this(mapModel.getMainModel(), mapModel.getWorldXSize(), mapModel.getWorldYSize(), null, null, mapModel.getSpecialTiles());
+        this(mapModel.getMainModel(), mapModel.getWorldXSize(), mapModel.getWorldYSize(), null, null);
 
         for(int i = 0; i < getWorldXSize(); i++){
             for(int j = 0; j < getWorldYSize(); j++){

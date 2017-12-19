@@ -3,15 +3,12 @@ package me.dylan.mvcGame.worldEditor;
 import me.dylan.mvcGame.game.GameMapLoader;
 import me.dylan.mvcGame.game.gameObjects.MapModel;
 import me.dylan.mvcGame.game.gameObjects.Tiles;
-import me.dylan.mvcGame.game.gameObjects.specialTiles.SpecialTile;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.state.State;
 import me.dylan.mvcGame.state.StateHandler;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class WorldEditorController extends State{
     private WorldEditorModel model;
@@ -25,6 +22,11 @@ public class WorldEditorController extends State{
         super(mainModel, stateHandler);
     }
 
+    //TODO Add options to change tile
+    //TODO Add secondairy button press
+    //TODO Add world editor menu
+    //TODO Add save option /\
+
     @Override
     public void init(int previousState) {
         MapModel map = null;
@@ -34,7 +36,7 @@ public class WorldEditorController extends State{
             if(file.exists()){
                 map = GameMapLoader.loadMap(mainModel, mainModel.getGameFileToLoad());
             }else{
-                map = new MapModel(mainModel, 1, 1, new int[]{256*256*256 - 1}, new byte[]{Tiles.WALL_ID}, new HashMap<>());
+                map = new MapModel(mainModel, 1, 1, new int[]{256*256*256 - 1}, new byte[]{Tiles.WALL_ID});
             }
         }
         if(map == null) stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
@@ -103,7 +105,7 @@ public class WorldEditorController extends State{
         double mouseX = mainModel.getMouseX();
         double mouseY = mainModel.getMouseY();
 
-        if (mouseKeyPressedFromTime > 0 & mouseKeyPressedFromTime + 200 > System.currentTimeMillis()) {
+        if (mouseKeyPressedFromTime > 0 && mouseKeyPressedFromTime + 200 < System.currentTimeMillis()) {
             double dx = oldMouseX - mouseX;
             double dy = oldMouseY - mouseY;
 
@@ -133,7 +135,47 @@ public class WorldEditorController extends State{
     }
 
     private void smallMousePressB1(){
-        System.out.println("Press");
+        int tileX = (int) (Math.floor(mainModel.getMouseXWorld() / 64));
+        int tileY = (int) (Math.floor(mainModel.getMouseYWorld() / 64));
+
+        boolean changeMap = false;
+        int xOffset = 0;
+        int yOffset = 0;
+        int xSize = model.getWorldXSize();
+        int ySize = model.getWorldYSize();
+
+        if(tileX < 0){
+            changeMap = true;
+            xOffset = -tileX;
+            xSize += xOffset;
+            tileX +=xOffset;
+        }else if(tileX >= model.getWorldXSize()){
+            xSize = tileX + 1;
+            changeMap = true;
+        }
+
+        if(tileY < 0){
+            changeMap = true;
+            yOffset = -tileY;
+            ySize += yOffset;
+            tileY +=yOffset;
+        }else if(tileY >= model.getWorldYSize()){
+            ySize = tileY + 1;
+            changeMap = true;
+        }
+
+        if(changeMap) {
+            model.changeActualMapSize(xSize, ySize, xOffset, yOffset);
+            model.moveView(-xOffset * 64.0f, -yOffset * 64.0f);
+        }
+
+        model.setUnderGroundColor(256*256*256 - 1, tileX, tileY);
+        if(model.getTileID(tileX, tileY) == Tiles.WALL_ID)
+            model.setTileID(Tiles.NO_TILE, tileX, tileY);
+        else
+            model.setTileID(Tiles.WALL_ID, tileX, tileY);
+
+        model.checkIfMapCanBeSmaller(model);
     }
 
     @Override

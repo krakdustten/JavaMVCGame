@@ -10,11 +10,11 @@ public class WorldEditorModel extends MapModel{
     private boolean showInEditorMenu;
 
     public WorldEditorModel(MainModel mainModel, int worldXSize, int worldYSize){
-        super(mainModel,worldXSize, worldYSize, null, null, new HashMap<>());
+        super(mainModel,worldXSize, worldYSize, null, null);
     }
 
     public WorldEditorModel(MapModel mapModel) {
-        super(mapModel.getMainModel(), mapModel.getWorldXSize(), mapModel.getWorldYSize(), null, null, mapModel.getSpecialTiles());
+        super(mapModel.getMainModel(), mapModel.getWorldXSize(), mapModel.getWorldYSize(), null, null);
 
         for(int i = 0; i < getWorldXSize(); i++){
             for(int j = 0; j < getWorldYSize(); j++){

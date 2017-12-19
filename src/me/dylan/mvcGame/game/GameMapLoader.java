@@ -1,14 +1,10 @@
 package me.dylan.mvcGame.game;
 
-import me.dylan.mvcGame.game.gameObjects.GameModel;
 import me.dylan.mvcGame.game.gameObjects.MapModel;
-import me.dylan.mvcGame.game.gameObjects.specialTiles.SpecialTile;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.other.ResourceHandling;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
 
 public class GameMapLoader {
     public static final int LOADER_VERSION = 001;
@@ -34,14 +30,6 @@ public class GameMapLoader {
                 }
             }
 
-            int totalSpecial = is.readInt();
-            HashMap<Integer, SpecialTile> specialTiles = new HashMap<>();
-            for(int i = 0; i < totalSpecial; i++){
-                int pos = is.readInt();
-                SpecialTile specialTile = SpecialTile.loadStaticFromFile(is);
-                specialTiles.put(pos, specialTile);
-            }
-
             int starterCodeChars = is.readInt();
             StringBuilder stringBuilder = new StringBuilder();
             for(int i = 0; i < starterCodeChars; i++) stringBuilder.append(is.readChar());
@@ -49,7 +37,7 @@ public class GameMapLoader {
 
             is.close();
 
-            MapModel mapModel= new MapModel(mainModel, worldXSize, worldYSize, butCol, tiles, specialTiles);
+            MapModel mapModel= new MapModel(mainModel, worldXSize, worldYSize, butCol, tiles);
             mapModel.setCode(code);
 
             return mapModel;
@@ -73,19 +61,11 @@ public class GameMapLoader {
             os.writeInt(model.getWorldXSize());
             os.writeInt(model.getWorldYSize());
 
-            HashMap<Integer, SpecialTile> specialTiles = model.getSpecialTiles();
-
             for(int i = 0; i < model.getWorldXSize(); i++){
                 for(int j = 0; j < model.getWorldYSize(); j++){
                     os.writeInt(model.getUnderGroundColor(i, j));
                     os.writeByte(model.getTileID(i, j));
                 }
-            }
-
-            os.writeInt(specialTiles.size());
-            for(Map.Entry<Integer, SpecialTile> entry : specialTiles.entrySet()){
-                os.writeInt(entry.getKey());
-                entry.getValue().saveToFile(os);
             }
 
             char[] starterCodeChars = model.getCode().toCharArray();
@@ -127,14 +107,6 @@ public class GameMapLoader {
                 }
             }
 
-            int totalSpecial = is.readInt();
-            HashMap<Integer, SpecialTile> specialTiles = new HashMap<>();
-            for(int i = 0; i < totalSpecial; i++){
-                int pos = is.readInt();
-                SpecialTile specialTile = SpecialTile.loadStaticFromFile(is);
-                specialTiles.put(pos, specialTile);
-            }
-
             int codeChars = is.readInt();
             StringBuilder stringBuilder = new StringBuilder();
             for(int i = 0; i < codeChars; i++) stringBuilder.append(is.readChar());
@@ -142,7 +114,7 @@ public class GameMapLoader {
 
             is.close();
 
-            MapModel mapModel= new MapModel(mainModel, worldXSize, worldYSize, butCol, tiles, specialTiles);
+            MapModel mapModel= new MapModel(mainModel, worldXSize, worldYSize, butCol, tiles);
             mapModel.setCode(code);
 
             return mapModel;
@@ -166,19 +138,11 @@ public class GameMapLoader {
             os.writeInt(model.getWorldXSize());
             os.writeInt(model.getWorldYSize());
 
-            HashMap<Integer, SpecialTile> specialTiles = model.getSpecialTiles();
-
             for(int i = 0; i < model.getWorldXSize(); i++){
                 for(int j = 0; j < model.getWorldYSize(); j++){
                     os.writeInt(model.getUnderGroundColor(i, j));
                     os.writeByte(model.getTileID(i, j));
                 }
-            }
-
-            os.writeInt(specialTiles.size());
-            for(Map.Entry<Integer, SpecialTile> entry : specialTiles.entrySet()){
-                os.writeInt(entry.getKey());
-                entry.getValue().saveToFile(os);
             }
 
             char[] codeChars = model.getCode().toCharArray();
