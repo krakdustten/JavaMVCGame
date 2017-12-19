@@ -61,7 +61,13 @@ public class GameMapLoader {
 
     public static boolean saveMap(MapModel model, String filePath){
         try {
-            DataOutputStream os = new DataOutputStream(new FileOutputStream(new File(filePath)));
+            filePath = ResourceHandling.GetExecutionPath() + "\\" + filePath;
+            File file = new File(filePath);
+            if(!file.exists()){
+                file.getParentFile().mkdirs();
+            }
+
+            DataOutputStream os = new DataOutputStream(new FileOutputStream(file));
 
             os.writeInt(LOADER_VERSION);
             os.writeInt(model.getWorldXSize());
@@ -152,7 +158,6 @@ public class GameMapLoader {
             File file = new File(filePath);
             if(!file.exists()){
                 file.getParentFile().mkdirs();
-                System.out.println(file);
             }
 
             DataOutputStream os = new DataOutputStream(new FileOutputStream(file));

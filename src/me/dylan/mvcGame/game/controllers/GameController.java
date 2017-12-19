@@ -47,6 +47,8 @@ public class GameController extends State {
 
         //TODO make code runner --> for handling world code
         //TODO world editor --> adaptive worlds with world code
+        //TODO you won screen overlay
+        //TODO you lost screen overlay
 
         playerController = new RobotPlayerController(this.model);
         codeIDEContainer = new CodeIDEContainer(this.model);

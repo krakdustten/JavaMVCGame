@@ -66,10 +66,6 @@ public class MapModel {
     public int getFinishX() { return finishX; }
     public int getFinishY() { return finishY; }
 
-    public float getViewX() { return -mainModel.getCamera2D().getxPos(); }
-    public float getViewY() { return -mainModel.getCamera2D().getyPos(); }
-    public float getViewZoom() { return mainModel.getCamera2D().getZoom(); }
-
     public String getCode() { return code; }
     public boolean getCodeChanged() { return codeChanged; }
 

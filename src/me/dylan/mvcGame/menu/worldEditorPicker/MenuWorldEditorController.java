@@ -29,6 +29,7 @@ public class MenuWorldEditorController {
     void NewMap(ActionEvent event) {
         model.getMainModel().setGameFileToLoad("usermaps/" + NewName.getText() + ".mapd");
         model.setMapSelected(true);
+        //TODO delete function
     }
 
     @FXML

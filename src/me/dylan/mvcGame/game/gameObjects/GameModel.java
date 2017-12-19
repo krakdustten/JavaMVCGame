@@ -15,7 +15,6 @@ public class GameModel extends MapModel{
     //player stuff
     private RobotPlayerModel player;
 
-
     //score and gametime stuff
     private float gameTime = 0;
     private boolean gameWon = false;
@@ -71,6 +70,10 @@ public class GameModel extends MapModel{
     public RobotPlayerModel getPlayer() { return player; }
 
     public AdvancedTextureTileMap getTileTextures() { return tileTextures; }
+
+    public float getViewX() { return -getMainModel().getCamera2D().getxPos(); }
+    public float getViewY() { return -getMainModel().getCamera2D().getyPos(); }
+    public float getViewZoom() { return getMainModel().getCamera2D().getZoom(); }
 
     public boolean getWon() { return gameWon; }
     public boolean getGameStarted() { return gameStarted; }

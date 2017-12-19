@@ -54,6 +54,8 @@ public class MenuLevelsController {
         LoadUserMapList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> loadUserMapMouseClick(oldValue, newValue));
     }
 
+    //TODO delete function
+
     private void newDefaultMapMouseClick(String oldValue, String newValue) {
         if(newValue == null) return;
         model.getMainModel().setGameFileToLoad("maps/" + newValue + ".mapd");
