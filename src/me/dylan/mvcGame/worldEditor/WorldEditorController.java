@@ -4,6 +4,7 @@ import me.dylan.mvcGame.game.GameMapLoader;
 import me.dylan.mvcGame.game.gameObjects.MapModel;
 import me.dylan.mvcGame.game.gameObjects.Tiles;
 import me.dylan.mvcGame.main.MainModel;
+import me.dylan.mvcGame.other.ResourceHandling;
 import me.dylan.mvcGame.state.State;
 import me.dylan.mvcGame.state.StateHandler;
 import org.lwjgl.glfw.GLFW;
@@ -23,15 +24,13 @@ public class WorldEditorController extends State{
     }
 
     //TODO Add options to change tile
-    //TODO Add secondairy button press
-    //TODO Add world editor menu
-    //TODO Add save option /\
+    //TODO Add secondary button press
 
     @Override
     public void init(int previousState) {
         MapModel map = null;
         if(mainModel.getGameFileToLoad().endsWith(".mapd")){
-            File file = new File(mainModel.getGameFileToLoad());
+            File file = new File(ResourceHandling.GetExecutionPath() + "/" + mainModel.getGameFileToLoad());
 
             if(file.exists()){
                 map = GameMapLoader.loadMap(mainModel, mainModel.getGameFileToLoad());
@@ -49,29 +48,33 @@ public class WorldEditorController extends State{
 
     @Override
     public void update() {
-        if (keyPressed[0]) model.moveView(0, -25f / model.getViewZoom());
-        if (keyPressed[1]) model.moveView(0, 25f / model.getViewZoom());
-        if (keyPressed[2]) model.moveView(25f / model.getViewZoom(), 0);
-        if (keyPressed[3]) model.moveView(-25f / model.getViewZoom(), 0);
-        if (keyPressed[4]) model.setViewZoom(model.getViewZoom() * 1.03f);
-        if (keyPressed[5]) model.setViewZoom(model.getViewZoom() * 0.97f);
-
+        if(!model.getShowInEditorMenu()) {
+            if (keyPressed[0]) model.moveView(0, -25f / model.getViewZoom());
+            if (keyPressed[1]) model.moveView(0, 25f / model.getViewZoom());
+            if (keyPressed[2]) model.moveView(25f / model.getViewZoom(), 0);
+            if (keyPressed[3]) model.moveView(-25f / model.getViewZoom(), 0);
+            if (keyPressed[4]) model.setViewZoom(model.getViewZoom() * 1.03f);
+            if (keyPressed[5]) model.setViewZoom(model.getViewZoom() * 0.97f);
+        }
         view.update();
+        model.getInEditorMenu().update();
     }
 
     @Override
     public void render() {
         view.render();
+        if(model.getShowInEditorMenu()) model.getInEditorMenu().render();
     }
 
     @Override
     public void deInit() {
-
+        GameMapLoader.saveMap(model, "usermaps/autoEditorSave.mapd");
+        model.distroy();
     }
 
     @Override
     public void keyboardEvent(long window, int key, int scancode, int action, int mods) {
-        switch (key){
+        switch (key) {
             case GLFW.GLFW_KEY_W:
                 handleKey(0, action);
                 break;
@@ -91,7 +94,7 @@ public class WorldEditorController extends State{
                 handleKey(5, action);
                 break;
             case GLFW.GLFW_KEY_ESCAPE:
-                if(action == GLFW.GLFW_PRESS) model.setShowInEditorMenu(!model.getShowInEditorMenu());
+                if (action == GLFW.GLFW_PRESS) model.setShowInEditorMenu(!model.getShowInEditorMenu());
         }
     }
 
@@ -102,35 +105,54 @@ public class WorldEditorController extends State{
 
     @Override
     public void mousePosEvent(long window) {
-        double mouseX = mainModel.getMouseX();
-        double mouseY = mainModel.getMouseY();
+        if(!model.getShowInEditorMenu()) {
+            double mouseX = mainModel.getMouseX();
+            double mouseY = mainModel.getMouseY();
 
-        if (mouseKeyPressedFromTime > 0 && mouseKeyPressedFromTime + 200 < System.currentTimeMillis()) {
-            double dx = oldMouseX - mouseX;
-            double dy = oldMouseY - mouseY;
+            if (mouseKeyPressedFromTime > 0 && mouseKeyPressedFromTime + 200 < System.currentTimeMillis()) {
+                double dx = oldMouseX - mouseX;
+                double dy = oldMouseY - mouseY;
 
-            dx = dx / model.getViewZoom();
-            dy = dy / model.getViewZoom();
+                dx = dx / model.getViewZoom();
+                dy = dy / model.getViewZoom();
 
-            model.moveView(-(int) dx, (int) dy);
-        }
+                model.moveView(-(int) dx, (int) dy);
+            }
 
-        oldMouseX = mouseX;
-        oldMouseY = mouseY;
+            oldMouseX = mouseX;
+            oldMouseY = mouseY;
+        }else model.getInEditorMenu().mousePosEvent(window);
     }
 
     @Override
     public void mouseButtonEvent(long window, int button, int action, int mods) {
-        if(button == GLFW.GLFW_MOUSE_BUTTON_1) {
-            if (action == GLFW.GLFW_PRESS && mouseKeyPressedFromTime == 0)
-                mouseKeyPressedFromTime = System.currentTimeMillis();
-            else if (action == GLFW.GLFW_RELEASE){
-                if(mouseKeyPressedFromTime + 200 > System.currentTimeMillis()){
-                    smallMousePressB1();
+        if(!model.getShowInEditorMenu()) {
+            if (button == GLFW.GLFW_MOUSE_BUTTON_1) {
+                if (action == GLFW.GLFW_PRESS && mouseKeyPressedFromTime == 0)
+                    mouseKeyPressedFromTime = System.currentTimeMillis();
+                else if (action == GLFW.GLFW_RELEASE) {
+                    if (mouseKeyPressedFromTime + 200 > System.currentTimeMillis()) {
+                        smallMousePressB1();
+                    }
+                    mouseKeyPressedFromTime = 0;
                 }
-                mouseKeyPressedFromTime = 0;
             }
-
+        }else{
+            int id = model.getInEditorMenu().onClick(window, button, action, mods);
+            switch (id){
+                case 1: //Main menu
+                    stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
+                    break;
+                case 2: //Save
+                    GameMapLoader.saveMap(model, mainModel.getGameFileToLoad());
+                    break;
+                case 3: //Back
+                    model.setShowInEditorMenu(false);
+                    break;
+                case 4: //Quit
+                    stateHandler.changeState(StateHandler.STATE_QUIT);
+                    break;
+            }
         }
     }
 
@@ -180,11 +202,11 @@ public class WorldEditorController extends State{
 
     @Override
     public void scrollEvent(long window, double xOffset, double yOffset) {
-        model.setViewZoom(model.getViewZoom() * (float)(yOffset * 0.075f + 1.00f));
+        if(!model.getShowInEditorMenu()) model.setViewZoom(model.getViewZoom() * (float)(yOffset * 0.075f + 1.00f));
     }
 
     @Override
     public void screenResizeEvent() {
-
+        if(!model.getShowInEditorMenu()) { model.getInEditorMenu().screenResizeEvent(); }
     }
 }
