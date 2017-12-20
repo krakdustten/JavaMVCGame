@@ -167,6 +167,4 @@ public class RobotPlayerModel {
     public String[] getSensorNames() {
         return sensorNames;
     }
-
-    //TODO show debug on screen (leds, small text)
 }

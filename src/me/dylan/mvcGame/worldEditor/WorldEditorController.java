@@ -7,6 +7,7 @@ import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.other.ResourceHandling;
 import me.dylan.mvcGame.state.State;
 import me.dylan.mvcGame.state.StateHandler;
+import me.dylan.mvcGame.worldEditor.subWindow.WorldEditorContainer;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.File;
@@ -14,6 +15,7 @@ import java.io.File;
 public class WorldEditorController extends State{
     private WorldEditorModel model;
     private WorldEditorView view;
+    private WorldEditorContainer container;
 
     private boolean keyPressed[] = new boolean[6];//UP, DOWN, LEFT, RIGHT, ZOOM IN, ZOOM OUT
     private long mouseKeyPressedFromTime = 0;
@@ -23,8 +25,8 @@ public class WorldEditorController extends State{
         super(mainModel, stateHandler);
     }
 
-    //TODO Add options to change tile
-    //TODO Add secondary button press
+    //TODO Add default code editor
+    //TODO Add advanced file stuff (rename, delete) -> use lists with checkboxes
 
     @Override
     public void init(int previousState) {
@@ -44,6 +46,7 @@ public class WorldEditorController extends State{
         GameMapLoader.saveMap(model, mainModel.getGameFileToLoad());
 
         view = new WorldEditorView(model);
+        container = new WorldEditorContainer(model);
     }
 
     @Override
@@ -58,6 +61,7 @@ public class WorldEditorController extends State{
         }
         view.update();
         model.getInEditorMenu().update();
+        container.update();
     }
 
     @Override
@@ -70,6 +74,7 @@ public class WorldEditorController extends State{
     public void deInit() {
         GameMapLoader.saveMap(model, "usermaps/autoEditorSave.mapd");
         model.distroy();
+        container.distroy();
     }
 
     @Override
@@ -192,10 +197,7 @@ public class WorldEditorController extends State{
         }
 
         model.setUnderGroundColor(256*256*256 - 1, tileX, tileY);
-        if(model.getTileID(tileX, tileY) == Tiles.WALL_ID)
-            model.setTileID(Tiles.NO_TILE, tileX, tileY);
-        else
-            model.setTileID(Tiles.WALL_ID, tileX, tileY);
+        model.changeTileTo(model.getSelectedTile(), model.getSelectedColor(), tileX, tileY);
 
         model.checkIfMapCanBeSmaller(model);
     }

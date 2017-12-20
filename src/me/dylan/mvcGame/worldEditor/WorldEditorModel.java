@@ -1,6 +1,7 @@
 package me.dylan.mvcGame.worldEditor;
 
 import me.dylan.mvcGame.game.gameObjects.MapModel;
+import me.dylan.mvcGame.game.gameObjects.Tiles;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.menu.components.MenuController;
 import me.dylan.mvcGame.menu.components.MenuModel;
@@ -11,6 +12,10 @@ public class WorldEditorModel extends MapModel{
 
     private boolean showInEditorMenu;
     private MenuController inEditorMenu;
+    private boolean windowClosing;
+
+    private byte selectedTile;
+    private int selectedColor = 256 * 256 * 256 - 1;
 
     public WorldEditorModel(MainModel mainModel, int worldXSize, int worldYSize){
         super(mainModel,worldXSize, worldYSize, null, null);
@@ -47,6 +52,10 @@ public class WorldEditorModel extends MapModel{
         return showInEditorMenu;
     }
     public MenuController getInEditorMenu() { return inEditorMenu; }
+    public boolean getWindowClosing() { return windowClosing; }
+
+    public byte getSelectedTile() { return selectedTile; }
+    public int getSelectedColor() { return selectedColor; }
 
     /****SETTERS*****/
 
@@ -68,11 +77,66 @@ public class WorldEditorModel extends MapModel{
 
     public void setShowInEditorMenu(boolean showInEditorMenu) { this.showInEditorMenu = showInEditorMenu;inEditorMenu.updateView(); }
 
+    public void setWindowClosing(boolean windowClosing) { this.windowClosing = windowClosing; }
+
+    public void setSelectedTile(byte selectedTile) { this.selectedTile = selectedTile; }
+    public void setSelectedColor(int selectedColor) { this.selectedColor = selectedColor; }
+
     /*****OTHER SMALL LOGIC*****/
 
     public void moveView(float dx, float dy){
         setViewX(getViewX() - dx);
         setViewY(getViewY() - dy);
+    }
+
+    public void changeTileTo(byte toTile, int toColor, int tileX, int tileY) {
+        byte oldTile = (byte) getTileID(tileX, tileY);
+
+        switch (oldTile){
+            case Tiles.START_ID:
+                removeAllTilesOf(Tiles.START_ID, Tiles.FLOOR_ID);
+                break;
+            case Tiles.END_ID:
+                removeAllTilesOf(Tiles.END_ID, Tiles.FLOOR_ID);
+                break;
+        }
+
+        if(oldTile == toTile) {
+            setTileID(Tiles.NO_TILE, tileX, tileY);
+            return;
+        }
+
+        switch (toTile){
+            case Tiles.START_ID:
+            case Tiles.END_ID:
+                if(getWorldXSize() < 3 ||getWorldYSize() < 3) return;
+                if(tileX < 1) tileX = 1;
+                if(tileY < 1) tileY = 1;
+                if(tileX >= getWorldXSize() - 1) tileX = getWorldXSize() - 2;
+                if(tileY >= getWorldYSize() - 1) tileY = getWorldYSize() - 2;
+                removeAllTilesOf(toTile, Tiles.FLOOR_ID);
+                for(int i = -1; i < 2; i++){
+                    for(int j = -1; j < 2; j++){
+                        setTileID(toTile, tileX + i, tileY + j);
+                        setUnderGroundColor(toColor, tileX + i, tileY + j);
+                    }
+                }
+                break;
+            default:
+                setTileID(toTile, tileX, tileY);
+                setUnderGroundColor(toColor, tileX, tileY);
+                break;
+        }
+
+    }
+
+    private void removeAllTilesOf(byte tile, byte toTile){
+        for(int i = 0; i < getWorldXSize(); i++){
+            for(int j = 0; j < getWorldYSize(); j++){
+                if(getTileID(i, j) == tile)
+                    setTileID(toTile, i, j);
+            }
+        }
     }
 
     public void distroy() {

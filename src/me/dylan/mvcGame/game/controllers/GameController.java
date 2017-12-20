@@ -45,8 +45,6 @@ public class GameController extends State {
 
         view = new GameView(this.model);
 
-        //TODO make code runner --> for handling world code
-        //TODO world editor --> adaptive worlds with world code
         //TODO you won screen overlay
         //TODO you lost screen overlay
 
