@@ -25,7 +25,6 @@ public class WorldEditorController extends State{
         super(mainModel, stateHandler);
     }
 
-    //TODO Add default code editor
     //TODO Add advanced file stuff (rename, delete) -> use lists with checkboxes
 
     @Override

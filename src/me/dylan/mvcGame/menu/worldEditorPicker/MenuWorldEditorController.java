@@ -29,7 +29,7 @@ public class MenuWorldEditorController {
     void NewMap(ActionEvent event) {
         model.getMainModel().setGameFileToLoad("usermaps/" + NewName.getText() + ".mapd");
         model.setMapSelected(true);
-        //TODO delete function
+        //TODO Add advanced file stuff (rename, delete) -> use lists with checkboxes
     }
 
     @FXML

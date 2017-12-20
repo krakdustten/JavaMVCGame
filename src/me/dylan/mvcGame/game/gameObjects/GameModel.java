@@ -1,14 +1,12 @@
 package me.dylan.mvcGame.game.gameObjects;
 
 import me.dylan.mvcGame.drawers.AdvancedTextureTileMap;
-import me.dylan.mvcGame.game.gameObjects.Tiles;
 import me.dylan.mvcGame.game.gameObjects.robot.RobotPlayerModel;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.menu.components.MenuController;
 import me.dylan.mvcGame.menu.components.MenuModel;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.awt.*;
 
 public class GameModel extends MapModel{
     //player stuff
@@ -17,12 +15,14 @@ public class GameModel extends MapModel{
     //score and gametime stuff
     private float gameTime = 0;
     private boolean gameWon = false;
+    private boolean gameLost = false;
     private boolean gameStarted = false;
     private boolean shouldGameReset = true;
 
     //menu
     private MenuController inGameMenu;
     private boolean isGameMenuShown = false;
+    private MenuController gameOverlay;
 
     //extra
     private AdvancedTextureTileMap tileTextures;
@@ -75,6 +75,7 @@ public class GameModel extends MapModel{
     public float getViewZoom() { return getMainModel().getCamera2D().getZoom(); }
 
     public boolean getWon() { return gameWon; }
+    public boolean getLost() { return gameLost; }
     public boolean getGameStarted() { return gameStarted; }
     public float getGameTime() { return gameTime;}
     public boolean getShouldGameReset() { return shouldGameReset; }
@@ -86,6 +87,8 @@ public class GameModel extends MapModel{
     public boolean getGameMenuShown() { return isGameMenuShown; }
 
     public boolean getWindowClosing() { return windowClosing; }
+
+    public MenuController getGameOverlay() { return gameOverlay; }
 
     /****SETTERS*****/
 
@@ -113,6 +116,7 @@ public class GameModel extends MapModel{
 
     public void setGameStarted(boolean gameStarted){this.gameStarted = gameStarted;}
     public void setWon(boolean gameWon){this.gameWon = gameWon;}
+    public void setLost(boolean gameLost) { this.gameLost = gameLost; }
     public void setShouldGameReset(boolean shouldGameReset) { this.shouldGameReset = shouldGameReset; }
 
     public void setError(String error){ this.error = error; errorChanged = true;}
@@ -123,9 +127,9 @@ public class GameModel extends MapModel{
         inGameMenu.updateView();
     }
 
-    public void setWindowClosing(boolean windowClosing) {
-        this.windowClosing = windowClosing;
-    }
+    public void setWindowClosing(boolean windowClosing) { this.windowClosing = windowClosing; }
+
+    public void setGameOverlay(MenuController gameOverlay) { this.gameOverlay = gameOverlay; }
 
     /*****OTHER SMALL LOGIC*****/
 
@@ -138,7 +142,7 @@ public class GameModel extends MapModel{
         gameTime += 1/50f;
     }
     public boolean isGameRunning(){
-        return (gameStarted && !gameWon);
+        return (gameStarted && !gameWon && !gameLost);
     }
 
     public void distroy() {

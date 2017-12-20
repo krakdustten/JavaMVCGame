@@ -19,7 +19,7 @@ public class WorldEditorView {
     }
 
     public void update() {
-        if(!model.isMapChanged())return;
+        if(!model.getMapChanged())return;
         int worldX = model.getWorldXSize();
         int worldY = model.getWorldYSize();
 

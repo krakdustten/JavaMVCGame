@@ -18,7 +18,6 @@ public class RobotPlayerModel {
     private ArrayList<Sensor> sensors = new ArrayList<>();
     private String[] sensorNames;
     private float[] sensorValues;
-    private ArrayList<DebugActuators> debugActuators = new ArrayList<>();
 
     private boolean change = true;
 
@@ -143,6 +142,7 @@ public class RobotPlayerModel {
                 xOut += xMov;
                 yOut += yMov;
             }
+            if(parent.getLoseOnWallHit()) parent.setLost(true);
         }
         x = xOut;
         y = yOut;

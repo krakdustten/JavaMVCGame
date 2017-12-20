@@ -20,6 +20,7 @@ public class MapModel {
 
     private String code;
     private boolean codeChanged = true;
+    private boolean loseOnWallHit = true;
 
 
     public MapModel(MainModel mainModel, int worldXSize, int worldYSize, int[] underGroundColor, byte[] tileID){
@@ -56,7 +57,7 @@ public class MapModel {
         if(x < 0 || x >= worldXSize || y < 0 || y >= worldYSize) return -1;
         return tileID[x + y * worldXSize];
     }
-    public boolean isMapChanged(){if(mapChanged){mapChanged = false; return true;} return false;}
+    public boolean getMapChanged(){if(mapChanged){mapChanged = false; return true;} return false;}
 
     public int getStartX() { return startX; }
     public int getStartY() { return startY; }
@@ -65,6 +66,8 @@ public class MapModel {
 
     public String getCode() { return code; }
     public boolean getCodeChanged() { return codeChanged; }
+
+    public boolean getLoseOnWallHit() { return loseOnWallHit; }
 
     /****SETTERS*****/
     public void setWorldXSize(int worldXSize) {
@@ -82,6 +85,8 @@ public class MapModel {
 
     public void setCode(String code) { this.code = code;codeChanged = true; }
     public void setCodeChanged(boolean codeChanged){ this.codeChanged = codeChanged; }
+
+    public void setLoseOnWallHit(boolean loseOnWallHit) { this.loseOnWallHit = loseOnWallHit; }
 
     /*****OTHER SMALL LOGIC*****/
     public void changeActualMapSize(int newXSize, int newYSize, int xOffset, int yOffset){

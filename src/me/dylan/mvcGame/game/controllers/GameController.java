@@ -7,6 +7,8 @@ import me.dylan.mvcGame.game.gameObjects.MapModel;
 import me.dylan.mvcGame.game.gameViewers.GameView;
 import me.dylan.mvcGame.game.gameViewers.CodeIDEContainer;
 import me.dylan.mvcGame.main.MainModel;
+import me.dylan.mvcGame.menu.components.MenuController;
+import me.dylan.mvcGame.menu.components.MenuModel;
 import me.dylan.mvcGame.state.State;
 import me.dylan.mvcGame.state.StateHandler;
 import org.lwjgl.glfw.GLFW;
@@ -45,9 +47,6 @@ public class GameController extends State {
 
         view = new GameView(this.model);
 
-        //TODO you won screen overlay
-        //TODO you lost screen overlay
-
         playerController = new RobotPlayerController(this.model);
         codeIDEContainer = new CodeIDEContainer(this.model);
     }
@@ -57,6 +56,14 @@ public class GameController extends State {
         if(!model.getGameMenuShown()) {
             if (model.isGameRunning())
                 updateGame();
+            else if(model.getGameOverlay() == null && (model.getLost() || model.getWon())){
+                MenuController overlay = new MenuController(mainModel, "img/menu.png");
+                overlay.addGuiElement(new MenuModel.GuiLabel(0, 100, 350, 64, 3, model.getWon() ? "YOU WON" : "YOU LOST", 1, 1, 1, 1));
+                overlay.addGuiElement(new MenuModel.GuiLabel(0, 0, 350, 64, 4, String.format("Time: %.2fs", model.getGameTime()), 1, 1, 1, 1));
+                overlay.setAlignMargin(0, 0, 0, 0);
+                overlay.setBackgroundColor(0.8f, 0.5f,0.4f, 0.3f);
+                model.setGameOverlay(overlay);
+            }
 
             if (model.getShouldGameReset()) {
                 playerController = new RobotPlayerController(this.model);
@@ -76,6 +83,7 @@ public class GameController extends State {
         codeIDEContainer.update();
 
         if(model.getWindowClosing())stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
+        if(model.getGameOverlay() != null) model.getGameOverlay().update();
     }
 
     private void updateGame(){
@@ -88,6 +96,7 @@ public class GameController extends State {
         view.render();
         playerController.render();
         if(model.getGameMenuShown())model.getInGameMenu().render();
+        if(model.getGameOverlay() != null) model.getGameOverlay().render();
     }
 
     @Override
@@ -97,8 +106,10 @@ public class GameController extends State {
         codeIDEContainer = null;
         if(playerController != null)playerController.distroy();
         playerController = null;
+        if(model.getGameOverlay() != null) model.getGameOverlay().delete();
         if(model != null)model.distroy();
         model = null;
+
     }
 
     @Override
