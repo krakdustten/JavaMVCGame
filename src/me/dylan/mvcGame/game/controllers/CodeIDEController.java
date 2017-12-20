@@ -11,6 +11,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import me.dylan.mvcGame.game.gameObjects.GameModel;
+import me.dylan.mvcGame.game.gameObjects.robot.RobotPlayerModel;
 
 public class CodeIDEController {
     private GameModel model;
@@ -97,7 +98,7 @@ public class CodeIDEController {
         this.model = model;
         Code.setText(model.getCode());
 
-        for(String str : model.getPlayer().getSensorNames()){
+        for(String str : ((RobotPlayerModel)model.getRobot()).getSensorNames()){
             Variables.getItems().add(str);
         }
     }

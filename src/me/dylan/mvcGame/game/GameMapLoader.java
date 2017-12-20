@@ -1,6 +1,8 @@
 package me.dylan.mvcGame.game;
 
 import me.dylan.mvcGame.game.gameObjects.MapModel;
+import me.dylan.mvcGame.game.gameObjects.robot.RobotModel;
+import me.dylan.mvcGame.game.gameObjects.robot.Sensor;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.other.ResourceHandling;
 
@@ -30,15 +32,24 @@ public class GameMapLoader {
                 }
             }
 
+            MapModel mapModel= new MapModel(mainModel, worldXSize, worldYSize, butCol, tiles);
+
             int starterCodeChars = is.readInt();
             StringBuilder stringBuilder = new StringBuilder();
             for(int i = 0; i < starterCodeChars; i++) stringBuilder.append(is.readChar());
-            String code = stringBuilder.toString();
+            mapModel.setCode(stringBuilder.toString());
 
+            mapModel.setRobot(new RobotModel(mapModel));
+            int sensorAmount = is.readInt();
+            for(int i = 0; i < sensorAmount; i++){
+                Sensor sensor = Sensor.getNewSensorFromId(is.readInt(), mapModel);
+                if(sensor == null) break;
+                sensor.loadSensor(is);
+                mapModel.getRobot().addSensor(sensor);
+            }
+
+            mapModel.setLoseOnWallHit(is.readBoolean());
             is.close();
-
-            MapModel mapModel= new MapModel(mainModel, worldXSize, worldYSize, butCol, tiles);
-            mapModel.setCode(code);
 
             return mapModel;
         } catch (IOException e) {
@@ -71,6 +82,15 @@ public class GameMapLoader {
             char[] starterCodeChars = model.getCode().toCharArray();
             os.writeInt(starterCodeChars.length);
             for(int i = 0; i < starterCodeChars.length; i++) os.writeChar(starterCodeChars[i]);
+
+            Sensor[] sensors = model.getRobot().getSensors();
+            os.writeInt(sensors.length);
+            for(int i = 0; i < sensors.length; i++){
+                os.writeInt(sensors[i].getType());
+                sensors[i].saveSensor(os);
+            }
+
+            os.writeBoolean(model.getLoseOnWallHit());
 
             os.close();
             return true;
@@ -107,16 +127,26 @@ public class GameMapLoader {
                 }
             }
 
+            MapModel mapModel= new MapModel(mainModel, worldXSize, worldYSize, butCol, tiles);
+
             int codeChars = is.readInt();
             StringBuilder stringBuilder = new StringBuilder();
             for(int i = 0; i < codeChars; i++) stringBuilder.append(is.readChar());
-            String code = stringBuilder.toString();
+            mapModel.setCode(stringBuilder.toString());
+
+
+            mapModel.setRobot(new RobotModel(mapModel));
+            int sensorAmount = is.readInt();
+            for(int i = 0; i < sensorAmount; i++){
+                Sensor sensor = Sensor.getNewSensorFromId(is.readInt(), mapModel);
+                if(sensor == null) break;
+                sensor.loadSensor(is);
+                mapModel.getRobot().addSensor(sensor);
+            }
+
+            mapModel.setLoseOnWallHit(is.readBoolean());
 
             is.close();
-
-            MapModel mapModel= new MapModel(mainModel, worldXSize, worldYSize, butCol, tiles);
-            mapModel.setCode(code);
-
             return mapModel;
         } catch (IOException e) {
             e.printStackTrace();
@@ -148,6 +178,16 @@ public class GameMapLoader {
             char[] codeChars = model.getCode().toCharArray();
             os.writeInt(codeChars.length);
             for(int i = 0; i < codeChars.length; i++) os.writeChar(codeChars[i]);
+
+            Sensor[] sensors = model.getRobot().getSensors();
+            os.writeInt(sensors.length);
+            for(int i = 0; i < sensors.length; i++){
+                os.writeInt(sensors[i].getType());
+                sensors[i].saveSensor(os);
+            }
+
+
+            os.writeBoolean(model.getLoseOnWallHit());
 
             os.close();
             return true;

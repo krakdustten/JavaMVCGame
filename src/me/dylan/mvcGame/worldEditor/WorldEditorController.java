@@ -26,6 +26,7 @@ public class WorldEditorController extends State{
     }
 
     //TODO Add advanced file stuff (rename, delete) -> use lists with checkboxes
+    //TODO Add robot model editor
 
     @Override
     public void init(int previousState) {

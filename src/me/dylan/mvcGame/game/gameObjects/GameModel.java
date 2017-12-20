@@ -1,17 +1,11 @@
 package me.dylan.mvcGame.game.gameObjects;
 
 import me.dylan.mvcGame.drawers.AdvancedTextureTileMap;
-import me.dylan.mvcGame.game.gameObjects.robot.RobotPlayerModel;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.menu.components.MenuController;
 import me.dylan.mvcGame.menu.components.MenuModel;
 
-import java.awt.*;
-
 public class GameModel extends MapModel{
-    //player stuff
-    private RobotPlayerModel player;
-
     //score and gametime stuff
     private float gameTime = 0;
     private boolean gameWon = false;
@@ -63,10 +57,11 @@ public class GameModel extends MapModel{
         }
         findStartAndFinish();
         setCode(mapModel.getCode());
+        setRobot(mapModel.getRobot());
     }
 
     /*****GETTERS*****/
-    public RobotPlayerModel getPlayer() { return player; }
+
 
     public AdvancedTextureTileMap getTileTextures() { return tileTextures; }
 
@@ -109,10 +104,6 @@ public class GameModel extends MapModel{
     }
 
     public void setTileTextures(AdvancedTextureTileMap tileTextures) { this.tileTextures = tileTextures; }
-
-    public void setPlayer(RobotPlayerModel player) {
-        this.player = player;
-    }
 
     public void setGameStarted(boolean gameStarted){this.gameStarted = gameStarted;}
     public void setWon(boolean gameWon){this.gameWon = gameWon;}

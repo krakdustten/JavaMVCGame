@@ -1,42 +1,34 @@
 package me.dylan.mvcGame.game.gameObjects.robot;
 
 import me.dylan.mvcGame.game.gameObjects.GameModel;
+import me.dylan.mvcGame.game.gameObjects.MapModel;
 import me.dylan.mvcGame.game.gameObjects.Tiles;
 
 import java.util.ArrayList;
 
-public class RobotPlayerModel {
-    private GameModel parent;
-
-    private float x, y, rotation;
+public class RobotPlayerModel extends RobotModel{
     private float motorLSpeedTop, motorRSpeedTop;
-    private float motorLPos, motorRPos;//1 rot = 1 tile
     private float motorLSpeed, motorRSpeed;//1 rot/s = 1 tile/s
 
     private float[] oldOuters;
-
-    private ArrayList<Sensor> sensors = new ArrayList<>();
     private String[] sensorNames;
     private float[] sensorValues;
 
     private boolean change = true;
 
-    public RobotPlayerModel(GameModel parent){
-        this.parent = parent;
 
-        x = parent.getStartX() + 1;
-        y = parent.getStartY() + 1;
+    public RobotPlayerModel(GameModel parent){ super(parent); }
+
+    public RobotPlayerModel(RobotModel robot, MapModel mapModel) {
+        super(mapModel);
+        Sensor[] sensors = robot.getSensors();
+
+        for(int i = 0; i < sensors.length; i++)
+            this.addSensor(sensors[i]);
     }
 
     public boolean isChanged(){return change;}
     public void changesDone() {change = false; }
-
-    public float getX() { return x; }
-    public float getY() { return y; }
-    public float getRotation() { return rotation; }
-
-    public float getMoterLPos() { return motorLPos; }
-    public float getMoterRPos() { return motorRPos; }
 
     public float getMoterLSpeed() { return motorLSpeed; }
     public float getMoterRSpeed() { return motorRSpeed; }
@@ -59,23 +51,23 @@ public class RobotPlayerModel {
         motorLSpeed += (motorLSpeedTop - motorLSpeed) * 0.05f;
         motorRSpeed += (motorRSpeedTop - motorRSpeed) * 0.05f;
 
-        motorLPos = (motorLPos + motorLSpeed / 25 + 1.0f) % 1.0f;
-        motorRPos = (motorRPos + motorRSpeed / 25 + 1.0f) % 1.0f;
+        setMotorLPos((getMoterLPos() + motorLSpeed / 25 + 1.0f) % 1.0f);
+        setMotorRPos((getMoterRPos() + motorRSpeed / 25 + 1.0f) % 1.0f);
 
         float mov = (motorLSpeed + motorRSpeed) / 100;
         float rot = (float) Math.atan2((motorRSpeed - motorLSpeed), 50);
-        float dx = mov * (float) Math.cos(rotation);
-        float dy = mov * (float) Math.sin(rotation);
+        float dx = mov * (float) Math.cos(getRotation());
+        float dy = mov * (float) Math.sin(getRotation());
 
         calculateHit(dx, dy, rot);
 
-        rotation += rot;
+        setRotation(getRotation() + rot);
         change = true;
     }
 
     private void calculateHit(float dx, float dy, float rot) {
-        float xOut = x + dx;
-        float yOut = y + dy;
+        float xOut = getX() + dx;
+        float yOut = getY() + dy;
 
         int xBase = (int) xOut + 1;
         int yBase = (int) yOut + 1;
@@ -90,23 +82,23 @@ public class RobotPlayerModel {
         int i = 0;
         float[] hitpoints = new float[4];
 
-        if(parent.getTileID(xBase, (int) ySub1) == Tiles.WALL_ID ^ parent.getTileID(xBase - 1, (int) ySub1) == Tiles.WALL_ID) { //wall on one of the 2 sides
+        if(getParent().getTileID(xBase, (int) ySub1) == Tiles.WALL_ID ^ getParent().getTileID(xBase - 1, (int) ySub1) == Tiles.WALL_ID) { //wall on one of the 2 sides
             hitpoints[i++] = xBase;
             hitpoints[i++] = ySub1;
         }
 
-        if(parent.getTileID((int) xSub1, yBase) == Tiles.WALL_ID ^ parent.getTileID((int) xSub1, yBase - 1) == Tiles.WALL_ID) {
+        if(getParent().getTileID((int) xSub1, yBase) == Tiles.WALL_ID ^ getParent().getTileID((int) xSub1, yBase - 1) == Tiles.WALL_ID) {
             hitpoints[i++] = xSub1;
             hitpoints[i++] = yBase;
         }
 
-        if(parent.getTileID(xBase, (int) ySub2) == Tiles.WALL_ID ^ parent.getTileID(xBase - 1, (int) ySub2) == Tiles.WALL_ID) {
+        if(getParent().getTileID(xBase, (int) ySub2) == Tiles.WALL_ID ^ getParent().getTileID(xBase - 1, (int) ySub2) == Tiles.WALL_ID) {
             if(i==4) i = 2;
             hitpoints[i++] = xBase;
             hitpoints[i++] = ySub2;
         }
 
-        if(parent.getTileID((int) xSub2, yBase) == Tiles.WALL_ID ^ parent.getTileID((int) xSub2, yBase - 1) == Tiles.WALL_ID) {
+        if(getParent().getTileID((int) xSub2, yBase) == Tiles.WALL_ID ^ getParent().getTileID((int) xSub2, yBase - 1) == Tiles.WALL_ID) {
             if(i==4) i = 2;
             hitpoints[i++] = xSub2;
             hitpoints[i++] = yBase;
@@ -142,19 +134,10 @@ public class RobotPlayerModel {
                 xOut += xMov;
                 yOut += yMov;
             }
-            if(parent.getLoseOnWallHit()) parent.setLost(true);
+            if(getParent().getLoseOnWallHit()) ((GameModel)getParent()).setLost(true);
         }
-        x = xOut;
-        y = yOut;
-    }
-
-    public void addSensor(Sensor sensor) {
-        this.sensors.add(sensor);
-        change = true;
-    }
-
-    public ArrayList<Sensor> getAllSensors() {
-        return sensors;
+        setX(xOut);
+        setY(yOut);
     }
 
     public void setSensorNames(String[] sensorNames) {

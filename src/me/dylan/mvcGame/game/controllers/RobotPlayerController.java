@@ -24,16 +24,11 @@ public class RobotPlayerController {
         this.gameModel = gameModel;
         long start = System.currentTimeMillis();
 
-        gameModel.setPlayer(new RobotPlayerModel(gameModel));
-        this.model = gameModel.getPlayer();
+        gameModel.setRobot(new RobotPlayerModel(gameModel.getRobot(), gameModel));
+        this.model = (RobotPlayerModel) gameModel.getRobot();
         view = new RobotPlayerView(gameModel);
         senserView = new RobotSensorViewer(this.gameModel);
 
-        //TODO load sensors from world file
-        //TODO add robot editor in world editor
-        model.addSensor(new DistanceSensor(this.gameModel, 1.0f * 26.0f/32, 1.0f * 25.0f/32, (float) (Math.PI * 1/2), "Distance_Left"));
-        model.addSensor(new DistanceSensor(this.gameModel, 1.0f * 26.0f/32, 1.0f * 6.0f/32, (float) (Math.PI * 3/2), "Distance_Right"));
-        model.addSensor(new DistanceSensor(this.gameModel, 1.0f * 29.0f/32, 1.0f * 16.0f/32, 0, "Distance_Front"));
         addIDsToSensors();
 
         update();
@@ -60,7 +55,7 @@ public class RobotPlayerController {
     private void addIDsToSensors() {
         ArrayList<String> sensorNames = new ArrayList<>();
         int totalFloatAmount = 0;
-        for (Sensor sensor : model.getAllSensors()) {
+        for (Sensor sensor : model.getSensors()) {
             String[] sNames = sensor.getNames();
             int[] ids = new int[sNames.length];
             for(int i = 0; i < sNames.length; i++){
@@ -92,7 +87,7 @@ public class RobotPlayerController {
 
     public void calculateSensorData(){
         float[] data = model.getSensorValues();
-        for (Sensor sensor : model.getAllSensors()) {
+        for (Sensor sensor : model.getSensors()) {
             sensor.calculateOutput(data);
         }
     }

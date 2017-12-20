@@ -1,13 +1,18 @@
 package me.dylan.mvcGame.game.gameObjects.robot;
 
 import me.dylan.mvcGame.game.gameObjects.GameModel;
+import me.dylan.mvcGame.game.gameObjects.MapModel;
 import me.dylan.mvcGame.game.gameObjects.Tiles;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 public class DistanceSensor extends Sensor{
     private float rotation;
 
-    public DistanceSensor(GameModel gameModel, float x, float y, float rotation, String name) {
-        super(gameModel, x, y, new String[]{name});
+    public DistanceSensor(MapModel mapModel, float x, float y, float rotation, String name) {
+        super(mapModel, x, y, new String[]{name});
         this.rotation = rotation;
     }
 
@@ -30,14 +35,14 @@ public class DistanceSensor extends Sensor{
         boolean found = false;
         while(!found){
             if(xLength < yLength){
-                if(gameModel.getTileID(nextX + (modX > 0 ? 0 : -1), nextY - (modY > 0 ? 1 : 0)) == Tiles.WALL_ID) {
+                if(mapModel.getTileID(nextX + (modX > 0 ? 0 : -1), nextY - (modY > 0 ? 1 : 0)) == Tiles.WALL_ID) {
                     data[ID[0]] = xLength;
                     return;
                 }
                 nextX += modX;
                 xLength = Math.abs((nextX - xSensor) / cos);
             }else{
-                if(gameModel.getTileID(nextX - (modX > 0 ? 1: 0), nextY + (modY > 0 ? 0 : -1)) == Tiles.WALL_ID) {
+                if(mapModel.getTileID(nextX - (modX > 0 ? 1: 0), nextY + (modY > 0 ? 0 : -1)) == Tiles.WALL_ID) {
                     data[ID[0]] = yLength;
                     return;
                 }
@@ -57,4 +62,20 @@ public class DistanceSensor extends Sensor{
         calculateOutput(temp);
         return temp[ID[0]];
     }
+
+    @Override
+    public void saveSensor(DataOutputStream os) throws IOException {
+        super.saveSensor(os);
+        os.writeFloat(rotation);
+    }
+
+    @Override
+    public void loadSensor(DataInputStream is) throws IOException {
+        super.loadSensor(is);
+        rotation = is.readFloat();
+    }
+
+    @Override
+    public int getType() { return 1; }
 }
+

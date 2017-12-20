@@ -1,13 +1,17 @@
 package me.dylan.mvcGame.game.gameObjects;
 
+import me.dylan.mvcGame.game.gameObjects.robot.RobotModel;
+import me.dylan.mvcGame.game.gameObjects.robot.RobotPlayerModel;
+import me.dylan.mvcGame.game.gameObjects.robot.Sensor;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.worldEditor.WorldEditorModel;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 public class MapModel {
     private MainModel mainModel;
+    //player stuff
+    private RobotModel robot;
 
     //world stuff
     private int worldXSize;
@@ -18,10 +22,10 @@ public class MapModel {
     private int startX, startY;
     private int finishX, finishY;
 
+    //code
     private String code;
     private boolean codeChanged = true;
     private boolean loseOnWallHit = true;
-
 
     public MapModel(MainModel mainModel, int worldXSize, int worldYSize, int[] underGroundColor, byte[] tileID){
         this.mainModel = mainModel;
@@ -45,7 +49,7 @@ public class MapModel {
                 "     global MotorR\n";
     }
 
-    /*****GETTERS*****/
+    /*GETTERS*/
     public MainModel getMainModel() { return mainModel; }
     public int getWorldXSize() { return worldXSize; }
     public int getWorldYSize() { return worldYSize; }
@@ -69,7 +73,9 @@ public class MapModel {
 
     public boolean getLoseOnWallHit() { return loseOnWallHit; }
 
-    /****SETTERS*****/
+    public RobotModel getRobot() { return robot; }
+
+    /*SETTERS*/
     public void setWorldXSize(int worldXSize) {
         changeActualMapSize(worldXSize, worldYSize, 0, 0);
         this.worldXSize = worldXSize;
@@ -88,7 +94,9 @@ public class MapModel {
 
     public void setLoseOnWallHit(boolean loseOnWallHit) { this.loseOnWallHit = loseOnWallHit; }
 
-    /*****OTHER SMALL LOGIC*****/
+    public void setRobot(RobotModel robot) { this.robot = robot; }
+
+    /*OTHER SMALL LOGIC*/
     public void changeActualMapSize(int newXSize, int newYSize, int xOffset, int yOffset){
         int[] underGroundColor = new int[newXSize * newYSize];
         byte[] tileID = new byte[newXSize * newYSize];
@@ -187,6 +195,4 @@ public class MapModel {
             }
         }
     }
-
-
 }

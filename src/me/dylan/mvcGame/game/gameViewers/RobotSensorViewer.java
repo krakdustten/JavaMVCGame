@@ -4,6 +4,7 @@ import me.dylan.mvcGame.drawers.Texture;
 import me.dylan.mvcGame.drawers.VBODrawer2D;
 import me.dylan.mvcGame.game.gameObjects.GameModel;
 import me.dylan.mvcGame.game.gameObjects.robot.DistanceSensor;
+import me.dylan.mvcGame.game.gameObjects.robot.RobotModel;
 import me.dylan.mvcGame.game.gameObjects.robot.RobotPlayerModel;
 import me.dylan.mvcGame.game.gameObjects.robot.Sensor;
 
@@ -11,14 +12,14 @@ import java.util.ArrayList;
 
 public class RobotSensorViewer {
     private GameModel gameModel;
-    private RobotPlayerModel model;
+    private RobotModel model;
 
     private int vbo;
     private int texture;
 
     public RobotSensorViewer(GameModel gameModel){
         this.gameModel = gameModel;
-        this.model = gameModel.getPlayer();
+        this.model = gameModel.getRobot();
 
         vbo = VBODrawer2D.createBufferId();
         texture = Texture.createImageId("img/Sensors.png");
@@ -28,9 +29,9 @@ public class RobotSensorViewer {
     public void update(){
         //if(!model.isChanged())return;
 
-        ArrayList<Sensor> sensors = model.getAllSensors();
+        Sensor[] sensors = model.getSensors();
 
-        float[] vertexes = new float[VBODrawer2D.calcArraySizeForSquares(VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, sensors.size() + 3)];
+        float[] vertexes = new float[VBODrawer2D.calcArraySizeForSquares(VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, sensors.length)];
         int offset = 0;
 
         float xStart = model.getX();
@@ -59,7 +60,7 @@ public class RobotSensorViewer {
     }
 
     public void render(){
-        VBODrawer2D.drawVBO(gameModel.getMainModel(), vbo, texture, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, VBODrawer2D.calcDrawAmountForSquares(model.getAllSensors().size()+3));
+        VBODrawer2D.drawVBO(gameModel.getMainModel(), vbo, texture, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, VBODrawer2D.calcDrawAmountForSquares(model.getSensors().length));
     }
 
     public void distroy() {
