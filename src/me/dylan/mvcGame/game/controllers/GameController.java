@@ -67,6 +67,9 @@ public class GameController extends State {
 
             if (model.getShouldGameReset()) {
                 playerController = new RobotPlayerController(this.model);
+                model.setLost(false);
+                model.setWon(false);
+                model.setGameTime(0);
                 model.setShouldGameReset(false);
             }
 

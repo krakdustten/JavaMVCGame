@@ -106,8 +106,8 @@ public class GameModel extends MapModel{
     public void setTileTextures(AdvancedTextureTileMap tileTextures) { this.tileTextures = tileTextures; }
 
     public void setGameStarted(boolean gameStarted){this.gameStarted = gameStarted;}
-    public void setWon(boolean gameWon){this.gameWon = gameWon;}
-    public void setLost(boolean gameLost) { this.gameLost = gameLost; }
+    public void setWon(boolean gameWon){this.gameWon = gameWon; if(!gameWon) gameOverlay = null;}
+    public void setLost(boolean gameLost) { this.gameLost = gameLost; if(!gameLost) gameOverlay = null;}
     public void setShouldGameReset(boolean shouldGameReset) { this.shouldGameReset = shouldGameReset; }
 
     public void setError(String error){ this.error = error; errorChanged = true;}
@@ -117,6 +117,8 @@ public class GameModel extends MapModel{
         isGameMenuShown = gameMenuShown;
         inGameMenu.updateView();
     }
+
+    public void setGameTime(float gameTime) { this.gameTime = gameTime; }
 
     public void setWindowClosing(boolean windowClosing) { this.windowClosing = windowClosing; }
 

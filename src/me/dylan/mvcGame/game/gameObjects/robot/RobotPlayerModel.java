@@ -79,6 +79,14 @@ public class RobotPlayerModel extends RobotModel{
         float xSub1 = (float) (Math.sqrt(0.25 - ySub * ySub) + xSub + xBase);
         float xSub2 = (float) (-Math.sqrt(0.25 - ySub * ySub) + xSub + xBase);
 
+        //check for finish
+        float finishX = getParent().getFinishX();
+        float finishY = getParent().getFinishY();
+
+        if(finishX < xSub2 && finishX + 3 > xSub1 &&
+                finishY < ySub2 && finishY + 3 > ySub1)
+            ((GameModel)getParent()).setWon(true);
+
         int i = 0;
         float[] hitpoints = new float[4];
 

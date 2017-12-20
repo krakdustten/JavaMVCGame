@@ -4,16 +4,22 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxListCell;
 import me.dylan.mvcGame.other.ResourceHandling;
 
 public class MenuLevelsController {
     private MenuLevelsModel model;
+    private List<String> selectedDefault = new ArrayList<>();
+    private List<String> selectedUser = new ArrayList<>();
 
     @FXML
     private TextArea LevelFileInfo;
@@ -37,24 +43,136 @@ public class MenuLevelsController {
     private ListView<String> NewUserMapList;
 
     @FXML
-    void openFileClicked(ActionEvent event) {
-
-    }
+    private TextField NewDefaultName;
 
     @FXML
-    void playClicked(ActionEvent event) {
-
-    }
+    private TextField NewUserName;
 
     @FXML
     void initialize() {
         NewDefaultMapList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> newDefaultMapMouseClick(oldValue, newValue));
         NewUserMapList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> newUserMapMouseClick(oldValue, newValue));
-        LoadDefaultMapList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> loadDefaultMapMouseClick(oldValue, newValue));
-        LoadUserMapList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> loadUserMapMouseClick(oldValue, newValue));
+
+        LoadDefaultMapList.setCellFactory(CheckBoxListCell.forListView(item -> {
+            BooleanProperty observable = new SimpleBooleanProperty();
+            observable.addListener((obs, wasSelected, isNowSelected) -> {
+                if (isNowSelected) selectedDefault.add(item);
+                else selectedDefault.remove(item);
+            });
+            return observable ;
+        }));
+
+        LoadUserMapList.setCellFactory(CheckBoxListCell.forListView(item -> {
+            BooleanProperty observable = new SimpleBooleanProperty();
+            observable.addListener((obs, wasSelected, isNowSelected) -> {
+                if (isNowSelected) selectedUser.add(item);
+                else selectedUser.remove(item);
+            });
+            return observable ;
+        }));
     }
 
-    //TODO Add advanced file stuff (rename, delete) -> use lists with checkboxes
+    @FXML
+    void PlayDefaultClicked(ActionEvent event) {
+        if(selectedDefault.size() != 1){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Non or to many options found.");
+            alert.setHeaderText("Non or to many options found.");
+            alert.setContentText("You have to select only one of the options.");
+            alert.show();
+            return;
+        }
+
+        model.getMainModel().setGameFileToLoad("saves/maps/" + selectedDefault.get(0) + ".savd");
+        model.setMapSelected(true);
+    }
+
+    @FXML
+    void DeleteDefaultClick(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete files?");
+        alert.setHeaderText("Delete files?");
+        alert.setContentText("Do you really want to delete these files.");
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() != ButtonType.OK) return;
+
+        String startPath = ResourceHandling.GetExecutionPath() + "/saves/maps/";
+        for(String s : selectedDefault){
+            File file = new File(startPath + s + ".savd");
+            file.delete();
+        }
+        LoadDefaultMapList.getItems().clear();
+        selectedDefault.clear();
+        populateListWithFiles(startPath, ".savd", LoadDefaultMapList);
+    }
+
+    @FXML
+    void RenameDefaultClick(ActionEvent event) {
+        String startPath = ResourceHandling.GetExecutionPath() + "/saves/maps/";
+        if(selectedDefault.size() == 1){
+            (new File(startPath + selectedDefault.get(0) + ".savd"))
+                    .renameTo(new File(startPath + NewDefaultName.getText() + ".savd"));
+        }else {
+            for (int i = 0; i < selectedDefault.size(); i++) {
+                (new File(startPath + selectedDefault.get(i) + ".savd"))
+                        .renameTo(new File(startPath + NewDefaultName.getText() + "_" + (i + 1) + ".savd"));
+            }
+        }
+        LoadDefaultMapList.getItems().clear();
+        selectedDefault.clear();
+        populateListWithFiles(startPath, ".savd", LoadDefaultMapList);
+    }
+
+    @FXML
+    void PlayUserClicked(ActionEvent event) {
+        if(selectedUser.size() != 1){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Non or to many options found.");
+            alert.setHeaderText("Non or to many options found.");
+            alert.setContentText("You have to select only one of the options.");
+            alert.show();
+            return;
+        }
+
+        model.getMainModel().setGameFileToLoad("saves/usermaps/" + selectedUser.get(0) + ".savd");
+        model.setMapSelected(true);
+    }
+
+    @FXML
+    void DeleteUserClick(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete files?");
+        alert.setHeaderText("Delete files?");
+        alert.setContentText("Do you really want to delete these files.");
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get() != ButtonType.OK) return;
+
+        String startPath = ResourceHandling.GetExecutionPath() + "/saves/usermaps/";
+        for(String s : selectedUser){
+            File file = new File(startPath + s + ".savd");
+            file.delete();
+        }
+        LoadUserMapList.getItems().clear();
+        selectedUser.clear();
+        populateListWithFiles(startPath, ".savd", LoadUserMapList);
+    }
+
+    @FXML
+    void RenameUserClick(ActionEvent event) {
+        String startPath = ResourceHandling.GetExecutionPath() + "/saves/usermaps/";
+        if(selectedUser.size() == 1){
+            (new File(startPath + selectedUser.get(0) + ".savd"))
+                    .renameTo(new File(startPath + NewUserName.getText() + ".savd"));
+        }else {
+            for (int i = 0; i < selectedUser.size(); i++) {
+                (new File(startPath + selectedUser.get(i) + ".savd"))
+                        .renameTo(new File(startPath + NewUserName.getText() + "_" + (i + 1) + ".savd"));
+            }
+        }
+        LoadUserMapList.getItems().clear();
+        selectedUser.clear();
+        populateListWithFiles(startPath, ".savd", LoadUserMapList);
+    }
 
     private void newDefaultMapMouseClick(String oldValue, String newValue) {
         if(newValue == null) return;
@@ -68,17 +186,6 @@ public class MenuLevelsController {
         model.setMapSelected(true);
     }
 
-    private void loadUserMapMouseClick(String oldValue, String newValue) {
-        if(newValue == null) return;
-        model.getMainModel().setGameFileToLoad("saves/usermaps/" + newValue + ".savd");
-        model.setMapSelected(true);
-    }
-
-    private void loadDefaultMapMouseClick(String oldValue, String newValue) {
-        if(newValue == null) return;
-        model.getMainModel().setGameFileToLoad("saves/maps/" + newValue + ".savd");
-        model.setMapSelected(true);
-    }
 
     public void setGameModel(MenuLevelsModel model) {
         this.model = model;
@@ -86,8 +193,6 @@ public class MenuLevelsController {
         populateNewDefaultMapList();
         populateOtherLists();
     }
-
-
 
     private void populateNewDefaultMapList(){
         try {

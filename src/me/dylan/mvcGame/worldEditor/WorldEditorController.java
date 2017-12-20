@@ -3,6 +3,8 @@ package me.dylan.mvcGame.worldEditor;
 import me.dylan.mvcGame.game.GameMapLoader;
 import me.dylan.mvcGame.game.gameObjects.MapModel;
 import me.dylan.mvcGame.game.gameObjects.Tiles;
+import me.dylan.mvcGame.game.gameObjects.robot.RobotModel;
+import me.dylan.mvcGame.game.gameObjects.robot.RobotPlayerModel;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.other.ResourceHandling;
 import me.dylan.mvcGame.state.State;
@@ -25,7 +27,6 @@ public class WorldEditorController extends State{
         super(mainModel, stateHandler);
     }
 
-    //TODO Add advanced file stuff (rename, delete) -> use lists with checkboxes
     //TODO Add robot model editor
 
     @Override
@@ -43,6 +44,7 @@ public class WorldEditorController extends State{
         if(map == null) stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
         model = new WorldEditorModel(map);
 
+        model.setRobot(new RobotModel(model));
         GameMapLoader.saveMap(model, mainModel.getGameFileToLoad());
 
         view = new WorldEditorView(model);

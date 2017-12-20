@@ -8,21 +8,18 @@
 <?import javafx.scene.layout.*?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.dylan.mvcGame.menu.worldEditorPicker.MenuWorldEditorController">
-   <top>
-      <HBox prefHeight="26.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button mnemonicParsing="false" onAction="#NewMap" text="New">
-               <HBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </HBox.margin></Button>
-            <TextField fx:id="NewName" prefHeight="25.0" prefWidth="280.0">
-               <HBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </HBox.margin></TextField>
-         </children>
-      </HBox>
-   </top>
    <center>
       <ListView fx:id="LoadMapList" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
+   <top>
+      <AnchorPane prefHeight="69.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button layoutX="14.0" layoutY="2.0" mnemonicParsing="false" onAction="#NewMap" text="New" />
+            <TextField fx:id="NewName" layoutX="62.0" layoutY="2.0" prefHeight="25.0" prefWidth="232.0" />
+            <Button layoutX="14.0" layoutY="35.0" mnemonicParsing="false" onAction="#DeleteClick" text="Delete selected" />
+            <Button layoutX="118.0" layoutY="35.0" mnemonicParsing="false" onAction="#EditClick" text="Edit selected" />
+            <Button layoutX="208.0" layoutY="35.0" mnemonicParsing="false" onAction="#RenameClick" text="Rename to ^" />
+         </children>
+      </AnchorPane>
+   </top>
 </BorderPane>
