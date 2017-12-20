@@ -11,6 +11,7 @@ import java.awt.event.WindowAdapter;
 public class MainFXContainer {
     private JFrame frame;
     private JFXPanel fxPanel;
+    private boolean visible;
 
     public MainFXContainer(){
         frame = new JFrame("");//we have to use jframe because stage has to be run from the main thread
@@ -33,6 +34,7 @@ public class MainFXContainer {
 
     public void setVisible(boolean visible){
         frame.setVisible(visible);
+        this.visible = visible;
     }
 
     public void distroy(){
@@ -48,5 +50,9 @@ public class MainFXContainer {
 
     public void setCloseACtion(WindowAdapter action){
         frame.addWindowListener(action);
+    }
+
+    public boolean getVisible() {
+        return visible;
     }
 }

@@ -16,6 +16,8 @@ public abstract class Sensor {
     protected String[] name;
     protected int[] ID;
 
+    protected boolean changed = false;
+
     public Sensor(MapModel mapModel, float x, float y, String[] name){
         this.mapModel = mapModel;
         this.model = mapModel.getRobot();
@@ -49,7 +51,7 @@ public abstract class Sensor {
         return output;
     }
 
-    public void setID(int[] ID){this.ID = ID;}
+    public void setID(int[] ID){this.ID = ID; changed = true;}
 
     public int[] getID() {
         return ID;
@@ -93,4 +95,21 @@ public abstract class Sensor {
         }
     }
     public int getType() { return -1; }
+    public String getTypeName() { return "DEFAULT"; }
+
+    public boolean getChanged() { return changed; }
+
+    public void setX(float x) { this.x = x; changed = true;}
+    public void setY(float y) { this.y = y; changed = true;}
+
+    public MapModel getMapModel() {
+        return mapModel;
+    }
+    public void setName(int i, String newValue) {
+        if(name.length > i)
+            name[i] = newValue;
+        changed = true;
+    }
+
+    public void setChanged(boolean changed) { this.changed = changed; }
 }

@@ -6,13 +6,15 @@ import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.menu.components.MenuController;
 import me.dylan.mvcGame.menu.components.MenuModel;
 
-import java.util.HashMap;
-
 public class WorldEditorModel extends MapModel{
 
     private boolean showInEditorMenu;
     private MenuController inEditorMenu;
     private boolean windowClosing;
+
+    private boolean editingSensor = false;
+    private int editingSenserIndex = -1;
+    private boolean editingRobot = false;
 
     private byte selectedTile;
     private int selectedColor = 256 * 256 * 256 - 1;
@@ -32,6 +34,7 @@ public class WorldEditorModel extends MapModel{
         }
         findStartAndFinish();
         setCode(mapModel.getCode());
+        setRobot(mapModel.getRobot());
 
         inEditorMenu = new MenuController(getMainModel(), "img/menu.png");
         inEditorMenu.addGuiElement(new MenuModel.GuiButton(0, 300, 350, 64, 1, "MAIN MENU", 1, 1, 1, 1, 0, 1, 0, 1));
@@ -57,6 +60,10 @@ public class WorldEditorModel extends MapModel{
     public byte getSelectedTile() { return selectedTile; }
     public int getSelectedColor() { return selectedColor; }
 
+    public boolean getEditingSensor() { return editingSensor; }
+    public int getEditingSenserIndex() { return editingSenserIndex; }
+    public boolean getEditingRobot() { return editingRobot; }
+
     /****SETTERS*****/
 
     public void setViewX(float viewX) {
@@ -81,6 +88,14 @@ public class WorldEditorModel extends MapModel{
 
     public void setSelectedTile(byte selectedTile) { this.selectedTile = selectedTile; }
     public void setSelectedColor(int selectedColor) { this.selectedColor = selectedColor; }
+
+    public void setEditingSensor(boolean editingSensor) { this.editingSensor = editingSensor; }
+    public void setEditingSenserIndex(int editingSenserIndex) { this.editingSenserIndex = editingSenserIndex; }
+    public void setEditingRobot(boolean editingRobot) {
+        this.editingRobot = editingRobot;
+        getRobot().setX(getWorldXSize() / 2.0f);
+        getRobot().setY(getWorldYSize() / 2.0f);
+    }
 
     /*****OTHER SMALL LOGIC*****/
 

@@ -22,7 +22,7 @@ public class RobotPlayerView {
 
     public void update(){
         RobotPlayerModel playerModel = (RobotPlayerModel) model.getRobot();
-        if(!playerModel.isChanged()){
+        if(!playerModel.getChanged()){
             return;
         }
 

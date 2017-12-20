@@ -38,7 +38,7 @@ public class RobotPlayerController {
         if(codeRunner == null) codeRunner = new JythonRunner(gameModel);
         view.update();
         senserView.update();
-        model.changesDone();
+        model.setChange(false);
     }
 
     public void updateGame() {

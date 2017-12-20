@@ -73,4 +73,9 @@ public class WorldEditorView {
     public void render() {
         VBODrawer2D.drawVBO(model.getMainModel(), vbo_id, tileMap.getTexture_id(), VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, VBODrawer2D.calcDrawAmountForSquares(model.getWorldXSize() * model.getWorldYSize()));
     }
+
+    public void distroy() {
+        VBODrawer2D.deleteVBO(vbo_id);
+        tileMap.distroy();
+    }
 }

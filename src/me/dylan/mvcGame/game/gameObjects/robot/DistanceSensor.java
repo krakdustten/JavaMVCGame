@@ -77,5 +77,13 @@ public class DistanceSensor extends Sensor{
 
     @Override
     public int getType() { return 1; }
+
+    @Override
+    public String getTypeName() { return "Distance"; }
+
+    public void setRotation(float rotation) {
+        this.rotation = rotation;
+        changed = true;
+    }
 }
 

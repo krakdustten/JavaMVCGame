@@ -6,21 +6,57 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.dylan.mvcGame.worldEditor.subWindow.WorldEditorSubController">
-  <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="462.0" minWidth="10.0" prefWidth="456.0" />
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="144.0" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-  </rowConstraints>
-   <children>
-      <TextArea fx:id="Code" prefHeight="400.0" prefWidth="358.0" />
-      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
-         <children>
-            <ListView fx:id="TilesSelector" prefHeight="300.0" prefWidth="144.0" />
-            <ListView fx:id="SensorNames" prefHeight="200.0" prefWidth="200.0" />
-         </children>
-      </VBox>
-   </children>
-</GridPane>
+<TabPane fx:id="TabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.dylan.mvcGame.worldEditor.subWindow.WorldEditorSubController">
+  <tabs>
+    <Tab text="World">
+         <content>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="412.0" minWidth="10.0" prefWidth="412.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="188.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TextArea fx:id="Code" prefHeight="400.0" prefWidth="358.0" />
+                  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+                     <children>
+                        <ListView fx:id="TilesSelector" prefHeight="300.0" prefWidth="144.0" />
+                        <ListView fx:id="SensorNames" prefHeight="200.0" prefWidth="200.0" />
+                     </children>
+                  </VBox>
+               </children>
+            </GridPane>
+         </content></Tab>
+      <Tab text="Robot">
+         <content>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TableView fx:id="Table" editable="true" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                    <columns>
+                      <TableColumn fx:id="SensorName" prefWidth="86.0" text="SensorName" />
+                      <TableColumn fx:id="SensorType" prefWidth="71.0" text="SensorType" />
+                        <TableColumn fx:id="XPosition" prefWidth="78.0" text="X position" />
+                        <TableColumn fx:id="YPosition" prefWidth="75.0" text="Y position" />
+                        <TableColumn fx:id="CulomEdit" prefWidth="58.0" text="Edit" />
+                    </columns>
+                  </TableView>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Button layoutX="5.0" layoutY="2.0" mnemonicParsing="false" onAction="#NewSensor" text="New" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </GridPane>
+         </content>
+      </Tab>
+  </tabs>
+</TabPane>

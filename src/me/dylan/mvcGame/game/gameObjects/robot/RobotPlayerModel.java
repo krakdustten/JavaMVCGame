@@ -14,9 +14,6 @@ public class RobotPlayerModel extends RobotModel{
     private String[] sensorNames;
     private float[] sensorValues;
 
-    private boolean change = true;
-
-
     public RobotPlayerModel(GameModel parent){ super(parent); }
 
     public RobotPlayerModel(RobotModel robot, MapModel mapModel) {
@@ -26,9 +23,6 @@ public class RobotPlayerModel extends RobotModel{
         for(int i = 0; i < sensors.length; i++)
             this.addSensor(sensors[i]);
     }
-
-    public boolean isChanged(){return change;}
-    public void changesDone() {change = false; }
 
     public float getMoterLSpeed() { return motorLSpeed; }
     public float getMoterRSpeed() { return motorRSpeed; }
@@ -62,7 +56,7 @@ public class RobotPlayerModel extends RobotModel{
         calculateHit(dx, dy, rot);
 
         setRotation(getRotation() + rot);
-        change = true;
+        setChange(true);
     }
 
     private void calculateHit(float dx, float dy, float rot) {
@@ -146,6 +140,7 @@ public class RobotPlayerModel extends RobotModel{
         }
         setX(xOut);
         setY(yOut);
+        setChange(true);
     }
 
     public void setSensorNames(String[] sensorNames) {

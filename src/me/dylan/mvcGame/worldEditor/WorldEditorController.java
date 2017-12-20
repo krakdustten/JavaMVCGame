@@ -3,13 +3,13 @@ package me.dylan.mvcGame.worldEditor;
 import me.dylan.mvcGame.game.GameMapLoader;
 import me.dylan.mvcGame.game.gameObjects.MapModel;
 import me.dylan.mvcGame.game.gameObjects.Tiles;
-import me.dylan.mvcGame.game.gameObjects.robot.RobotModel;
-import me.dylan.mvcGame.game.gameObjects.robot.RobotPlayerModel;
+import me.dylan.mvcGame.game.gameObjects.robot.DistanceSensor;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.other.ResourceHandling;
 import me.dylan.mvcGame.state.State;
 import me.dylan.mvcGame.state.StateHandler;
 import me.dylan.mvcGame.worldEditor.subWindow.WorldEditorContainer;
+import me.dylan.mvcGame.worldEditor.subWindow.editSensor.EditSensorContainer;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.File;
@@ -17,7 +17,11 @@ import java.io.File;
 public class WorldEditorController extends State{
     private WorldEditorModel model;
     private WorldEditorView view;
+    private RobotEditorView robotView;
     private WorldEditorContainer container;
+    private EditSensorContainer sensorContainer;
+
+    private boolean lastEditingSensor = false;
 
     private boolean keyPressed[] = new boolean[6];//UP, DOWN, LEFT, RIGHT, ZOOM IN, ZOOM OUT
     private long mouseKeyPressedFromTime = 0;
@@ -27,14 +31,14 @@ public class WorldEditorController extends State{
         super(mainModel, stateHandler);
     }
 
-    //TODO Add robot model editor
+    //TODO Add robot viewer for editor
+    //TODO Add delete button
 
     @Override
     public void init(int previousState) {
         MapModel map = null;
         if(mainModel.getGameFileToLoad().endsWith(".mapd")){
             File file = new File(ResourceHandling.GetExecutionPath() + "/" + mainModel.getGameFileToLoad());
-
             if(file.exists()){
                 map = GameMapLoader.loadMap(mainModel, mainModel.getGameFileToLoad());
             }else{
@@ -44,10 +48,11 @@ public class WorldEditorController extends State{
         if(map == null) stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
         model = new WorldEditorModel(map);
 
-        model.setRobot(new RobotModel(model));
         GameMapLoader.saveMap(model, mainModel.getGameFileToLoad());
 
         view = new WorldEditorView(model);
+        robotView = new RobotEditorView(model);
+        sensorContainer = new EditSensorContainer(model);
         container = new WorldEditorContainer(model);
     }
 
@@ -62,13 +67,27 @@ public class WorldEditorController extends State{
             if (keyPressed[5]) model.setViewZoom(model.getViewZoom() * 0.97f);
         }
         view.update();
+        robotView.update();
         model.getInEditorMenu().update();
+        sensorContainer.update();
         container.update();
+
+        if(lastEditingSensor != model.getEditingSensor()){
+            if(model.getEditingSensor()){
+                sensorContainer.setSceneToThis();
+            }else{
+                container.setSceneToThis();
+            }
+            lastEditingSensor = model.getEditingSensor();
+        }
     }
 
     @Override
     public void render() {
-        view.render();
+        if(model.getEditingRobot()){
+            robotView.render();
+        }else
+            view.render();
         if(model.getShowInEditorMenu()) model.getInEditorMenu().render();
     }
 
@@ -77,6 +96,9 @@ public class WorldEditorController extends State{
         GameMapLoader.saveMap(model, "usermaps/autoEditorSave.mapd");
         model.distroy();
         container.distroy();
+        sensorContainer.distroy();
+        view.distroy();
+        robotView.distroy();
     }
 
     @Override
@@ -112,55 +134,55 @@ public class WorldEditorController extends State{
 
     @Override
     public void mousePosEvent(long window) {
-        if(!model.getShowInEditorMenu()) {
-            double mouseX = mainModel.getMouseX();
-            double mouseY = mainModel.getMouseY();
+            if (!model.getShowInEditorMenu()) {
+                double mouseX = mainModel.getMouseX();
+                double mouseY = mainModel.getMouseY();
 
-            if (mouseKeyPressedFromTime > 0 && mouseKeyPressedFromTime + 200 < System.currentTimeMillis()) {
-                double dx = oldMouseX - mouseX;
-                double dy = oldMouseY - mouseY;
+                if (mouseKeyPressedFromTime > 0 && mouseKeyPressedFromTime + 200 < System.currentTimeMillis()) {
+                    double dx = oldMouseX - mouseX;
+                    double dy = oldMouseY - mouseY;
 
-                dx = dx / model.getViewZoom();
-                dy = dy / model.getViewZoom();
+                    dx = dx / model.getViewZoom();
+                    dy = dy / model.getViewZoom();
 
-                model.moveView(-(int) dx, (int) dy);
-            }
+                    model.moveView(-(int) dx, (int) dy);
+                }
 
-            oldMouseX = mouseX;
-            oldMouseY = mouseY;
-        }else model.getInEditorMenu().mousePosEvent(window);
+                oldMouseX = mouseX;
+                oldMouseY = mouseY;
+            } else model.getInEditorMenu().mousePosEvent(window);
     }
 
     @Override
     public void mouseButtonEvent(long window, int button, int action, int mods) {
-        if(!model.getShowInEditorMenu()) {
-            if (button == GLFW.GLFW_MOUSE_BUTTON_1) {
-                if (action == GLFW.GLFW_PRESS && mouseKeyPressedFromTime == 0)
-                    mouseKeyPressedFromTime = System.currentTimeMillis();
-                else if (action == GLFW.GLFW_RELEASE) {
-                    if (mouseKeyPressedFromTime + 200 > System.currentTimeMillis()) {
-                        smallMousePressB1();
+            if (!model.getShowInEditorMenu()) {
+                if (button == GLFW.GLFW_MOUSE_BUTTON_1) {
+                    if (action == GLFW.GLFW_PRESS && mouseKeyPressedFromTime == 0)
+                        mouseKeyPressedFromTime = System.currentTimeMillis();
+                    else if (action == GLFW.GLFW_RELEASE) {
+                        if (mouseKeyPressedFromTime + 200 > System.currentTimeMillis()) {
+                            if(!model.getEditingRobot())smallMousePressB1();
+                        }
+                        mouseKeyPressedFromTime = 0;
                     }
-                    mouseKeyPressedFromTime = 0;
+                }
+            } else {
+                int id = model.getInEditorMenu().onClick(window, button, action, mods);
+                switch (id) {
+                    case 1: //Main menu
+                        stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
+                        break;
+                    case 2: //Save
+                        GameMapLoader.saveMap(model, mainModel.getGameFileToLoad());
+                        break;
+                    case 3: //Back
+                        model.setShowInEditorMenu(false);
+                        break;
+                    case 4: //Quit
+                        stateHandler.changeState(StateHandler.STATE_QUIT);
+                        break;
                 }
             }
-        }else{
-            int id = model.getInEditorMenu().onClick(window, button, action, mods);
-            switch (id){
-                case 1: //Main menu
-                    stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
-                    break;
-                case 2: //Save
-                    GameMapLoader.saveMap(model, mainModel.getGameFileToLoad());
-                    break;
-                case 3: //Back
-                    model.setShowInEditorMenu(false);
-                    break;
-                case 4: //Quit
-                    stateHandler.changeState(StateHandler.STATE_QUIT);
-                    break;
-            }
-        }
     }
 
     private void smallMousePressB1(){
@@ -211,6 +233,6 @@ public class WorldEditorController extends State{
 
     @Override
     public void screenResizeEvent() {
-        if(!model.getShowInEditorMenu()) { model.getInEditorMenu().screenResizeEvent(); }
+        if(model.getShowInEditorMenu()) { model.getInEditorMenu().screenResizeEvent(); }
     }
 }
