@@ -8,6 +8,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+//TODO javadoc
 public class DistanceSensor extends Sensor{
     private float rotation;
 

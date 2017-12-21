@@ -5,6 +5,7 @@ import me.dylan.mvcGame.drawers.Shader;
 import java.io.*;
 import java.util.regex.Pattern;
 
+//TODO javadoc
 public class ResourceHandling {
     private static ClassLoader classLoader = ResourceHandling.class.getClassLoader();
 

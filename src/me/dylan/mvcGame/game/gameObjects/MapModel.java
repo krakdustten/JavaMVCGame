@@ -8,6 +8,7 @@ import me.dylan.mvcGame.worldEditor.WorldEditorModel;
 
 import java.util.ArrayList;
 
+//TODO javadoc
 public class MapModel {
     private MainModel mainModel;
     //player stuff

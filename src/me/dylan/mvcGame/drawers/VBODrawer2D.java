@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL20;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
+//TODO javadoc
 public class VBODrawer2D {
     public static final int COORDS_TYPE = 0;
     public static final int COORDS_TEXTURE_TYPE = 1;

@@ -2,6 +2,7 @@ package me.dylan.mvcGame.state;
 
 import me.dylan.mvcGame.main.MainModel;
 
+//TODO javadoc
 public abstract class State {
     protected MainModel mainModel;
     protected StateHandler stateHandler;

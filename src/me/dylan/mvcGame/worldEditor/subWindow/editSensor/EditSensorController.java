@@ -15,6 +15,7 @@ import me.dylan.mvcGame.worldEditor.WorldEditorModel;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+//TODO javadoc
 public class EditSensorController {
     private WorldEditorModel gameModel;
     private int sensorIndex;

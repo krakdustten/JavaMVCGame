@@ -10,6 +10,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 
+//TODO javadoc
 public class EditSensorContainer {
     private EditSensorController controller;
     private WorldEditorModel model;

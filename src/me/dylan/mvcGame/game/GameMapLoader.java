@@ -8,6 +8,7 @@ import me.dylan.mvcGame.other.ResourceHandling;
 
 import java.io.*;
 
+//TODO javadoc
 public class GameMapLoader {
     public static final int LOADER_VERSION = 001;
 

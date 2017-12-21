@@ -2,6 +2,7 @@ package me.dylan.mvcGame.main;
 
 import me.dylan.mvcGame.drawers.TextDrawer;
 
+//TODO javadoc
 public class MainModel {
     private long window;
     private int mainShader2D;

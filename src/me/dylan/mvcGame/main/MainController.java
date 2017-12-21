@@ -3,6 +3,7 @@ package me.dylan.mvcGame.main;
 import me.dylan.mvcGame.state.StateHandler;
 import org.lwjgl.glfw.GLFW;
 
+//TODO javadoc
 public class MainController{
     private StateHandler stateHandler;
     private MainModel mainModel;

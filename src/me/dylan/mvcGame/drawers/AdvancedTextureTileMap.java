@@ -4,15 +4,28 @@ import me.dylan.mvcGame.other.ResourceHandling;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.io.File;
 import java.io.IOException;
 
+/**
+ * A class that holds a texture as a map of multiple textures.
+ * This way you can easily draw the texture you want in a tilemap.
+ *
+ * You can also get the pixel colour of a specific position on a specific tile.
+ *
+ * @author Dylan Gybels
+ */
 public class AdvancedTextureTileMap extends TextureTileMap {
     private int[] image;
     private int imageHeight;
     private int imageWidth;
 
+    /**
+     * Create a new Advanced Texture Tile Map with the path to the texture and the map size.
+     *
+     * @param texturePath The path to the Tile Map Texture.
+     * @param xBlocks The amount of blocks in the x direction.
+     * @param yBlocks The amount of blocks in the y direction.
+     */
     public AdvancedTextureTileMap(String texturePath, int xBlocks, int yBlocks) {
         super(texturePath, xBlocks, yBlocks);
 
@@ -26,6 +39,15 @@ public class AdvancedTextureTileMap extends TextureTileMap {
         }
     }
 
+    /**
+     * Get the color in a specific position on a specific tile.
+     *
+     * @param blockX The x coordinate of the tilemap.
+     * @param blockY The y coordinate of the tilemap.
+     * @param x The x coordinate in the tile texture you want (0 - 1).
+     * @param y The y coordinate in the tile texture you want (0 - 1).
+     * @return The color on the coordinates above (MSB /RRRRRRRR/GGGGGGGG/BBBBBBBB/ LSB).
+     */
     public int getBaseColorInBlock(int blockX, int blockY, float x, float y){
         float xImage = (blockX + x) * xBlocksize;
         float yImage = (blockY + y) * yBlocksize;
@@ -36,6 +58,18 @@ public class AdvancedTextureTileMap extends TextureTileMap {
         return image[xI + yI * imageWidth];
     }
 
+    /**
+     * Get the color in a specific position on a specific tile with a base color.
+     *
+     * @param blockX The x coordinate of the tilemap.
+     * @param blockY The y coordinate of the tilemap.
+     * @param x The x coordinate in the tile texture you want (0 - 1).
+     * @param y The y coordinate in the tile texture you want (0 - 1).
+     * @param r The red part of the base color (0 - 1).
+     * @param g The green part of the base color (0 - 1).
+     * @param b The blue part of the base color (0 - 1).
+     * @return The color on the coordinates above (MSB /RRRRRRRR/GGGGGGGG/BBBBBBBB/ LSB).
+     */
     public int getAdvancedColorInBlock(int blockX, int blockY, float x, float y, float r, float g, float b){
         int color = getBaseColorInBlock(blockX, blockY, x, y);
 

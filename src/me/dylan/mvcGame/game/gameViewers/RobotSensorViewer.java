@@ -10,6 +10,7 @@ import me.dylan.mvcGame.game.gameObjects.robot.Sensor;
 
 import java.util.ArrayList;
 
+//TODO javadoc
 public class RobotSensorViewer {
     private GameModel gameModel;
     private RobotModel model;

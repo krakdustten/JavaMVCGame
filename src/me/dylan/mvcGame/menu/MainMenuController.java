@@ -6,6 +6,7 @@ import me.dylan.mvcGame.menu.components.MenuModel;
 import me.dylan.mvcGame.state.State;
 import me.dylan.mvcGame.state.StateHandler;
 
+//TODO javadoc
 public class MainMenuController extends State {
 
     private MenuController menu;

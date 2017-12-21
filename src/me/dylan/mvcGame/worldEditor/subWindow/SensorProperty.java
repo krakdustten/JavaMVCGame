@@ -10,6 +10,7 @@ import me.dylan.mvcGame.game.gameObjects.robot.Sensor;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO javadoc
 public class SensorProperty {
     private final SimpleFloatProperty xPos;
     private final SimpleFloatProperty yPos;

@@ -5,6 +5,7 @@ import me.dylan.mvcGame.drawers.VBODrawer2D;
 import me.dylan.mvcGame.game.gameObjects.robot.RobotModel;
 import me.dylan.mvcGame.game.gameObjects.robot.Sensor;
 
+//TODO javadoc
 public class RobotEditorView {
     private WorldEditorModel model;
 

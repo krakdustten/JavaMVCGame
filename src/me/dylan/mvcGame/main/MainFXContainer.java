@@ -8,6 +8,7 @@ import javafx.scene.layout.StackPane;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 
+//TODO javadoc
 public class MainFXContainer {
     private JFrame frame;
     private JFXPanel fxPanel;

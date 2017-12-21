@@ -16,6 +16,7 @@ import org.lwjgl.glfw.GLFW;
 import javax.swing.*;
 import java.util.Optional;
 
+//TODO javadoc
 public class GameController extends State {
     private GameModel model;
     private GameView view;

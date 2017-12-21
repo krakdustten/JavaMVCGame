@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.system.MemoryUtil.NULL;
 
+//TODO javadoc
 public class MainViewer {
     private MainModel mainModel;
     private MainGameThread mainGameThread;

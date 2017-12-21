@@ -13,6 +13,7 @@ import javafx.scene.control.TextArea;
 import me.dylan.mvcGame.game.gameObjects.GameModel;
 import me.dylan.mvcGame.game.gameObjects.robot.RobotPlayerModel;
 
+//TODO javadoc
 public class CodeIDEController {
     private GameModel model;
 

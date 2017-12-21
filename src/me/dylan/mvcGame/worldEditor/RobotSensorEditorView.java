@@ -6,6 +6,7 @@ import me.dylan.mvcGame.game.gameObjects.robot.DistanceSensor;
 import me.dylan.mvcGame.game.gameObjects.robot.RobotModel;
 import me.dylan.mvcGame.game.gameObjects.robot.Sensor;
 
+//TODO javadoc
 public class RobotSensorEditorView {
     private WorldEditorModel model;
 

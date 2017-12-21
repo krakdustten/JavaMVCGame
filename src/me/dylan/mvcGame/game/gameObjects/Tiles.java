@@ -1,5 +1,6 @@
 package me.dylan.mvcGame.game.gameObjects;
 
+//TODO javadoc
 public class Tiles {
     public static final byte NO_TILE = 0;
     public static final byte FLOOR_ID = 1;

@@ -4,6 +4,7 @@ import me.dylan.mvcGame.drawers.Shader;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
+//TODO javadoc
 public class Camera2D {
     private int shader;
 

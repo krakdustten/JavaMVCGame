@@ -6,6 +6,7 @@ import me.dylan.mvcGame.game.gameObjects.Tiles;
 
 import java.util.ArrayList;
 
+//TODO javadoc
 public class RobotPlayerModel extends RobotModel{
     private float motorLSpeedTop, motorRSpeedTop;
     private float motorLSpeed, motorRSpeed;//1 rot/s = 1 tile/s

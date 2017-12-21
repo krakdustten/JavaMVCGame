@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+//TODO javadoc
 public class TextDrawer {
     private int texture = -1;
     private int vbo = -1;

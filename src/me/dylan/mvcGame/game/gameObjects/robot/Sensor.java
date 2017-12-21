@@ -8,6 +8,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+//TODO javadoc
 public abstract class Sensor {
     protected MapModel mapModel;
 

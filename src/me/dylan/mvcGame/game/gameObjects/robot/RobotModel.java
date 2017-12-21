@@ -5,6 +5,7 @@ import me.dylan.mvcGame.game.gameObjects.MapModel;
 
 import java.util.ArrayList;
 
+//TODO javadoc
 public class RobotModel {
     private MapModel parent;
 

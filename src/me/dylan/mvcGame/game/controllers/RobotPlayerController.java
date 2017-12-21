@@ -11,6 +11,7 @@ import org.python.core.PyObject;
 
 import java.util.ArrayList;
 
+//TODO javadoc
 public class RobotPlayerController {
     private RobotPlayerModel model;
     private GameModel gameModel;

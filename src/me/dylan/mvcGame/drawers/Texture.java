@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+//TODO javadoc
 public class Texture {
 
     public static int createImageId(String filePath){

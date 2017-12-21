@@ -5,6 +5,7 @@ import me.dylan.mvcGame.drawers.VBODrawer2D;
 import me.dylan.mvcGame.game.gameObjects.GameModel;
 import me.dylan.mvcGame.game.gameObjects.Tiles;
 
+//TODO javadoc
 public class NormalTilesView {
     private int vbo_id;
 

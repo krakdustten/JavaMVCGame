@@ -11,6 +11,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 
+//TODO javadoc
 public class CodeIDEContainer{
     private CodeIDEController codeIDEController;
     private GameModel model;

@@ -5,6 +5,7 @@ import me.dylan.mvcGame.drawers.VBODrawer2D;
 import me.dylan.mvcGame.game.gameObjects.GameModel;
 import me.dylan.mvcGame.game.gameObjects.robot.RobotPlayerModel;
 
+//TODO javadoc
 public class RobotPlayerView {
     private int vbo;
     private int texture;

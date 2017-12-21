@@ -5,6 +5,7 @@ import me.dylan.mvcGame.drawers.Texture;
 import me.dylan.mvcGame.drawers.VBODrawer2D;
 import me.dylan.mvcGame.main.Camera2D;
 
+//TODO javadoc
 public class MenuView {
     private MenuModel model;
     private int texture_id;

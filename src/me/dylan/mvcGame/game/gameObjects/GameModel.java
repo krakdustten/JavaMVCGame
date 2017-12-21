@@ -6,6 +6,7 @@ import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.menu.components.MenuController;
 import me.dylan.mvcGame.menu.components.MenuModel;
 
+//TODO javadoc
 public class GameModel extends MapModel{
     //score and gametime stuff
     private float gameTime = 0;
@@ -119,6 +120,8 @@ public class GameModel extends MapModel{
     public void setGameMenuShown(boolean gameMenuShown) {
         isGameMenuShown = gameMenuShown;
         inGameMenu.updateView();
+        if(gameOverlay != null)gameOverlay.delete();
+        gameOverlay = null;
     }
 
     public void setGameTime(float gameTime) { this.gameTime = gameTime; }

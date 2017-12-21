@@ -3,6 +3,7 @@ package me.dylan.mvcGame.menu.components;
 import me.dylan.mvcGame.main.MainModel;
 import org.lwjgl.glfw.GLFW;
 
+//TODO javadoc
 public class MenuController {
     private MenuModel model;
     private MenuView view;

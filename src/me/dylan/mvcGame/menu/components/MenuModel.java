@@ -4,6 +4,7 @@ import me.dylan.mvcGame.main.MainModel;
 
 import java.util.HashMap;
 
+//TODO javadoc
 public class MenuModel {
     private MainModel mainModel;
 
