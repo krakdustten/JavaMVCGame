@@ -22,8 +22,8 @@ public class DistanceSensor extends Sensor{
         float xSensor = sensor[0];
         float ySensor = sensor[1];
 
-        float sin = (float) Math.sin(rotation + model.getRotation());
-        float cos = (float) Math.cos(rotation + model.getRotation());
+        float sin = (float) Math.sin(rotation + mapModel.getRobot().getRotation());
+        float cos = (float) Math.cos(rotation + mapModel.getRobot().getRotation());
 
         //calc distance to next wall
         int nextX = cos > 0 ? (int) Math.ceil(xSensor) : (int) xSensor;

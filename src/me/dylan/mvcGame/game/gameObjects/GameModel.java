@@ -1,6 +1,7 @@
 package me.dylan.mvcGame.game.gameObjects;
 
 import me.dylan.mvcGame.drawers.AdvancedTextureTileMap;
+import me.dylan.mvcGame.game.gameObjects.robot.Sensor;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.menu.components.MenuController;
 import me.dylan.mvcGame.menu.components.MenuModel;
@@ -58,6 +59,8 @@ public class GameModel extends MapModel{
         findStartAndFinish();
         setCode(mapModel.getCode());
         setRobot(mapModel.getRobot());
+
+        for(Sensor s : getRobot().getSensors()) s.setMapModel(this);
     }
 
     /*****GETTERS*****/

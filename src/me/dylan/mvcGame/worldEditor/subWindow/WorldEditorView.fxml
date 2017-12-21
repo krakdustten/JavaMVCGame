@@ -47,6 +47,7 @@
                         <TableColumn fx:id="XPosition" prefWidth="78.0" text="X position" />
                         <TableColumn fx:id="YPosition" prefWidth="75.0" text="Y position" />
                         <TableColumn fx:id="CulomEdit" prefWidth="58.0" text="Edit" />
+                        <TableColumn fx:id="CulomDelete" prefWidth="75.0" text="Delete" />
                     </columns>
                   </TableView>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">

@@ -32,8 +32,6 @@ public class GameController extends State {
 
     @Override
     public void init(int previousState) {
-        long start = System.currentTimeMillis();
-
         MapModel map = null;
         if(mainModel.getGameFileToLoad().endsWith(".mapd")){
             map = GameMapLoader.loadMap(mainModel, mainModel.getGameFileToLoad());

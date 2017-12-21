@@ -55,6 +55,9 @@ public class WorldEditorSubController {
     private TableColumn<SensorProperty, String> CulomEdit;
 
     @FXML
+    private TableColumn<SensorProperty, String> CulomDelete;
+
+    @FXML
     private TableView<SensorProperty> Table;
 
     @FXML
@@ -148,6 +151,30 @@ public class WorldEditorSubController {
                         } else {
                             btn.setOnAction(event -> {
                                 tableEditClick(getIndex(), getTableView().getItems().get(getIndex()));
+                            });
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        });
+        CulomDelete.setCellFactory( new Callback<TableColumn<SensorProperty, String>, TableCell<SensorProperty, String>>() {
+            @Override
+            public TableCell call(final TableColumn<SensorProperty, String> param) {
+                final TableCell<SensorProperty, String> cell = new TableCell<SensorProperty, String>() {
+                    final Button btn = new Button("Delete");
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setText(null);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            btn.setOnAction(event -> {
+                                model.getRobot().removeSensor(getIndex());
+                                populateTableData();
                             });
                             setGraphic(btn);
                         }

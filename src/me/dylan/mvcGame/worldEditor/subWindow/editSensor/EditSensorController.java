@@ -17,7 +17,6 @@ import java.util.ResourceBundle;
 
 public class EditSensorController {
     private WorldEditorModel gameModel;
-    private Sensor sensor;
     private int sensorIndex;
 
     @FXML
@@ -47,13 +46,13 @@ public class EditSensorController {
     @FXML
     void initialize() {
         TypeDistance.expandedProperty().addListener((observable, oldValue, newValue) -> {
-            if(sensor == null) return;
+            if(gameModel.getRobot().getSensors().length >= sensorIndex) return;
             if(newValue){
-                sensor = new DistanceSensor(sensor.getMapModel(),
+                setSensor(new DistanceSensor(getSensor().getMapModel(),
                         (float)Xpos.getValue() / 64.0f,
                         (float)YPos.getValue() / 64.0f,
                         (float)(DistanceRotation.getValue() * 2 * Math.PI / 64),
-                        Name.getText());
+                        Name.getText()));
 
             }else if(TypeSelector.getExpandedPane() == null){
                 TypeSelector.setExpandedPane(TypeDistance);
@@ -61,18 +60,18 @@ public class EditSensorController {
         });
 
         Xpos.valueProperty().addListener((observable, oldValue, newValue) -> {
-            sensor.setX(newValue.floatValue() / 64.0f);
+            getSensor().setX(newValue.floatValue() / 64.0f);
         });
         YPos.valueProperty().addListener((observable, NoldValue, newValue) -> {
-            sensor.setY(newValue.floatValue() / 64.0f);
+            getSensor().setY(newValue.floatValue() / 64.0f);
         });
         Name.textProperty().addListener((observable, oldValue, newValue) -> {
-            sensor.setName(0, newValue);
+            getSensor().setName(0, newValue);
         });
 
         DistanceRotation.valueProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
-            if(sensor instanceof DistanceSensor)
-                ((DistanceSensor) sensor).setRotation((float) (newValue.floatValue() * 2 * Math.PI / 64));
+            if(getSensor() instanceof DistanceSensor)
+                ((DistanceSensor) getSensor()).setRotation((float) (newValue.floatValue() * 2 * Math.PI / 64));
         });
     }
 
@@ -85,14 +84,13 @@ public class EditSensorController {
     }
 
     public void reinit(int sensorIndex){
-        sensor = gameModel.getRobot().getSensors()[sensorIndex];
         this.sensorIndex = sensorIndex;
 
-        Xpos.setValue(sensor.getX() * 64);
-        YPos.setValue(sensor.getY() * 64);
-        Name.setText(sensor.getNames()[0]);
+        Xpos.setValue(getSensor().getX() * 64);
+        YPos.setValue(getSensor().getY() * 64);
+        Name.setText(getSensor().getNames()[0]);
 
-        switch (sensor.getType()){
+        switch (getSensor().getType()){
             case 1:
                 TypeSelector.setExpandedPane(TypeDistance);
         }
@@ -100,5 +98,13 @@ public class EditSensorController {
 
     public void setGameModel(WorldEditorModel gameModel) {
         this.gameModel = gameModel;
+    }
+
+    private void setSensor(Sensor sensor){
+        gameModel.getRobot().getSensors()[sensorIndex] = sensor;
+    }
+
+    private Sensor getSensor(){
+        return gameModel.getRobot().getSensors()[sensorIndex];
     }
 }

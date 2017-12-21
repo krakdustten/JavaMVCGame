@@ -74,6 +74,11 @@ public class JythonRunner {
         return output;
     }
 
+    public void distroy() {
+        interpreter.cleanup();
+        interpreter.close();
+    }
+
 
     /*public static void main(String[] args) {
         JythonRunner runner = new JythonRunner();

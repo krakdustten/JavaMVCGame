@@ -22,7 +22,6 @@ public class RobotPlayerController {
 
     public RobotPlayerController(GameModel gameModel){
         this.gameModel = gameModel;
-        long start = System.currentTimeMillis();
 
         gameModel.setRobot(new RobotPlayerModel(gameModel.getRobot(), gameModel));
         this.model = (RobotPlayerModel) gameModel.getRobot();
@@ -97,5 +96,6 @@ public class RobotPlayerController {
         view = null;
         senserView.distroy();
         senserView = null;
+        codeRunner.distroy();
     }
 }

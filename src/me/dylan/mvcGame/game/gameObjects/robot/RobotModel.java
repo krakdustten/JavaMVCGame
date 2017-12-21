@@ -64,8 +64,10 @@ public class RobotModel {
     public void removeSensor(int i){
         Sensor[] sensors = new Sensor[this.sensors.length - 1];
         for(int j = 0, k = 0; k < this.sensors.length; j++, k++) {
-            sensors[j] = this.sensors[k];
             if(j == i) k++;
+            if(k >= this.sensors.length || j >= sensors.length) break;
+            sensors[j] = this.sensors[k];
+
         }
         this.sensors = sensors;
     }

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 public abstract class Sensor {
     protected MapModel mapModel;
-    protected RobotModel model;
 
     protected float x, y;
     protected String[] name;
@@ -20,7 +19,6 @@ public abstract class Sensor {
 
     public Sensor(MapModel mapModel, float x, float y, String[] name){
         this.mapModel = mapModel;
-        this.model = mapModel.getRobot();
 
         this.x = x;
         this.y = y;
@@ -36,9 +34,9 @@ public abstract class Sensor {
     public float[] getRealPositionInWorld(){return getRealPositionInWorld(x , y);}
     protected float[] getRealPositionInWorld(float xRel, float yRel){
         float[] output = new float[2];
-        float xRob = model.getX();
-        float yRob = model.getY();
-        float rotRob = model.getRotation();
+        float xRob = mapModel.getRobot().getX();
+        float yRob = mapModel.getRobot().getY();
+        float rotRob = mapModel.getRobot().getRotation();
 
         float sin = (float) Math.sin(rotRob);
         float cos = (float) Math.cos(rotRob);
@@ -112,4 +110,8 @@ public abstract class Sensor {
     }
 
     public void setChanged(boolean changed) { this.changed = changed; }
+
+    public void setMapModel(MapModel mapModel) {
+        this.mapModel = mapModel;
+    }
 }

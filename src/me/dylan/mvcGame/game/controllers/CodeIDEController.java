@@ -98,6 +98,7 @@ public class CodeIDEController {
         this.model = model;
         Code.setText(model.getCode());
 
+        Variables.getItems().clear();
         for(String str : ((RobotPlayerModel)model.getRobot()).getSensorNames()){
             Variables.getItems().add(str);
         }

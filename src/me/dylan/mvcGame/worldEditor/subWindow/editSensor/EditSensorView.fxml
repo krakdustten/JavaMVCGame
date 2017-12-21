@@ -22,8 +22,8 @@
             <Label layoutX="15.0" layoutY="37.0" text="X pos: " />
             <Label layoutX="16.0" layoutY="62.0" text="Y pos: " />
             <TextField fx:id="Name" layoutX="57.0" layoutY="10.0" />
-            <Slider fx:id="Xpos" layoutX="57.0" layoutY="39.0" majorTickUnit="8.0" max="64.0" minorTickCount="1" prefHeight="14.0" prefWidth="149.0" snapToTicks="true" />
-            <Slider fx:id="YPos" layoutX="57.0" layoutY="64.0" majorTickUnit="8.0" max="64.0" minorTickCount="1" prefHeight="14.0" prefWidth="149.0" snapToTicks="true" />
+            <Slider fx:id="Xpos" layoutX="57.0" layoutY="39.0" majorTickUnit="4.0" max="64.0" minorTickCount="1" prefHeight="14.0" prefWidth="149.0" snapToTicks="true" />
+            <Slider fx:id="YPos" layoutX="57.0" layoutY="64.0" majorTickUnit="4.0" max="64.0" minorTickCount="1" prefHeight="14.0" prefWidth="149.0" snapToTicks="true" />
             <Label layoutX="18.0" layoutY="85.0" text="Type: " />
          </children>
       </AnchorPane>

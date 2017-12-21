@@ -18,17 +18,13 @@ public class RobotPlayerModel extends RobotModel{
 
     public RobotPlayerModel(RobotModel robot, MapModel mapModel) {
         super(mapModel);
-        Sensor[] sensors = robot.getSensors();
-
-        for(int i = 0; i < sensors.length; i++)
-            this.addSensor(sensors[i]);
     }
 
     public float getMoterLSpeed() { return motorLSpeed; }
     public float getMoterRSpeed() { return motorRSpeed; }
 
-    public float getMoterLSpeedTop() { return motorLSpeed; }
-    public float getMoterRSpeedTop() { return motorRSpeed; }
+    public float getMoterLSpeedTop() { return motorLSpeedTop; }
+    public float getMoterRSpeedTop() { return motorRSpeedTop; }
 
     public void setMoterLSpeedTop(float moterLSpeedTop) {
         this.motorLSpeedTop = moterLSpeedTop;

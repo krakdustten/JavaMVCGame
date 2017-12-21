@@ -4,6 +4,7 @@ import me.dylan.mvcGame.game.GameMapLoader;
 import me.dylan.mvcGame.game.gameObjects.MapModel;
 import me.dylan.mvcGame.game.gameObjects.Tiles;
 import me.dylan.mvcGame.game.gameObjects.robot.DistanceSensor;
+import me.dylan.mvcGame.game.gameObjects.robot.RobotModel;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.other.ResourceHandling;
 import me.dylan.mvcGame.state.State;
@@ -18,6 +19,7 @@ public class WorldEditorController extends State{
     private WorldEditorModel model;
     private WorldEditorView view;
     private RobotEditorView robotView;
+    private RobotSensorEditorView sensorView;
     private WorldEditorContainer container;
     private EditSensorContainer sensorContainer;
 
@@ -31,9 +33,6 @@ public class WorldEditorController extends State{
         super(mainModel, stateHandler);
     }
 
-    //TODO Add robot viewer for editor
-    //TODO Add delete button
-
     @Override
     public void init(int previousState) {
         MapModel map = null;
@@ -43,6 +42,7 @@ public class WorldEditorController extends State{
                 map = GameMapLoader.loadMap(mainModel, mainModel.getGameFileToLoad());
             }else{
                 map = new MapModel(mainModel, 1, 1, new int[]{256*256*256 - 1}, new byte[]{Tiles.WALL_ID});
+                map.setRobot(new RobotModel(map));
             }
         }
         if(map == null) stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
@@ -52,6 +52,7 @@ public class WorldEditorController extends State{
 
         view = new WorldEditorView(model);
         robotView = new RobotEditorView(model);
+        sensorView = new RobotSensorEditorView(model);
         sensorContainer = new EditSensorContainer(model);
         container = new WorldEditorContainer(model);
     }
@@ -67,6 +68,7 @@ public class WorldEditorController extends State{
             if (keyPressed[5]) model.setViewZoom(model.getViewZoom() * 0.97f);
         }
         view.update();
+        sensorView.update();
         robotView.update();
         model.getInEditorMenu().update();
         sensorContainer.update();
@@ -86,6 +88,7 @@ public class WorldEditorController extends State{
     public void render() {
         if(model.getEditingRobot()){
             robotView.render();
+            sensorView.render();
         }else
             view.render();
         if(model.getShowInEditorMenu()) model.getInEditorMenu().render();
@@ -99,6 +102,7 @@ public class WorldEditorController extends State{
         sensorContainer.distroy();
         view.distroy();
         robotView.distroy();
+        sensorView.distroy();
     }
 
     @Override
