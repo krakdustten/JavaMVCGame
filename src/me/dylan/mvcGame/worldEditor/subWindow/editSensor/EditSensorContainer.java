@@ -32,7 +32,7 @@ public class EditSensorContainer {
             controller.setGameModel(model);
         } catch (IOException e) { e.printStackTrace(); }
 
-        container.setCloseACtion(new WindowAdapter() {
+        container.setCloseAction(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 model.setEditingSensor(false);
