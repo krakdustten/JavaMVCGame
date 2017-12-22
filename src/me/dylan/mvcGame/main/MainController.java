@@ -3,14 +3,26 @@ package me.dylan.mvcGame.main;
 import me.dylan.mvcGame.state.StateHandler;
 import org.lwjgl.glfw.GLFW;
 
-//TODO javadoc
+/**
+ * This class is the main controller of the base code.
+ * This handles all of the event handler of the keyboard and mouse.
+ *
+ * @author Dylan Gybels
+ */
 public class MainController{
     private StateHandler stateHandler;
     private MainModel mainModel;
 
+    /**
+     * Create a new main controller.
+     *
+     * @param mainModel The main model.
+     * @param stateHandler The main state handler.
+     */
     public MainController(MainModel mainModel, StateHandler stateHandler){
         this.mainModel = mainModel;
 
+        //event handlers
         GLFW.glfwSetKeyCallback(mainModel.getWindow(), this::keyboardEvent);
         GLFW.glfwSetCursorPosCallback(mainModel.getWindow(), this::mousePosEvent);
         GLFW.glfwSetMouseButtonCallback(mainModel.getWindow(), this::mouseButtonEvent);
@@ -19,12 +31,18 @@ public class MainController{
         this.stateHandler = stateHandler;
     }
 
+    /**
+     * Update the main model.
+     */
     public void update() {
         // Poll for window events. The key callback above will only be
         // invoked during this call.
         GLFW.glfwPollEvents();
     }
 
+    /**
+     * De init the main model.
+     */
     public void deInit() {
     }
 

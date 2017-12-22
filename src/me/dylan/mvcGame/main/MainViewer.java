@@ -11,52 +11,51 @@ import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-//TODO javadoc
+/**
+ * This class is hte main view of the base code.
+ * It sets up the openGL and the window the it writes to.
+ *
+ * @author Dylan Gybels
+ */
 public class MainViewer {
     private MainModel mainModel;
-    private MainGameThread mainGameThread;
 
+    /**
+     * Create a new main viewer.
+     * @param mainModel The main model.
+     * @param mainGameThread The main game thread.
+     * @param mainShaderName2D The main shader file name.
+     */
     public MainViewer(MainModel mainModel, MainGameThread mainGameThread, String mainShaderName2D){
         this.mainModel = mainModel;
-        this.mainGameThread = mainGameThread;
 
-        //init LWJGL
-        GLFWErrorCallback.createPrint(System.err).set();
+        GLFWErrorCallback.createPrint(System.err).set();//init LWJGL
+        if ( !GLFW.glfwInit() ) throw new IllegalStateException("Unable to initialize GLFW");
 
-        if ( !GLFW.glfwInit() )
-            throw new IllegalStateException("Unable to initialize GLFW");
+        GLFW.glfwDefaultWindowHints();//set the default window settings
+        GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE);//the window will stay hidden after creation
+        GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE);//the window will be resizable
 
-        GLFW.glfwDefaultWindowHints(); // optional, the current window hints are already the default
-        GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE); // the window will stay hidden after creation
-        GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE); // the window will be resizable
-
-        // Create the window
+        //create the window
         mainModel.setWindow(GLFW.glfwCreateWindow(600, 400, "Java MVC game", NULL, NULL));
-        if ( mainModel.getWindow() == NULL )
-            throw new RuntimeException("Failed to create the GLFW window");
+        if ( mainModel.getWindow() == NULL ) throw new RuntimeException("Failed to create the GLFW window");
 
-        // Make the OpenGL context current
-        GLFW.glfwMakeContextCurrent(mainModel.getWindow());
-        // Make the window visible
-        GLFW.glfwShowWindow(mainModel.getWindow());
 
+        GLFW.glfwMakeContextCurrent(mainModel.getWindow());//make the OpenGL context current
+        GLFW.glfwShowWindow(mainModel.getWindow());//make the window visible
         GL.createCapabilities();
 
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);//enable textures
+        GLFW.glfwSwapInterval(1);//turn on V-sync
 
-        //turn on V-sync
-        GLFW.glfwSwapInterval(1);
+        GL11.glEnable(GL11.GL_BLEND);//make transparency work
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);//set transparency modes
 
-        //Make transparency work
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glEnable(GL11.GL_CULL_FACE);//only render one side of the vertexes
+        GL11.glCullFace(GL11.GL_BACK);//we don't see the back side
 
-        //Only render one side of the vertexes// We don't see the back side
-        GL11.glEnable(GL11.GL_CULL_FACE);
-        GL11.glCullFace(GL11.GL_BACK);
 
-        // Set the clear color
-        GL11.glClearColor(0.0f, 0.3f, 0.8f, 0.0f);
+        GL11.glClearColor(0.0f, 0.3f, 0.8f, 0.0f);//set the clear color
 
         mainModel.setMainShader2D(Shader.compileShader(mainShaderName2D));
         mainModel.setCamera2D(new Camera2D(mainModel.getMainShader2D(), 600, 400));
@@ -72,18 +71,31 @@ public class MainViewer {
         });
     }
 
+    /**
+     * Start rendering to the screen.
+     */
     public void startRender() {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); // clear the framebuffer
     }
 
+    /**
+     * End rendering to the screen.
+     * Put the things rendered on screen.
+     */
     public void endRender() {
         GLFW.glfwSwapBuffers(mainModel.getWindow()); // swap the color buffers
     }
 
+    /**
+     * update the game model.
+     */
     public void update() {
         mainModel.getCamera2D().update();
     }
 
+    /**
+     * De init the main viewer.
+     */
     public void deInit() {
         Shader.deleteShader(mainModel.getMainShader2D());
         Callbacks.glfwFreeCallbacks(mainModel.getWindow());
