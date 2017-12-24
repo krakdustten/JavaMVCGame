@@ -58,7 +58,7 @@ public class WorldEditorView {
                                 ((color >> 16) % 256) / 256.0f, ((color >> 8) % 256) / 256.0f, (color % 256) / 256.0f, 1,
                                 tex2, tey2);
                         break;
-                    case Tiles.END_ID:
+                    case Tiles.FINISH_ID:
                         int tex3 = (around / 8 ) % 2 == 0 ? 0 : (around / 2 ) % 2 == 1 ? 1 : 2;
                         int tey3 = around % 2 == 0 ? 5 : (around / 4 ) % 2 == 1 ? 6 : 7;
                         offset = tileMap.drawTile2D(vertexes, offset, i * 64, j * 64, 64, 64,

@@ -222,7 +222,7 @@ public class WorldEditorSubController {
                 tileID = Tiles.START_ID;
                 break;
             case "End":
-                tileID = Tiles.END_ID;
+                tileID = Tiles.FINISH_ID;
                 break;
         }
         model.setSelectedTile(tileID);

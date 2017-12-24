@@ -1,27 +1,21 @@
 package me.dylan.mvcGame.game.controllers;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import me.dylan.mvcGame.game.gameObjects.GameModel;
 import me.dylan.mvcGame.game.gameObjects.robot.RobotPlayerModel;
 
-//TODO javadoc
+/**
+ * This is the controller of the IDE part of the game itself.
+ *
+ * @author Dylan Gybels
+ */
 public class CodeIDEController {
     private GameModel model;
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
 
     @FXML
     private Button Pause;
@@ -33,22 +27,23 @@ public class CodeIDEController {
     private ListView<String> Variables;
 
     @FXML
-    private MenuItem MenuFileSave;
-
-    @FXML
     private TextArea Log;
 
     @FXML
     private TextArea Code;
 
-    @FXML
-    private MenuItem MenuFileImportCode;
-
+    /**
+     * Initialize the controller.
+     */
     @FXML
     void initialize() {
         Code.textProperty().addListener((this::codeTextChanged));
     }
 
+    /**
+     * The start button is pressed.
+     * @param event The event fired.
+     */
     @FXML
     void startPressed(ActionEvent event) {
         if(Start.getText().contains("Stop")) {
@@ -69,6 +64,10 @@ public class CodeIDEController {
         }
     }
 
+    /**
+     * The pause button is pressed.
+     * @param event The event fired.
+     */
     @FXML
     void pausePressed(ActionEvent event) {
         if(Pause.getText().contains("Pause")){
@@ -81,20 +80,14 @@ public class CodeIDEController {
         }
     }
 
-    @FXML
-    void menuFileSavePressed(ActionEvent event) {
-        System.out.println("Save");
-    }
-
-    @FXML
-    void menuFileImportCodePressed(ActionEvent event) {
-        System.out.println("Import");
-    }
-
     private void codeTextChanged(ObservableValue<? extends String> observable, String oldValue, String newValue){
         model.setCode(newValue);
     }
 
+    /**
+     * Set the game model of the controller.
+     * @param model The game model.
+     */
     public void setGameModel(GameModel model) {
         this.model = model;
         Code.setText(model.getCode());
@@ -105,6 +98,9 @@ public class CodeIDEController {
         }
     }
 
+    /**
+     * Tick the controller/view.
+     */
     public void gameTick(){
         if(model.getErrorChanged()){
             Log.setText(model.getError());

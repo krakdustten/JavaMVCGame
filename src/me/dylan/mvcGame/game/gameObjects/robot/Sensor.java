@@ -1,23 +1,39 @@
 package me.dylan.mvcGame.game.gameObjects.robot;
 
-import me.dylan.mvcGame.game.gameObjects.GameModel;
 import me.dylan.mvcGame.game.gameObjects.MapModel;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 
 //TODO javadoc
+/**
+ * The base class of every sensor.
+ *
+ * @author Dylan Gybels
+ */
 public abstract class Sensor {
+    /**The map of the game we are in.*/
     protected MapModel mapModel;
 
+    /**The position of the sensor relative to the robot.*/
     protected float x, y;
+    /**The names of the sensor. There can be multiple sensors in one object. (1 sensor per variable)*/
     protected String[] name;
+    /**The ID of every sensor. These will be set automatically on startup. (1 ID per name)*/
     protected int[] ID;
 
+    /**Something changed about the sensor.*/
     protected boolean changed = false;
 
+    /**
+     * Create a new sensor.
+     *
+     * @param mapModel The map the sensor is in.
+     * @param x The x position relative to the robot.
+     * @param y The y position relative to the robot.
+     * @param name The names of the sensors.
+     */
     public Sensor(MapModel mapModel, float x, float y, String[] name){
         this.mapModel = mapModel;
 
@@ -26,8 +42,18 @@ public abstract class Sensor {
         this.name = name;
     }
 
+    /**
+     * Calculate the output of the sensor.
+     * The data of this sensor will be set in the data array given with as index the IDs.
+     *
+     * @param data The data array that has to filled with sensor data.
+     */
     public abstract void calculateOutput(float[] data);
 
+    /**
+     *
+     * @return
+     */
     public float getX() { return x; }
     public float getY() { return y; }
     public String[] getNames() { return name; }

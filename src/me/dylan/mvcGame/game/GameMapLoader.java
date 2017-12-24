@@ -8,15 +8,26 @@ import me.dylan.mvcGame.other.ResourceHandling;
 
 import java.io.*;
 
-//TODO javadoc
+/**
+ * This class loads or save the games levels and maps.
+ *
+ * @author Dylan Gybels
+ */
 public class GameMapLoader {
-    public static final int LOADER_VERSION = 001;
+    /**The version of the loader.*/
+    public static final int LOADER_VERSION = 1;
 
+    /**
+     * Load a map from a specified path.
+     * The path will be the running path + the given path.
+     *
+     * @param mainModel The main model.
+     * @param filePath The path of the map.
+     * @return The loaded map.
+     */
     public static MapModel loadMap(MainModel mainModel, String filePath){
         try {
             DataInputStream is = new DataInputStream(ResourceHandling.getFileOrResource(filePath));
-
-            if(is == null) return null;
 
             int version = is.readInt();
             if(version != LOADER_VERSION)return null;
@@ -59,6 +70,14 @@ public class GameMapLoader {
         return null;
     }
 
+    /**
+     * Save a map to the specified path.
+     * The path will be the running path + the given path.
+     *
+     * @param model The map to save.
+     * @param filePath The path to save it to.
+     * @return True if the map was saved successfully.
+     */
     public static boolean saveMap(MapModel model, String filePath){
         try {
             filePath = ResourceHandling.GetExecutionPath() + "\\" + filePath;
@@ -82,13 +101,13 @@ public class GameMapLoader {
 
             char[] starterCodeChars = model.getCode().toCharArray();
             os.writeInt(starterCodeChars.length);
-            for(int i = 0; i < starterCodeChars.length; i++) os.writeChar(starterCodeChars[i]);
+            for (char starterCodeChar : starterCodeChars) os.writeChar(starterCodeChar);
 
             Sensor[] sensors = model.getRobot().getSensors();
             os.writeInt(sensors.length);
-            for(int i = 0; i < sensors.length; i++){
-                os.writeInt(sensors[i].getType());
-                sensors[i].saveSensor(os);
+            for (Sensor sensor : sensors) {
+                os.writeInt(sensor.getType());
+                sensor.saveSensor(os);
             }
 
             os.writeBoolean(model.getLoseOnWallHit());
@@ -101,6 +120,14 @@ public class GameMapLoader {
         return false;
     }
 
+    /**
+     * Load a save file from a specified path.
+     * The path will be the running path + the given path.
+     *
+     * @param mainModel The main model.
+     * @param filePath The path of the file to load.
+     * @return The loaded map.
+     */
     public static MapModel loadSave(MainModel mainModel, String filePath) {
         try {
             filePath = ResourceHandling.GetExecutionPath() + "/" + filePath;
@@ -110,8 +137,6 @@ public class GameMapLoader {
             }
 
             DataInputStream is = new DataInputStream(new FileInputStream(file));
-
-            if(is == null) return null;
 
             int version = is.readInt();
             if(version != LOADER_VERSION + 10000)return null;
@@ -155,13 +180,21 @@ public class GameMapLoader {
         return null;
     }
 
+    /**
+     * Save a save file to the specified path.
+     * The path will be the running path + the given path.
+     *
+     * @param model The map to save.
+     * @param filePath The path of the save file.
+     * @return True if the save was saved successfully.
+     */
     public static boolean saveSave(MapModel model, String filePath) {
         try {
             filePath = ResourceHandling.GetExecutionPath() + "\\" + filePath;
             File file = new File(filePath);
-            if(!file.exists()){
+            if(!file.exists())
                 file.getParentFile().mkdirs();
-            }
+
 
             DataOutputStream os = new DataOutputStream(new FileOutputStream(file));
 
@@ -178,13 +211,13 @@ public class GameMapLoader {
 
             char[] codeChars = model.getCode().toCharArray();
             os.writeInt(codeChars.length);
-            for(int i = 0; i < codeChars.length; i++) os.writeChar(codeChars[i]);
+            for (char codeChar : codeChars) os.writeChar(codeChar);
 
             Sensor[] sensors = model.getRobot().getSensors();
             os.writeInt(sensors.length);
-            for(int i = 0; i < sensors.length; i++){
-                os.writeInt(sensors[i].getType());
-                sensors[i].saveSensor(os);
+            for (Sensor sensor : sensors) {
+                os.writeInt(sensor.getType());
+                sensor.saveSensor(os);
             }
 
 

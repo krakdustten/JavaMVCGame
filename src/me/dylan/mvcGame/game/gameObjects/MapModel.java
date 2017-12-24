@@ -185,7 +185,7 @@ public class MapModel {
                         startFound = true;
                     }
                 }else if(!finishFound){
-                    if(getTileID(i, j) == Tiles.END_ID){
+                    if(getTileID(i, j) == Tiles.FINISH_ID){
                         finishX = i;
                         finishY = j;
                         finishFound = true;

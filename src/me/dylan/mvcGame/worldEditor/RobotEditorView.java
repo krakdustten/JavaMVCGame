@@ -3,15 +3,23 @@ package me.dylan.mvcGame.worldEditor;
 import me.dylan.mvcGame.drawers.Texture;
 import me.dylan.mvcGame.drawers.VBODrawer2D;
 import me.dylan.mvcGame.game.gameObjects.robot.RobotModel;
-import me.dylan.mvcGame.game.gameObjects.robot.Sensor;
 
-//TODO javadoc
+/**
+ * This class draws the robot for the world editor.
+ *
+ * @author Dylan Gybels
+ */
 public class RobotEditorView {
     private WorldEditorModel model;
 
     private int vbo;
     private int texture;
 
+    /**
+     * Create a new robot drawer for the world editor.
+     *
+     * @param model The world editor model.
+     */
     public RobotEditorView(WorldEditorModel model) {
         this.model = model;
 
@@ -21,6 +29,10 @@ public class RobotEditorView {
         update();
     }
 
+    /**
+     * Update the view.
+     * If the data has changed, write those changes to the graphics card.
+     */
     public void update() {
         if(!model.getRobot().getChanged()) return;
 
@@ -38,7 +50,7 @@ public class RobotEditorView {
         offset = VBODrawer2D.draw2DSquareRotCenter(vertexes, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
                 xStart * 64, yStart * 64, 64, 8, robot.getRotation(), xStart * 64 + 32, yStart * 64 + 32,
                 1, 1, 1, 1, 0, 0.125f + motR * 0.015625f, 0.125f, 0.015625f);
-        offset = VBODrawer2D.draw2DSquareRotCenter(vertexes, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
+        VBODrawer2D.draw2DSquareRotCenter(vertexes, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
                 xStart * 64, yStart * 64 + 56, 64, 8, robot.getRotation(), xStart * 64 + 32, yStart * 64 + 32,
                 1, 1, 1, 1, 0, 0.125f + motL * 0.015625f, 0.125f, 0.015625f);
 
@@ -47,10 +59,17 @@ public class RobotEditorView {
         model.getRobot().setChange(false);
     }
 
+    /**
+     * Render the robot to the screen.
+     */
     public void render() {
         VBODrawer2D.drawVBO(model.getMainModel(), vbo, texture, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, VBODrawer2D.calcDrawAmountForSquares(3));
     }
 
+    /**
+     * Distroy the object.
+     * Clear all variables.
+     */
     public void distroy() {
         VBODrawer2D.deleteVBO(vbo);
         Texture.deleteImage(texture);

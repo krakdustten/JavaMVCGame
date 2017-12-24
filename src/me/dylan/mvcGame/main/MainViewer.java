@@ -16,6 +16,7 @@ import static org.lwjgl.system.MemoryUtil.NULL;
  * It sets up the openGL and the window the it writes to.
  *
  * @author Dylan Gybels
+ * @see "https://www.lwjgl.org/guide"
  */
 public class MainViewer {
     private MainModel mainModel;

@@ -112,8 +112,8 @@ public class WorldEditorModel extends MapModel{
             case Tiles.START_ID:
                 removeAllTilesOf(Tiles.START_ID, Tiles.FLOOR_ID);
                 break;
-            case Tiles.END_ID:
-                removeAllTilesOf(Tiles.END_ID, Tiles.FLOOR_ID);
+            case Tiles.FINISH_ID:
+                removeAllTilesOf(Tiles.FINISH_ID, Tiles.FLOOR_ID);
                 break;
         }
 
@@ -124,7 +124,7 @@ public class WorldEditorModel extends MapModel{
 
         switch (toTile){
             case Tiles.START_ID:
-            case Tiles.END_ID:
+            case Tiles.FINISH_ID:
                 if(getWorldXSize() < 3 ||getWorldYSize() < 3) return;
                 if(tileX < 1) tileX = 1;
                 if(tileY < 1) tileY = 1;
