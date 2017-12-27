@@ -6,7 +6,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-//TODO javadoc
 /**
  * The base class of every sensor.
  *
@@ -50,15 +49,38 @@ public abstract class Sensor {
      */
     public abstract void calculateOutput(float[] data);
 
+    /*GETTERS*/
+
     /**
-     *
-     * @return
+     * Get the x position relative to the robot.
+     * @return The x position relative to the robot.
      */
     public float getX() { return x; }
+
+    /**
+     * Get the y position relative to the robot.
+     * @return The y position relative to the robot.
+     */
     public float getY() { return y; }
+
+    /**
+     * Get all of the sensor names.
+     * @return All of the sensor names.
+     */
     public String[] getNames() { return name; }
 
+    /**
+     * Get the position of the sensor in the world.
+     * @return The position of the sensor in a float array as [x, y].
+     */
     public float[] getRealPositionInWorld(){return getRealPositionInWorld(x , y);}
+
+    /**
+     * Get the position of the sensor in the world.
+     * @param xRel The x position relative to the robot.
+     * @param yRel The y position relative to the robot.
+     * @return The position of the sensor in a float array as [x, y].
+     */
     protected float[] getRealPositionInWorld(float xRel, float yRel){
         float[] output = new float[2];
         float xRob = mapModel.getRobot().getX();
@@ -76,20 +98,119 @@ public abstract class Sensor {
         return output;
     }
 
-    public void setID(int[] ID){this.ID = ID; changed = true;}
+    /**
+     * Get the IDs of the sensor.
+     * @return The IDs of the sensor.
+     */
+    public int[] getID() { return ID; }
 
-    public int[] getID() {
-        return ID;
+    /**
+     * Get a new sensor from the sensor type id.
+     * 1 -> distance sensor.
+     *
+     * @param typeId The type id of the new sensor.
+     * @param mapModel The map model used.
+     * @return The newly created sensor.
+     */
+    public static Sensor getNewSensorFromId(int typeId, MapModel mapModel){
+        switch (typeId){
+            case 1: //distance
+                return new DistanceSensor(mapModel, 0, 0, 0, "");
+            default:
+                return null;
+        }
     }
 
+    /**
+     * Get the type id of the current sensor.
+     * @return The type id.
+     */
+    public int getType() { return -1; }
+
+    /**
+     * Get the name of the type.
+     * @return The name of the type.
+     */
+    public String getTypeName() { return "DEFAULT"; }
+
+    /**
+     * Get if the sensor changed somehow.
+     * @return Dit the sensor change.
+     */
+    public boolean getChanged() { return changed; }
+
+    /**
+     * Get the map model this sensor uses.
+     * @return The map model this sensor uses.
+     */
+    public MapModel getMapModel() {
+        return mapModel;
+    }
+
+    /*SETTER*/
+
+    /**
+     * Set the x position of a sensor relative to the robot.
+     * @param x The new relative x position.
+     */
+    public void setX(float x) { this.x = x; changed = true;}
+
+    /**
+     * Set the y position of a sensor relative to the robot.
+     * @param y The new relative y position.
+     */
+    public void setY(float y) { this.y = y; changed = true;}
+
+    /**
+     * Set the IDs of the sensor.
+     * @param ID The new IDs of the sensor.
+     */
+    public void setID(int[] ID){this.ID = ID; changed = true;}
+
+    /**
+     * Set the name of one of the sensors.
+     * @param i The index of the name.
+     * @param newValue The new name.
+     */
+    public void setName(int i, String newValue) {
+        if(name.length > i)
+            name[i] = newValue;
+        changed = true;
+    }
+
+    /**
+     * Set the changed parameter.
+     * @param changed The new changed value.
+     */
+    public void setChanged(boolean changed) { this.changed = changed; }
+
+    /**
+     * Set the map model user by this sensor.
+     * @param mapModel The new map model.
+     */
+    public void setMapModel(MapModel mapModel) {
+        this.mapModel = mapModel;
+    }
+
+    /*EXTRA FUNCTIONS*/
+
+    /**
+     * Save the sensor to a data output stream.
+     * @param os The data output stream to write to.
+     * @throws IOException When there was an IO exception.
+     */
     public void saveSensor(DataOutputStream os) throws IOException {
         os.writeFloat(x);
         os.writeFloat(y);
         os.writeInt(name.length);
-        for(int i = 0; i < name.length; i++)
-            writeString(os, name[i]);
+        for (String aName : name) writeString(os, aName);
     }
 
+    /**
+     * Load the sensor from a data input stream.
+     * @param is The data input stream to read from.
+     * @throws IOException When there was an IO exception.
+     */
     public void loadSensor(DataInputStream is) throws IOException {
         x = is.readFloat();
         y = is.readFloat();
@@ -98,47 +219,28 @@ public abstract class Sensor {
             name[i] = readString(is);
     }
 
+    /**
+     * Write a string to a data output stream.
+     * @param os The data output stream to write to.
+     * @param s The string to write.
+     * @throws IOException When there was an IO exception.
+     */
     protected void writeString(DataOutputStream os, String s) throws IOException {
         char[] chars = s.toCharArray();
         os.writeInt(chars.length);
-        for(int i = 0; i < chars.length; i++) os.writeChar(chars[i]);
+        for (char aChar : chars) os.writeChar(aChar);
     }
 
+    /**
+     * Read a string from a data input stream.
+     * @param is The data input stream to read from.
+     * @return The string read.
+     * @throws IOException When there was an IO exception.
+     */
     protected String readString(DataInputStream is) throws IOException {
         int chars = is.readInt();
         StringBuilder stringBuilder = new StringBuilder();
         for(int i = 0; i < chars; i++) stringBuilder.append(is.readChar());
         return stringBuilder.toString();
-    }
-
-    public static Sensor getNewSensorFromId(int id, MapModel mapModel){
-        switch (id){
-            case 1: //distance
-                return new DistanceSensor(mapModel, 0, 0, 0, "");
-            default:
-                return null;
-        }
-    }
-    public int getType() { return -1; }
-    public String getTypeName() { return "DEFAULT"; }
-
-    public boolean getChanged() { return changed; }
-
-    public void setX(float x) { this.x = x; changed = true;}
-    public void setY(float y) { this.y = y; changed = true;}
-
-    public MapModel getMapModel() {
-        return mapModel;
-    }
-    public void setName(int i, String newValue) {
-        if(name.length > i)
-            name[i] = newValue;
-        changed = true;
-    }
-
-    public void setChanged(boolean changed) { this.changed = changed; }
-
-    public void setMapModel(MapModel mapModel) {
-        this.mapModel = mapModel;
     }
 }
