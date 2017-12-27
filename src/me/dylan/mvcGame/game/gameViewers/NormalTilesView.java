@@ -5,12 +5,19 @@ import me.dylan.mvcGame.drawers.VBODrawer2D;
 import me.dylan.mvcGame.game.gameObjects.GameModel;
 import me.dylan.mvcGame.game.gameObjects.Tiles;
 
-//TODO javadoc
+/**
+ * The viewer that draws the world itself.
+ *
+ * @author Dylan Gybels
+ */
 public class NormalTilesView {
     private int vbo_id;
-
     private GameModel model;
 
+    /**
+     * Create a new tiles viewer.
+     * @param model The game model.
+     */
     public NormalTilesView(GameModel model){
         this.model = model;
         model.setTileTextures(new AdvancedTextureTileMap("img/TileMap.png", 8, 8));
@@ -18,6 +25,9 @@ public class NormalTilesView {
         update();
     }
 
+    /**
+     * Update the buffers on the graphics card if needed.
+     */
     public void update(){
         if(!model.getMapChanged())return;
         int worldX = model.getWorldXSize();
@@ -70,7 +80,19 @@ public class NormalTilesView {
         VBODrawer2D.writeBufToMem(vbo_id, vertexes);
     }
 
+    /**
+     * Render the buffers on the graphics card.
+     */
     public void render(){
         VBODrawer2D.drawVBO(model.getMainModel(), vbo_id, model.getTileTextures().getTexture_id(), VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, VBODrawer2D.calcDrawAmountForSquares(model.getWorldXSize() * model.getWorldYSize()));
+    }
+
+    /**
+     * Clear all vars and distroy.
+     */
+    public void distroy(){
+        VBODrawer2D.deleteVBO(vbo_id);
+        model.getTileTextures().distroy();
+        model.setTileTextures(null);
     }
 }

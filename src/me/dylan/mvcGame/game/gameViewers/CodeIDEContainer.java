@@ -11,11 +11,19 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 
-//TODO javadoc
+/**
+ * The conainer that starts the IDE view and controller.
+ *
+ * @author Dylan Gybels
+ */
 public class CodeIDEContainer{
     private CodeIDEController codeIDEController;
     private GameModel model;
 
+    /**
+     * Create a new IDE container.
+     * @param model The game model.
+     */
     public CodeIDEContainer(GameModel model){
         this.model = model;
         MainFXContainer container = model.getMainModel().getFxContainer();
@@ -41,10 +49,16 @@ public class CodeIDEContainer{
         container.setVisible(true);
     }
 
+    /**
+     * give a tick to the IDE controller.
+     */
     public void update(){
         if(codeIDEController != null) codeIDEController.gameTick();
     }
 
+    /**
+     * Clear all of the variables and close the window.
+     */
     public void distroy() {
         model.getMainModel().getFxContainer().setVisible(false);
         codeIDEController = null;

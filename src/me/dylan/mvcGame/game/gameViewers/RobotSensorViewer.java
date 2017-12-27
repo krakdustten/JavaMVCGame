@@ -10,7 +10,11 @@ import me.dylan.mvcGame.game.gameObjects.robot.Sensor;
 
 import java.util.ArrayList;
 
-//TODO javadoc
+/**
+ * The viewer for the sensors on the robot.
+ *
+ * @author Dylan Gybels
+ */
 public class RobotSensorViewer {
     private GameModel gameModel;
     private RobotModel model;
@@ -18,6 +22,11 @@ public class RobotSensorViewer {
     private int vbo;
     private int texture;
 
+    /**
+     * Create a new sensor viewer.
+     *
+     * @param gameModel The game model.
+     */
     public RobotSensorViewer(GameModel gameModel){
         this.gameModel = gameModel;
         this.model = gameModel.getRobot();
@@ -27,6 +36,9 @@ public class RobotSensorViewer {
         update();
     }
 
+    /**
+     * Update the buffers on the graphics card if needed.
+     */
     public void update(){
         //if(!model.isChanged())return;
 
@@ -60,10 +72,16 @@ public class RobotSensorViewer {
         VBODrawer2D.writeBufToMem(vbo, vertexes);
     }
 
+    /**
+     * Render the buffers on the graphics card.
+     */
     public void render(){
         VBODrawer2D.drawVBO(gameModel.getMainModel(), vbo, texture, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, VBODrawer2D.calcDrawAmountForSquares(model.getSensors().length));
     }
 
+    /**
+     * Clear all vars and distroy.
+     */
     public void distroy() {
         VBODrawer2D.deleteVBO(vbo);
         Texture.deleteImage(texture);

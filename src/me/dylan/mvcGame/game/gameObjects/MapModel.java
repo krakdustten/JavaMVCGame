@@ -1,14 +1,14 @@
 package me.dylan.mvcGame.game.gameObjects;
 
 import me.dylan.mvcGame.game.gameObjects.robot.RobotModel;
-import me.dylan.mvcGame.game.gameObjects.robot.RobotPlayerModel;
-import me.dylan.mvcGame.game.gameObjects.robot.Sensor;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.worldEditor.WorldEditorModel;
 
-import java.util.ArrayList;
-
-//TODO javadoc
+/**
+ * The map model.
+ *
+ * @author Dylan Gybels
+ */
 public class MapModel {
     private MainModel mainModel;
     //player stuff
@@ -28,6 +28,15 @@ public class MapModel {
     private boolean codeChanged = true;
     private boolean loseOnWallHit = true;
 
+    /**
+     * Create a new map.
+     *
+     * @param mainModel The main model.
+     * @param worldXSize The x size of the world.
+     * @param worldYSize The y size of the world.
+     * @param underGroundColor The array that holds all the underground colors.
+     * @param tileID The array that holds the tile ID's.
+     */
     public MapModel(MainModel mainModel, int worldXSize, int worldYSize, int[] underGroundColor, byte[] tileID){
         this.mainModel = mainModel;
 
@@ -51,53 +60,174 @@ public class MapModel {
     }
 
     /*GETTERS*/
+
+    /**
+     * Get the main model this map uses.
+     * @return The main model this map uses.
+     */
     public MainModel getMainModel() { return mainModel; }
+
+    /**
+     * Get the world x size.
+     * @return The world x size.
+     */
     public int getWorldXSize() { return worldXSize; }
+
+    /**
+     * Get the world y size.
+     * @return The world y size.
+     */
     public int getWorldYSize() { return worldYSize; }
+
+    /**
+     * Get the underground color at specific coordinates.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @return The color as an integer. (MSB /RRRRRRRR/GGGGGGGG/BBBBBBBB/ LSB)
+     */
     public int getUnderGroundColor(int x, int y) {
         if(x < 0 || x >= worldXSize || y < 0 || y >= worldYSize) return -1;
         return underGroundColor[x + y * worldXSize];
     }
+
+    /**
+     * Get the tile ID at specific coordinates.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @return The tile ID.
+     */
     public int getTileID(int x, int y) {
         if(x < 0 || x >= worldXSize || y < 0 || y >= worldYSize) return -1;
         return tileID[x + y * worldXSize];
     }
+
+    /**
+     * Get if the map has changed.
+     * @return If the map was changed.
+     */
     public boolean getMapChanged(){if(mapChanged){mapChanged = false; return true;} return false;}
 
+    /**
+     * Get the x coordinate of the start.
+     * @return The x coordinate of the start.
+     */
     public int getStartX() { return startX; }
+
+    /**
+     * Get the y coordinate of the start.
+     * @return The y coordinate of the start.
+     */
     public int getStartY() { return startY; }
+
+    /**
+     * Get the x coordinate of the finish.
+     * @return The x coordinate of the finish.
+     */
     public int getFinishX() { return finishX; }
+
+    /**
+     * Get the y coordinate of the finish.
+     * @return The y coordinate of the finish.
+     */
     public int getFinishY() { return finishY; }
 
+    /**
+     * Get the code.
+     * @return The code.
+     */
     public String getCode() { return code; }
+
+    /**
+     * Get if the code is changed.
+     * @return If the code is changed.
+     */
     public boolean getCodeChanged() { return codeChanged; }
 
+    /**
+     * Get if a wall hit is losing.
+     * @return If a wall hit is losing.
+     */
     public boolean getLoseOnWallHit() { return loseOnWallHit; }
 
+    /**
+     * Get the robot in this map.
+     * @return The robot of this map.
+     */
     public RobotModel getRobot() { return robot; }
 
     /*SETTERS*/
+
+    /**
+     * Set the world x size.
+     * @param worldXSize The new world x size.
+     */
     public void setWorldXSize(int worldXSize) {
         changeActualMapSize(worldXSize, worldYSize, 0, 0);
         this.worldXSize = worldXSize;
         mapChanged = true;
     }
+
+    /**
+     * Set the world y size.
+     * @param worldYSize The new world y size.
+     */
     public void setWorldYSize(int worldYSize) {
         changeActualMapSize(worldXSize, worldYSize, 0, 0);
         this.worldYSize = worldYSize;
         mapChanged = true;
     }
+
+    /**
+     * Set the underground color at the specified coordinates.
+     * @param underGroundColor The new underground color.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     */
     public void setUnderGroundColor(int underGroundColor, int x, int y) { this.underGroundColor[x + y * worldXSize] = underGroundColor; mapChanged = true; }
+
+    /**
+     * Set the tile id at the specified coordinates.
+     * @param tileID The new tile id.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     */
     public void setTileID(byte tileID, int x, int y) { this.tileID[x + y * worldXSize] = tileID; mapChanged = true;}
 
+    /**
+     * Set the code.
+     * @param code The new code.
+     */
     public void setCode(String code) { this.code = code;codeChanged = true; }
+
+    /**
+     * Set the code changed.
+     * @param codeChanged If the code is changed.
+     */
     public void setCodeChanged(boolean codeChanged){ this.codeChanged = codeChanged; }
 
+    /**
+     * Set the lose on wall hit paramater.
+     * @param loseOnWallHit The lose on wall hit paramater.
+     */
     public void setLoseOnWallHit(boolean loseOnWallHit) { this.loseOnWallHit = loseOnWallHit; }
 
+    /**
+     * Set the robot of this world.
+     * @param robot The new robot of this world.
+     */
     public void setRobot(RobotModel robot) { this.robot = robot; }
 
     /*OTHER SMALL LOGIC*/
+
+    /**
+     * Change the map size to the new given size.
+     *
+     * You can also offset the hole map by changing the x, y offsets. This can be 1<.
+     * @param newXSize The new x size.
+     * @param newYSize The new y size.
+     * @param xOffset The x offset.
+     * @param yOffset The y offset.
+     */
     public void changeActualMapSize(int newXSize, int newYSize, int xOffset, int yOffset){
         int[] underGroundColor = new int[newXSize * newYSize];
         byte[] tileID = new byte[newXSize * newYSize];
@@ -132,6 +262,11 @@ public class MapModel {
         this.worldYSize = newYSize;
     }
 
+    /**
+     * Check if the map can be smaller than it is now.
+     * And make the map smaller if it can be.
+     * @param model The world editor model.
+     */
     public void checkIfMapCanBeSmaller(WorldEditorModel model) {
         if(worldXSize <= 0 || worldYSize <= 0)return;
 
@@ -172,6 +307,9 @@ public class MapModel {
         }
     }
 
+    /**
+     * Find the start and finish of the map.
+     */
     public void findStartAndFinish(){
         //find start and finish
         boolean startFound = false;

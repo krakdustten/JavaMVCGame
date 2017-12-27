@@ -3,8 +3,8 @@ package me.dylan.mvcGame.game.controllers;
 import me.dylan.mvcGame.game.GameMapLoader;
 import me.dylan.mvcGame.game.gameObjects.GameModel;
 import me.dylan.mvcGame.game.gameObjects.MapModel;
-import me.dylan.mvcGame.game.gameViewers.GameView;
 import me.dylan.mvcGame.game.gameViewers.CodeIDEContainer;
+import me.dylan.mvcGame.game.gameViewers.NormalTilesView;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.menu.components.MenuController;
 import me.dylan.mvcGame.menu.components.MenuModel;
@@ -21,7 +21,7 @@ import javax.swing.*;
  */
 public class GameController extends State {
     private GameModel model;
-    private GameView view;
+    private NormalTilesView view;
     private CodeIDEContainer codeIDEContainer;
     private RobotPlayerController playerController;
 
@@ -57,7 +57,7 @@ public class GameController extends State {
         if(map == null) stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
         this.model = new GameModel(map);
 
-        view = new GameView(this.model);
+        view = new NormalTilesView(this.model);
 
         playerController = new RobotPlayerController(this.model);
         codeIDEContainer = new CodeIDEContainer(this.model);
@@ -137,7 +137,8 @@ public class GameController extends State {
         if(model.getGameOverlay() != null) model.getGameOverlay().delete();
         if(model != null)model.distroy();
         model = null;
-
+        if(view != null) view.distroy();
+        view = null;
     }
 
     /**
