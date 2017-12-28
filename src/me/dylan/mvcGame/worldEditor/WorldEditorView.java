@@ -4,13 +4,22 @@ import me.dylan.mvcGame.drawers.TextureTileMap;
 import me.dylan.mvcGame.drawers.VBODrawer2D;
 import me.dylan.mvcGame.game.gameObjects.Tiles;
 
-//TODO javadoc
+/**
+ * The world viewer of the world editor.
+ *
+ * @author Dylan Gybels
+ */
 public class WorldEditorView {
     private WorldEditorModel model;
 
     private int vbo_id;
     private TextureTileMap tileMap;
 
+    /**
+     * Create a new world editor view.
+     *
+     * @param model The world editor model.
+     */
     public WorldEditorView(WorldEditorModel model) {
         this.model = model;
 
@@ -19,6 +28,9 @@ public class WorldEditorView {
         update();
     }
 
+    /**
+     * Update the buffers on the graphics card if needed.
+     */
     public void update() {
         if(!model.getMapChanged())return;
         int worldX = model.getWorldXSize();
@@ -71,10 +83,16 @@ public class WorldEditorView {
         VBODrawer2D.writeBufToMem(vbo_id, vertexes);
     }
 
+    /**
+     * Render the buffers on the graphics card.
+     */
     public void render() {
         VBODrawer2D.drawVBO(model.getMainModel(), vbo_id, tileMap.getTexture_id(), VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, VBODrawer2D.calcDrawAmountForSquares(model.getWorldXSize() * model.getWorldYSize()));
     }
 
+    /**
+     * Clear all vars and distroy.
+     */
     public void distroy() {
         VBODrawer2D.deleteVBO(vbo_id);
         tileMap.distroy();

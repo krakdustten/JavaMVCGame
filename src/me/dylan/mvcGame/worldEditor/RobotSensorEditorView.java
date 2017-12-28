@@ -6,13 +6,21 @@ import me.dylan.mvcGame.game.gameObjects.robot.DistanceSensor;
 import me.dylan.mvcGame.game.gameObjects.robot.RobotModel;
 import me.dylan.mvcGame.game.gameObjects.robot.Sensor;
 
-//TODO javadoc
+/**
+ * The view for the sensor editor.
+ *
+ * @author Dylan Gybels
+ */
 public class RobotSensorEditorView {
     private WorldEditorModel model;
 
     private int vbo;
     private int texture;
 
+    /**
+     * Create a new sensor editor view.
+     * @param model The world editor model.
+     */
     public RobotSensorEditorView(WorldEditorModel model) {
         this.model = model;
 
@@ -23,6 +31,9 @@ public class RobotSensorEditorView {
         update();
     }
 
+    /**
+     * Update the buffers on the graphics card if needed.
+     */
     public void update() {
         boolean change = false;
         for(Sensor s : model.getRobot().getSensors()) if(s.getChanged()) change = true;
@@ -62,10 +73,16 @@ public class RobotSensorEditorView {
         for(Sensor s : model.getRobot().getSensors()) s.setChanged(false);
     }
 
+    /**
+     * Render the buffers on the graphics card.
+     */
     public void render(){
         VBODrawer2D.drawVBO(model.getMainModel(), vbo, texture, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, VBODrawer2D.calcDrawAmountForSquares(model.getRobot().getSensors().length));
     }
 
+    /**
+     * Clear all vars and distroy.
+     */
     public void distroy() {
         VBODrawer2D.deleteVBO(vbo);
         Texture.deleteImage(texture);

@@ -48,7 +48,7 @@ public class EditSensorContainer {
     }
 
     public void setSceneToThis(){
-        controller.reinit(model.getEditingSenserIndex());
+        controller.reinit(model.getEditingSensorIndex());
         model.getMainModel().getFxContainer().setScene(scene);
     }
 

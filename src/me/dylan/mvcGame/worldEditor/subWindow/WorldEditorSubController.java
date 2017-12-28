@@ -13,23 +13,17 @@ import me.dylan.mvcGame.game.gameObjects.robot.DistanceSensor;
 import me.dylan.mvcGame.game.gameObjects.robot.Sensor;
 import me.dylan.mvcGame.worldEditor.WorldEditorModel;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-//TODO javadoc
+/**
+ * The controller of the extra window of the world editor.
+ *
+ * @author Dylan Gybels
+ */
 public class WorldEditorSubController {
     private WorldEditorModel model;
-
     private final ObservableList<SensorProperty> data = FXCollections.observableArrayList();
 
     @FXML
     private TabPane TabPane;
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
 
     @FXML
     private ListView<String> TilesSelector;
@@ -61,6 +55,9 @@ public class WorldEditorSubController {
     @FXML
     private TableView<SensorProperty> Table;
 
+    /**
+     * Initialize this controller.
+     */
     @FXML
     void initialize() {
         TilesSelector.getItems().addAll("Floor", "Wall", "Start", "End");
@@ -78,7 +75,7 @@ public class WorldEditorSubController {
         SensorName.setCellFactory( new Callback<TableColumn<SensorProperty, String>, TableCell<SensorProperty, String>>() {
             @Override
             public TableCell call(final TableColumn<SensorProperty, String> param) {
-                final TableCell<SensorProperty, String> cell = new TableCell<SensorProperty, String>() {
+                return new TableCell<SensorProperty, String>() {
                     @Override
                     public void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
@@ -97,14 +94,13 @@ public class WorldEditorSubController {
                         }
                     }
                 };
-                return cell;
             }
         });
         SensorType.setCellValueFactory(new PropertyValueFactory<>("type"));
         XPosition.setCellFactory( new Callback<TableColumn<SensorProperty, String>, TableCell<SensorProperty, String>>() {
             @Override
             public TableCell call(final TableColumn<SensorProperty, String> param) {
-                final TableCell<SensorProperty, String> cell = new TableCell<SensorProperty, String>() {
+                return new TableCell<SensorProperty, String>() {
                     @Override
                     public void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
@@ -116,13 +112,12 @@ public class WorldEditorSubController {
                         }
                     }
                 };
-                return cell;
             }
         });
         YPosition.setCellFactory( new Callback<TableColumn<SensorProperty, String>, TableCell<SensorProperty, String>>() {
             @Override
             public TableCell call(final TableColumn<SensorProperty, String> param) {
-                final TableCell<SensorProperty, String> cell = new TableCell<SensorProperty, String>() {
+                return new TableCell<SensorProperty, String>() {
                     @Override
                     public void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
@@ -134,13 +129,12 @@ public class WorldEditorSubController {
                         }
                     }
                 };
-                return cell;
             }
         });
         CulomEdit.setCellFactory( new Callback<TableColumn<SensorProperty, String>, TableCell<SensorProperty, String>>() {
             @Override
             public TableCell call(final TableColumn<SensorProperty, String> param) {
-                final TableCell<SensorProperty, String> cell = new TableCell<SensorProperty, String>() {
+                return new TableCell<SensorProperty, String>() {
                     final Button btn = new Button("Edit");
 
                     @Override
@@ -157,13 +151,12 @@ public class WorldEditorSubController {
                         }
                     }
                 };
-                return cell;
             }
         });
         CulomDelete.setCellFactory( new Callback<TableColumn<SensorProperty, String>, TableCell<SensorProperty, String>>() {
             @Override
             public TableCell call(final TableColumn<SensorProperty, String> param) {
-                final TableCell<SensorProperty, String> cell = new TableCell<SensorProperty, String>() {
+                return new TableCell<SensorProperty, String>() {
                     final Button btn = new Button("Delete");
 
                     @Override
@@ -181,7 +174,6 @@ public class WorldEditorSubController {
                         }
                     }
                 };
-                return cell;
             }
         });
         Table.setItems(data);
@@ -199,10 +191,14 @@ public class WorldEditorSubController {
     }
 
     private void tableEditClick(int index, SensorProperty sensorProperty) {
-        model.setEditingSenserIndex(index);
+        model.setEditingSensorIndex(index);
         model.setEditingSensor(true);
     }
 
+    /**
+     * The new sensor button is clicked.
+     * @param event The event from the button<
+     */
     @FXML
     void NewSensor(ActionEvent event) {
         model.getRobot().addSensor(new DistanceSensor(model, 0, 0, 0, "DEFAULT " + (int)(Math.random() * 10000)));
@@ -232,7 +228,11 @@ public class WorldEditorSubController {
         Code.setText(newValue);
     }
 
-    public void setGameModel(WorldEditorModel model) {
+    /**
+     * Set the model of this controller.
+     * @param model The world editor model.
+     */
+    public void setModel(WorldEditorModel model) {
         this.model = model;
         Code.setText(model.getCode());
         initTable();
@@ -240,9 +240,15 @@ public class WorldEditorSubController {
 
     }
 
+    /**
+     * Tick this controller.
+     */
     public void gameTick() {
     }
 
+    /**
+     * Reinitialize this controller.
+     */
     public void reInitialize() {
         populateTableData();
     }

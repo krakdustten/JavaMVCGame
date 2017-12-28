@@ -29,7 +29,7 @@ public class WorldEditorContainer {
             scene = new Scene(root, 800, 600);
             container.setScene(scene);
 
-            controller.setGameModel(model);
+            controller.setModel(model);
         } catch (IOException e) { e.printStackTrace(); }
 
         container.setCloseAction(new WindowAdapter() {

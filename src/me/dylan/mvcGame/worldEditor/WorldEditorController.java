@@ -3,7 +3,6 @@ package me.dylan.mvcGame.worldEditor;
 import me.dylan.mvcGame.game.GameMapLoader;
 import me.dylan.mvcGame.game.gameObjects.MapModel;
 import me.dylan.mvcGame.game.gameObjects.Tiles;
-import me.dylan.mvcGame.game.gameObjects.robot.DistanceSensor;
 import me.dylan.mvcGame.game.gameObjects.robot.RobotModel;
 import me.dylan.mvcGame.main.MainModel;
 import me.dylan.mvcGame.other.ResourceHandling;
@@ -15,7 +14,11 @@ import org.lwjgl.glfw.GLFW;
 
 import java.io.File;
 
-//TODO javadoc
+/**
+ * The controller for the editor.
+ *
+ * @author Dylan Gybels
+ */
 public class WorldEditorController extends State{
     private WorldEditorModel model;
     private WorldEditorView view;
@@ -30,10 +33,19 @@ public class WorldEditorController extends State{
     private long mouseKeyPressedFromTime = 0;
     private double oldMouseX, oldMouseY;
 
+    /**
+     * Create a new world editor controller.
+     * @param mainModel The main model
+     * @param stateHandler The main state handler.
+     */
     public WorldEditorController(MainModel mainModel, StateHandler stateHandler) {
         super(mainModel, stateHandler);
     }
 
+    /**
+     * Initialize the world editor controller.
+     * @param previousState The ID of the previous state.
+     */
     @Override
     public void init(int previousState) {
         MapModel map = null;
@@ -58,6 +70,9 @@ public class WorldEditorController extends State{
         container = new WorldEditorContainer(model);
     }
 
+    /**
+     * Update the world editor controller.
+     */
     @Override
     public void update() {
         if(!model.getShowInEditorMenu()) {
@@ -85,6 +100,9 @@ public class WorldEditorController extends State{
         }
     }
 
+    /**
+     * Render the world editor controller.
+     */
     @Override
     public void render() {
         if(model.getEditingRobot()){
@@ -95,6 +113,9 @@ public class WorldEditorController extends State{
         if(model.getShowInEditorMenu()) model.getInEditorMenu().render();
     }
 
+    /**
+     * De-initialize the world editor controller.
+     */
     @Override
     public void deInit() {
         GameMapLoader.saveMap(model, "usermaps/autoEditorSave.mapd");
@@ -106,6 +127,14 @@ public class WorldEditorController extends State{
         sensorView.distroy();
     }
 
+    /**
+     * Give a keyboard event to the world editor controller.
+     * @param window The window the event happened on.
+     * @param key The key the event was on.
+     * @param scancode The scan code of the key.
+     * @param action The action that triggered the event.
+     * @param mods The modifications of the event.
+     */
     @Override
     public void keyboardEvent(long window, int key, int scancode, int action, int mods) {
         switch (key) {
@@ -137,6 +166,10 @@ public class WorldEditorController extends State{
         if(action == GLFW.GLFW_RELEASE) keyPressed[arrayKey]= false;
     }
 
+    /**
+     * Give a mouse position event to the world editor controller.
+     * @param window The window the event happened on.
+     */
     @Override
     public void mousePosEvent(long window) {
             if (!model.getShowInEditorMenu()) {
@@ -158,6 +191,13 @@ public class WorldEditorController extends State{
             } else model.getInEditorMenu().mousePosEvent(window);
     }
 
+    /**
+     * Give a mouse button event to the world editor controller.
+     * @param window The window the event happened on.
+     * @param button The mouse button the event was on.
+     * @param action The action that triggered the event.
+     * @param mods The modifications of the event.
+     */
     @Override
     public void mouseButtonEvent(long window, int button, int action, int mods) {
             if (!model.getShowInEditorMenu()) {
@@ -231,11 +271,20 @@ public class WorldEditorController extends State{
         model.checkIfMapCanBeSmaller(model);
     }
 
+    /**
+     * Give a scroll event to the world editor controller.
+     * @param window The window the event happened on.
+     * @param xOffset The x change of the scroll wheel.
+     * @param yOffset The y change of the scroll wheel.
+     */
     @Override
     public void scrollEvent(long window, double xOffset, double yOffset) {
         if(!model.getShowInEditorMenu()) model.setViewZoom(model.getViewZoom() * (float)(yOffset * 0.075f + 1.00f));
     }
 
+    /**
+     * Give a screen resize event to the world editor controller.
+     */
     @Override
     public void screenResizeEvent() {
         if(model.getShowInEditorMenu()) { model.getInEditorMenu().screenResizeEvent(); }
