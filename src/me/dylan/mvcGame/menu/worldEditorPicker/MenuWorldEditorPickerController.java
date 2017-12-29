@@ -2,31 +2,25 @@ package me.dylan.mvcGame.menu.worldEditorPicker;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxListCell;
-import javafx.util.Callback;
 import me.dylan.mvcGame.other.ResourceHandling;
 
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
-//TODO javadoc
-public class MenuWorldEditorController {
-    private MenuWorldEditorModel model;
+/**
+ * The controller for the world picker for the world editor.
+ *
+ * @author Dylan Gybels
+ */
+public class MenuWorldEditorPickerController {
+    private MenuWorldEditorPickerModel model;
     private List<String> selected = new ArrayList<>();
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
 
     @FXML
     private ListView<String> LoadMapList;
@@ -34,12 +28,20 @@ public class MenuWorldEditorController {
     @FXML
     private TextField NewName;
 
+    /**
+     * The new map button was clicked.
+     * @param event The event from the button.
+     */
     @FXML
     void NewMap(ActionEvent event) {
         model.getMainModel().setGameFileToLoad("usermaps/" + NewName.getText() + ".mapd");
         model.setMapSelected(true);
     }
 
+    /**
+     * The delete button was clicked.
+     * @param event The event from the button.
+     */
     @FXML
     void DeleteClick(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -59,6 +61,10 @@ public class MenuWorldEditorController {
         populateListWithFiles(startPath, ".mapd", LoadMapList);
     }
 
+    /**
+     * Edit button was clicked.
+     * @param event The event from the button.
+     */
     @FXML
     void EditClick(ActionEvent event) {
         if(selected.size() != 1){
@@ -74,6 +80,10 @@ public class MenuWorldEditorController {
         model.setMapSelected(true);
     }
 
+    /**
+     * Rename button was clicked.
+     * @param event The event from the button.
+     */
     @FXML
     void RenameClick(ActionEvent event) {
         String startPath = ResourceHandling.GetExecutionPath() + "/usermaps/";
@@ -91,6 +101,9 @@ public class MenuWorldEditorController {
         populateListWithFiles(startPath, ".mapd", LoadMapList);
     }
 
+    /**
+     * Initialize this controller.
+     */
     @FXML
     void initialize() {
         LoadMapList.setCellFactory(CheckBoxListCell.forListView(item -> {
@@ -115,13 +128,20 @@ public class MenuWorldEditorController {
         }
     }
 
-    public void setGameModel(MenuWorldEditorModel model) {
+    /**
+     * Set the model of this controller.
+     * @param model The new model.
+     */
+    public void setModel(MenuWorldEditorPickerModel model) {
         this.model = model;
 
         String startPath = ResourceHandling.GetExecutionPath();
         populateListWithFiles(startPath + "/usermaps/", ".mapd", LoadMapList);
     }
 
+    /**
+     * Give this controller an update.
+     */
     public void gameTick() {
 
     }

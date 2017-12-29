@@ -9,12 +9,21 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 
-//TODO javadoc
-public class MenuWorldEditorContainer {
-    private MenuWorldEditorController controller;
-    private MenuWorldEditorModel model;
+/**
+ * The container for the world picker for the world editor.
+ *
+ * @author Dylan Gybels
+ */
+public class MenuWorldEditorPickerContainer {
+    private MenuWorldEditorPickerController controller;
+    private MenuWorldEditorPickerModel model;
 
-    public MenuWorldEditorContainer(MenuWorldEditorModel model){
+    /**
+     * Create a new world editor picker container.
+     *
+     * @param model The world editor picker model.
+     */
+    public MenuWorldEditorPickerContainer(MenuWorldEditorPickerModel model){
         this.model = model;
         MainFXContainer container = model.getMainModel().getFxContainer();
         container.setSize(800, 600);
@@ -27,7 +36,7 @@ public class MenuWorldEditorContainer {
             Scene scene = new Scene(root, 800, 600);
             container.setScene(scene);
 
-            controller.setGameModel(model);
+            controller.setModel(model);
         } catch (IOException e) { e.printStackTrace(); }
 
         container.setCloseAction(new WindowAdapter() {
@@ -41,10 +50,16 @@ public class MenuWorldEditorContainer {
         container.setFocus();
     }
 
+    /**
+     * Update the container.
+     */
     public void update(){
         if(controller != null) controller.gameTick();
     }
 
+    /**
+     * Distroy the container.
+     */
     public void distroy() {
         model.getMainModel().getFxContainer().setVisible(false);
         controller = null;

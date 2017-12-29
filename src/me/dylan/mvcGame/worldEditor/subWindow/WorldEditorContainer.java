@@ -10,12 +10,20 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 
-//TODO javadoc
+/**
+ * The container that holds the extra window for the world editor.
+ *
+ * @author Dylan Gybels
+ */
 public class WorldEditorContainer {
     private WorldEditorSubController controller;
     private WorldEditorModel model;
     private Scene scene;
 
+    /**
+     * Create a new world editor container.
+     * @param model The world editor model.
+     */
     public WorldEditorContainer(WorldEditorModel model){
         this.model = model;
         MainFXContainer container = model.getMainModel().getFxContainer();
@@ -43,17 +51,26 @@ public class WorldEditorContainer {
         container.setFocus();
     }
 
+    /**
+     * Update the controller of the extra window.
+     */
     public void update(){
         if(!model.getEditingSensor()) {
             if (controller != null) controller.gameTick();
         }
     }
 
+    /**
+     * Set the scene to this window.
+     */
     public void setSceneToThis(){
         controller.reInitialize();
         model.getMainModel().getFxContainer().setScene(scene);
     }
 
+    /**
+     * Distroy this container and close the window.
+     */
     public void distroy() {
         model.getMainModel().getFxContainer().setVisible(false);
         controller = null;

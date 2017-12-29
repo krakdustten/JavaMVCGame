@@ -1,6 +1,5 @@
 package me.dylan.mvcGame.worldEditor.subWindow.editSensor;
 
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,19 +11,14 @@ import me.dylan.mvcGame.game.gameObjects.robot.DistanceSensor;
 import me.dylan.mvcGame.game.gameObjects.robot.Sensor;
 import me.dylan.mvcGame.worldEditor.WorldEditorModel;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-//TODO javadoc
+/**
+ * A class that converts a sensor to an item for the list.
+ *
+ * @author Dylan Gybels
+ */
 public class EditSensorController {
-    private WorldEditorModel gameModel;
+    private WorldEditorModel editorModel;
     private int sensorIndex;
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
 
     @FXML
     private Slider YPos;
@@ -44,10 +38,13 @@ public class EditSensorController {
     @FXML
     private Slider DistanceRotation;
 
+    /**
+     * Initialize the sensor editor controller.
+     */
     @FXML
     void initialize() {
         TypeDistance.expandedProperty().addListener((observable, oldValue, newValue) -> {
-            if(gameModel.getRobot().getSensors().length >= sensorIndex) return;
+            if(editorModel.getRobot().getSensors().length >= sensorIndex) return;
             if(newValue){
                 setSensor(new DistanceSensor(getSensor().getMapModel(),
                         (float)Xpos.getValue() / 64.0f,
@@ -60,15 +57,9 @@ public class EditSensorController {
             }
         });
 
-        Xpos.valueProperty().addListener((observable, oldValue, newValue) -> {
-            getSensor().setX(newValue.floatValue() / 64.0f);
-        });
-        YPos.valueProperty().addListener((observable, NoldValue, newValue) -> {
-            getSensor().setY(newValue.floatValue() / 64.0f);
-        });
-        Name.textProperty().addListener((observable, oldValue, newValue) -> {
-            getSensor().setName(0, newValue);
-        });
+        Xpos.valueProperty().addListener((observable, oldValue, newValue) -> getSensor().setX(newValue.floatValue() / 64.0f));
+        YPos.valueProperty().addListener((observable, NoldValue, newValue) -> getSensor().setY(newValue.floatValue() / 64.0f));
+        Name.textProperty().addListener((observable, oldValue, newValue) -> getSensor().setName(0, newValue));
 
         DistanceRotation.valueProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
             if(getSensor() instanceof DistanceSensor)
@@ -76,14 +67,25 @@ public class EditSensorController {
         });
     }
 
+    /**
+     * Back button clicked.
+     * @param event The event from the button.
+     */
     @FXML
     void BackClick(ActionEvent event) {
-        gameModel.setEditingSensor(false);
+        editorModel.setEditingSensor(false);
     }
 
+    /**
+     * Give an update to this controller.
+     */
     public void gameTick() {
     }
 
+    /**
+     * Reinitialize this controller.
+     * @param sensorIndex The index of the sensor we are editing.
+     */
     public void reinit(int sensorIndex){
         this.sensorIndex = sensorIndex;
 
@@ -97,15 +99,19 @@ public class EditSensorController {
         }
     }
 
-    public void setGameModel(WorldEditorModel gameModel) {
-        this.gameModel = gameModel;
+    /**
+     * Set the world editor model.
+     * @param editorModel The world editor model.
+     */
+    public void setEditorModel(WorldEditorModel editorModel) {
+        this.editorModel = editorModel;
     }
 
     private void setSensor(Sensor sensor){
-        gameModel.getRobot().getSensors()[sensorIndex] = sensor;
+        editorModel.getRobot().getSensors()[sensorIndex] = sensor;
     }
 
     private Sensor getSensor(){
-        return gameModel.getRobot().getSensors()[sensorIndex];
+        return editorModel.getRobot().getSensors()[sensorIndex];
     }
 }
