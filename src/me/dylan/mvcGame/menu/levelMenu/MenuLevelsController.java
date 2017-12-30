@@ -16,26 +16,21 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxListCell;
 import me.dylan.mvcGame.other.ResourceHandling;
 
-//TODO javadoc
+/**
+ * The controller for the level chooser menu.
+ *
+ * @author Dylan Gybels
+ */
 public class MenuLevelsController {
     private MenuLevelsModel model;
     private List<String> selectedDefault = new ArrayList<>();
     private List<String> selectedUser = new ArrayList<>();
 
     @FXML
-    private TextArea LevelFileInfo;
-
-    @FXML
     private ListView<String> LoadUserMapList;
 
     @FXML
-    private Button PlayLevel;
-
-    @FXML
     private ListView<String> LoadDefaultMapList;
-
-    @FXML
-    private Button OpenFile;
 
     @FXML
     private ListView<String> NewDefaultMapList;
@@ -49,6 +44,9 @@ public class MenuLevelsController {
     @FXML
     private TextField NewUserName;
 
+    /**
+     * Initialize this controller.
+     */
     @FXML
     void initialize() {
         NewDefaultMapList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> newDefaultMapMouseClick(oldValue, newValue));
@@ -73,6 +71,10 @@ public class MenuLevelsController {
         }));
     }
 
+    /**
+     * The play button on the first tab is clicked.
+     * @param event The button event.
+     */
     @FXML
     void PlayDefaultClicked(ActionEvent event) {
         if(selectedDefault.size() != 1){
@@ -88,6 +90,10 @@ public class MenuLevelsController {
         model.setMapSelected(true);
     }
 
+    /**
+     * The delete button on the first tab is clicked.
+     * @param event The button event.
+     */
     @FXML
     void DeleteDefaultClick(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -107,6 +113,10 @@ public class MenuLevelsController {
         populateListWithFiles(startPath, ".savd", LoadDefaultMapList);
     }
 
+    /**
+     * The rename button on the first tab is clicked.
+     * @param event The button event.
+     */
     @FXML
     void RenameDefaultClick(ActionEvent event) {
         String startPath = ResourceHandling.GetExecutionPath() + "/saves/maps/";
@@ -124,6 +134,10 @@ public class MenuLevelsController {
         populateListWithFiles(startPath, ".savd", LoadDefaultMapList);
     }
 
+    /**
+     * The play button on the second tab is clicked.
+     * @param event The button event.
+     */
     @FXML
     void PlayUserClicked(ActionEvent event) {
         if(selectedUser.size() != 1){
@@ -139,6 +153,10 @@ public class MenuLevelsController {
         model.setMapSelected(true);
     }
 
+    /**
+     * The delete button on the second tab is clicked.
+     * @param event The button event.
+     */
     @FXML
     void DeleteUserClick(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -158,6 +176,10 @@ public class MenuLevelsController {
         populateListWithFiles(startPath, ".savd", LoadUserMapList);
     }
 
+    /**
+     * The rename button on the second tab is clicked.
+     * @param event The button event.
+     */
     @FXML
     void RenameUserClick(ActionEvent event) {
         String startPath = ResourceHandling.GetExecutionPath() + "/saves/usermaps/";
@@ -187,8 +209,11 @@ public class MenuLevelsController {
         model.setMapSelected(true);
     }
 
-
-    public void setGameModel(MenuLevelsModel model) {
+    /**
+     * Set the model of this controller.
+     * @param model The new model.
+     */
+    public void setModel(MenuLevelsModel model) {
         this.model = model;
 
         populateNewDefaultMapList();
@@ -227,8 +252,10 @@ public class MenuLevelsController {
         }
     }
 
+    /**
+     * Give an update to this controller.
+     */
     public void gameTick() {
-
     }
 }
 

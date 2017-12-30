@@ -5,13 +5,22 @@ import me.dylan.mvcGame.drawers.Texture;
 import me.dylan.mvcGame.drawers.VBODrawer2D;
 import me.dylan.mvcGame.main.Camera2D;
 
-//TODO javadoc
+/**
+ * The view of a menu.
+ *
+ * @author Dylan Gybels
+ */
 public class MenuView {
     private MenuModel model;
     private int texture_id;
     private int vbo_id;
     private int drawAmount = 0;
 
+    /**
+     * Create a new menu wiew.
+     * @param model The model of the menu.
+     * @param menuImg The path to the image the menu needs to use.
+     */
     public MenuView(MenuModel model, String menuImg){
         this.model = model;
         texture_id = Texture.createImageId(menuImg);
@@ -19,6 +28,9 @@ public class MenuView {
         update();
     }
 
+    /**
+     * Update the buffers on the graphics card if needed.
+     */
     public void update(){
         if(!model.needUpdating())return;
 
@@ -83,13 +95,13 @@ public class MenuView {
                     if(percWidth <= 0) percWidth = bSize;
 
                     offset = VBODrawer2D.draw2DSquare(buffer, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
-                            (float) (element.x + i) / z + xStart, (float) element.y / z + yStart, percWidth / z, bSize / z,
+                            (element.x + i) / z + xStart, (float) element.y / z + yStart, percWidth / z, bSize / z,
                             but.butR, but.butG, but.butB, but.butA,
                             0.25f, but.hover ? 0.25f : 0, 0.25f * percWidth / bSize, 0.25f);
                 }
                 //end
                 offset = VBODrawer2D.draw2DSquare(buffer, offset, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE,
-                        (float)(element.x + element.width - bSize) / z + xStart, (float)element.y / z + yStart, bSize / z, bSize / z,
+                        (element.x + element.width - bSize) / z + xStart, (float)element.y / z + yStart, bSize / z, bSize / z,
                         but.butR, but.butG, but.butB, but.butA,
                         0.5f, but.hover ? 0.25f : 0, 0.25f, 0.25f);
             }
@@ -116,12 +128,18 @@ public class MenuView {
         textDrawer.writeBufToMem();
     }
 
+    /**
+     * Draw the buffer to the screen.
+     */
     public void draw(){
         VBODrawer2D.drawVBO(model.getMainModel(), vbo_id, texture_id, VBODrawer2D.COORDS_COLOR_TEXTURE_TYPE, drawAmount);
 
         model.getMainModel().getTextDrawer().draw(model.getMainModel());
     }
 
+    /**
+     * Clear all vars.
+     */
     public void delete() {
         Texture.deleteImage(texture_id);
         VBODrawer2D.deleteVBO(vbo_id);
