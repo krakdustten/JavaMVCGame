@@ -104,8 +104,8 @@ public class GameController extends State {
         playerController.update();
         codeIDEContainer.update();
 
-        if(model.getWindowClosing())stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
         if(model.getGameOverlay() != null) model.getGameOverlay().update();
+        if(model.getWindowClosing())stateHandler.changeState(StateHandler.STATE_MENU_MAIN);
     }
 
     private void updateGame(){
@@ -190,7 +190,7 @@ public class GameController extends State {
             double mouseX = mainModel.getMouseX();
             double mouseY = mainModel.getMouseY();
 
-            if (mouseKeyPressed) {
+            if (mouseKeyPressed && model.getGameOverlay() == null && model.getGameMenuShown()) {
                 double dx = oldMouseX - mouseX;
                 double dy = oldMouseY - mouseY;
 
